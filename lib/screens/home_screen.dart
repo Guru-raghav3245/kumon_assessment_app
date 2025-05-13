@@ -15,20 +15,31 @@ class HomeScreen extends ConsumerWidget {
     final questionNotifier = ref.read(questionProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Kumon Instructor App')),
+      appBar: AppBar(
+        title: const Text('Kumon Instructor'),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.blue,
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text('Menu',
-                  style: TextStyle(color: Colors.white, fontSize: 24)),
+            DrawerHeader(
+              decoration: const BoxDecoration(color: Colors.blue),
+              child: Text(
+                'Menu',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(color: Colors.white),
+              ),
             ),
             ListTile(
+              leading: const Icon(Icons.history),
               title: const Text('Session History'),
               onTap: () {
-                Navigator.pop(context); // Close drawer
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const SessionHistoryScreen()),
@@ -36,9 +47,10 @@ class HomeScreen extends ConsumerWidget {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.settings),
               title: const Text('Settings'),
               onTap: () {
-                Navigator.pop(context); // Close drawer
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const SettingsScreen()),
@@ -48,83 +60,103 @@ class HomeScreen extends ConsumerWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: StreamBuilder(
-            stream: Stream.periodic(const Duration(seconds: 1)),
-            builder: (context, snapshot) {
-              const totalCooldownSeconds = 20; // Total cooldown duration
-              final timeLeft = questionState.isCooldownActive &&
-                      questionState.cooldownEnd != null
-                  ? questionState.cooldownEnd!
-                      .difference(DateTime.now())
-                      .inSeconds
-                  : 0;
-              if (timeLeft <= 0 && questionState.isCooldownActive) {
-                questionNotifier.checkCooldown();
-              }
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: StreamBuilder(
+                stream: Stream.periodic(const Duration(seconds: 1)),
+                builder: (context, snapshot) {
+                  const totalCooldownSeconds = 20;
+                  final timeLeft = questionState.isCooldownActive &&
+                          questionState.cooldownEnd != null
+                      ? questionState.cooldownEnd!
+                          .difference(DateTime.now())
+                          .inSeconds
+                      : 0;
+                  if (timeLeft <= 0 && questionState.isCooldownActive) {
+                    questionNotifier.checkCooldown();
+                  }
 
-              final isCooldownActive = timeLeft > 0;
-              final progress = isCooldownActive
-                  ? (totalCooldownSeconds - timeLeft) / totalCooldownSeconds
-                  : 1.0;
-              final endTime = questionState.cooldownEnd != null
-                  ? DateFormat('HH:mm').format(questionState.cooldownEnd!)
-                  : '';
+                  final isCooldownActive = timeLeft > 0;
+                  final progress = isCooldownActive
+                      ? (totalCooldownSeconds - timeLeft) / totalCooldownSeconds
+                      : 1.0;
+                  final endTime = questionState.cooldownEnd != null
+                      ? DateFormat('HH:mm').format(questionState.cooldownEnd!)
+                      : '';
 
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: isCooldownActive
-                        ? null
-                        : () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const SessionScreen()),
-                            ),
-                    child: const Text('Start Session'),
-                  ),
-                  const SizedBox(height: 20),
-                  if (isCooldownActive) ...[
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: CircularProgressIndicator(
-                            value: progress,
-                            strokeWidth: 8,
-                            backgroundColor: Colors.grey[300],
-                            valueColor:
-                                const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: isCooldownActive
+                            ? null
+                            : () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const SessionScreen()),
+                                ),
+                        icon: const Icon(Icons.play_arrow),
+                        label: const Text('Start Session'),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
+                      ),
+                      const SizedBox(height: 16),
+                      if (isCooldownActive) ...[
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            SizedBox(
+                              width: 80,
+                              height: 80,
+                              child: CircularProgressIndicator(
+                                value: progress,
+                                strokeWidth: 6,
+                                backgroundColor: Colors.grey[200],
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                    Colors.blue),
+                              ),
+                            ),
+                            Text(
+                              '$timeLeft',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
                         Text(
-                          '$timeLeft',
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          'Cooldown ends at $endTime',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ] else ...[
+                        Text(
+                          'Ready to start!',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Colors.green,
+                                fontWeight: FontWeight.w500,
+                              ),
                         ),
                       ],
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Cooldown ends at $endTime',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ] else ...[
-                    const Text(
-                      'Ready to start!',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ],
-              );
-            },
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ),

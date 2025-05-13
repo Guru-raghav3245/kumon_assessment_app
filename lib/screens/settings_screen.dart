@@ -11,37 +11,49 @@ class SettingsScreen extends ConsumerWidget {
     final themeNotifier = ref.read(themeProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(
+        title: const Text('Settings'),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.blue,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Theme',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Appearance',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const Divider(height: 24),
+                SwitchListTile(
+                  secondary: const Icon(Icons.brightness_6, color: Colors.blue),
+                  title: Text(
+                    'Dark Theme',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  value: themeState.themeMode == ThemeModeOption.dark,
+                  onChanged: (value) {
+                    themeNotifier.setTheme(
+                      value ? ThemeModeOption.dark : ThemeModeOption.light,
+                    );
+                  },
+                  activeColor: Colors.blue,
+                ),
+              ],
             ),
-            RadioListTile<ThemeModeOption>(
-              title: const Text('Light Theme'),
-              value: ThemeModeOption.light,
-              groupValue: themeState.themeMode,
-              onChanged: (value) {
-                if (value != null) {
-                  themeNotifier.setTheme(value);
-                }
-              },
-            ),
-            RadioListTile<ThemeModeOption>(
-              title: const Text('Dark Theme'),
-              value: ThemeModeOption.dark,
-              groupValue: themeState.themeMode,
-              onChanged: (value) {
-                if (value != null) {
-                  themeNotifier.setTheme(value);
-                }
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

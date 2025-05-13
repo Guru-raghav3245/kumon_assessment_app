@@ -14,7 +14,7 @@ class SessionHistoryScreen extends ConsumerWidget {
     final sessions = questionState.pastSessions;
 
     List<FlSpot> getAccuracySpots() {
-      final maxSessions = 10; // Show up to 10 sessions
+      final maxSessions = 10;
       final recentSessions = sessions.length > maxSessions
           ? sessions.sublist(sessions.length - maxSessions)
           : sessions;
@@ -31,82 +31,115 @@ class SessionHistoryScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Session History')),
+      appBar: AppBar(
+        title: const Text('Session History'),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.blue,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Performance Trend',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 200,
-              child: sessions.isEmpty
-                  ? const Center(child: Text('No sessions yet'))
-                  : LineChart(
-                      LineChartData(
-                        gridData: const FlGridData(show: true),
-                        titlesData: FlTitlesData(
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 40,
-                              getTitlesWidget: (value, meta) =>
-                                  Text('${value.toInt()}%'),
+            const SizedBox(height: 12),
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: SizedBox(
+                height: 180,
+                child: sessions.isEmpty
+                    ? const Center(child: Text('No sessions yet'))
+                    : LineChart(
+                        LineChartData(
+                          gridData: const FlGridData(show: false),
+                          titlesData: FlTitlesData(
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 40,
+                                getTitlesWidget: (value, meta) => Text(
+                                  '${value.toInt()}%',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
                             ),
-                          ),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: (value, meta) =>
-                                  Text('S${value.toInt() + 1}'),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                getTitlesWidget: (value, meta) => Text(
+                                  'S${value.toInt() + 1}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ),
                             ),
+                            topTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false)),
+                            rightTitles: const AxisTitles(
+                                sideTitles: SideTitles(showTitles: false)),
                           ),
-                          topTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
-                          rightTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
+                          borderData: FlBorderData(show: true),
+                          minX: 0,
+                          maxX: (sessions.length > 10 ? 9 : sessions.length - 1)
+                              .toDouble(),
+                          minY: 0,
+                          maxY: 100,
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: getAccuracySpots(),
+                              isCurved: true,
+                              color: Colors.blue,
+                              dotData: const FlDotData(show: true),
+                              belowBarData: BarAreaData(
+                                show: true,
+                                color: Colors.blue.withOpacity(0.1),
+                              ),
+                            ),
+                          ],
                         ),
-                        borderData: FlBorderData(show: true),
-                        minX: 0,
-                        maxX: (sessions.length > 10 ? 9 : sessions.length - 1)
-                            .toDouble(),
-                        minY: 0,
-                        maxY: 100,
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: getAccuracySpots(),
-                            isCurved: true,
-                            color: Colors.blue,
-                            dotData: const FlDotData(show: true),
-                            belowBarData: BarAreaData(
-                              show: true,
-                              color: Colors.blue.withOpacity(0.2),
-                            ),
-                          ),
-                        ],
                       ),
-                    ),
+              ),
             ),
-            const SizedBox(height: 20),
-            const Text(
+            const SizedBox(height: 16),
+            Text(
               'Past Sessions',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
+            const SizedBox(height: 8),
             Expanded(
               child: ListView.builder(
                 itemCount: sessions.length,
                 itemBuilder: (context, index) {
                   final session = sessions[index];
-                  return ListTile(
-                    title: Text(session.name),
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => SessionDetailScreen(session: session)),
+                  return Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: ListTile(
+                      leading: const Icon(Icons.book, color: Colors.blue),
+                      title: Text(
+                        session.name,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SessionDetailScreen(session: session),
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -127,41 +160,74 @@ class SessionDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(session.name)),
+      appBar: AppBar(
+        title: Text(session.name),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.blue,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
         child: ListView.builder(
           itemCount: session.results.length,
           itemBuilder: (context, index) {
             final result = session.results[index];
             final question =
                 questionBank.firstWhere((q) => q.text == result['question']);
-            final userAnswerText =
-                question.getOptionText(result['userAnswer']!);
+            final userAnswerText = question.getOptionText(result['userAnswer']!);
             final correctAnswerText =
                 question.getOptionText(result['correctAnswer']!);
             return Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              margin: const EdgeInsets.symmetric(vertical: 4.0),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Question: ${result['question']}',
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 5),
-                    Text('Your Answer: $userAnswerText'),
-                    Text('Correct Answer: $correctAnswerText',
-                        style: const TextStyle(color: Colors.green)),
-                    const SizedBox(height: 5),
                     Text(
-                      result['userAnswer'] == result['correctAnswer']
-                          ? 'Correct'
-                          : 'Incorrect',
-                      style: TextStyle(
-                        color: result['userAnswer'] == result['correctAnswer']
-                            ? Colors.green
-                            : Colors.red,
-                      ),
+                      'Question: ${result['question']}',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Your Answer: $userAnswerText',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    Text(
+                      'Correct Answer: $correctAnswerText',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.green,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(
+                          result['userAnswer'] == result['correctAnswer']
+                              ? Icons.check_circle
+                              : Icons.cancel,
+                          color: result['userAnswer'] == result['correctAnswer']
+                              ? Colors.green
+                              : Colors.red,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          result['userAnswer'] == result['correctAnswer']
+                              ? 'Correct'
+                              : 'Incorrect',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: result['userAnswer'] == result['correctAnswer']
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

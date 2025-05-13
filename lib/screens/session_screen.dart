@@ -51,7 +51,6 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     final currentQuestion =
         questionState.dailyQuestions[questionState.currentQuestionIndex];
 
-    // Trigger animation when question index changes
     ref.listen<QuestionState>(questionProvider, (prev, next) {
       if (prev?.currentQuestionIndex != next.currentQuestionIndex) {
         _animateQuestionChange();
@@ -60,62 +59,84 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
     return Scaffold(
       appBar: AppBar(
-          title: Text('Question ${questionState.currentQuestionIndex + 1}/5')),
+        title: Text('Question ${questionState.currentQuestionIndex + 1}/5'),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.blue,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(currentQuestion.text,
-                        style: const TextStyle(fontSize: 18)),
-                    const SizedBox(height: 20),
-                    ...currentQuestion.options.map((option) => RadioListTile<String>(
-                          title: Text(option),
-                          value: option[0],
-                          groupValue: questionState.selectedAnswer,
-                          onChanged: questionState.showExplanation
-                              ? null
-                              : (value) =>
-                                  questionNotifier.selectAnswer(value!),
-                        )),
-                  ],
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ),
-              const SizedBox(height: 20),
-              if (questionState.showExplanation) ...[
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  height: questionState.showExplanation ? 150 : 0,
-                  child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: FadeTransition(
+                    opacity: _fadeAnimation,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          questionState.isAnswerCorrect!
-                              ? 'Correct!'
-                              : 'Incorrect. Correct answer: ${currentQuestion.correctAnswer}',
-                          style: TextStyle(
-                            color: questionState.isAnswerCorrect!
-                                ? Colors.green
-                                : Colors.red,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          currentQuestion.text,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        const SizedBox(height: 10),
-                        Text('Explanation: ${currentQuestion.explanation}'),
+                        const SizedBox(height: 16),
+                        ...currentQuestion.options.map((option) => RadioListTile<String>(
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              title: Text(option, style: Theme.of(context).textTheme.bodyMedium),
+                              value: option[0],
+                              groupValue: questionState.selectedAnswer,
+                              onChanged: questionState.showExplanation
+                                  ? null
+                                  : (value) => questionNotifier.selectAnswer(value!),
+                              activeColor: Colors.blue,
+                            )),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
+              ),
+              const SizedBox(height: 16),
+              if (questionState.showExplanation) ...[
+                Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: FadeTransition(
+                      opacity: _fadeAnimation,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            questionState.isAnswerCorrect!
+                                ? 'Correct!'
+                                : 'Incorrect. Correct answer: ${currentQuestion.correctAnswer}',
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: questionState.isAnswerCorrect! ? Colors.green : Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Explanation: ${currentQuestion.explanation}',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
                   onPressed: () {
                     questionNotifier.nextQuestion();
                     if (questionState.currentQuestionIndex + 1 >= 5) {
@@ -129,14 +150,26 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                       );
                     }
                   },
-                  child: Text(questionState.currentQuestionIndex + 1 < 5
-                      ? 'Next'
-                      : 'Finish'),
+                  icon: const Icon(Icons.arrow_forward),
+                  label: Text(questionState.currentQuestionIndex + 1 < 5 ? 'Next' : 'Finish'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                 ),
               ] else if (questionState.selectedAnswer != null) ...[
-                ElevatedButton(
+                ElevatedButton.icon(
                   onPressed: questionNotifier.submitAnswer,
-                  child: const Text('Submit'),
+                  icon: const Icon(Icons.check),
+                  label: const Text('Submit'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                 ),
               ],
             ],
