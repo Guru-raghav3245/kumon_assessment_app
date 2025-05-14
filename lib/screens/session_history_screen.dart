@@ -54,58 +54,125 @@ class SessionHistoryScreen extends ConsumerWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: SizedBox(
-                height: 180,
-                child: sessions.isEmpty
-                    ? const Center(child: Text('No sessions yet'))
-                    : LineChart(
-                        LineChartData(
-                          gridData: const FlGridData(show: false),
-                          titlesData: FlTitlesData(
-                            leftTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                reservedSize: 40,
-                                getTitlesWidget: (value, meta) => Text(
-                                  '${value.toInt()}%',
-                                  style: Theme.of(context).textTheme.bodySmall,
+              clipBehavior: Clip.antiAlias,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: 200,
+                  width: double.infinity,
+                  child: sessions.isEmpty
+                      ? const Center(child: Text('No sessions yet'))
+                      : sessions.length == 1
+                          ? const Center(
+                              child: Text('Need at least 2 sessions for trend'))
+                          : LineChart(
+                              LineChartData(
+                                gridData: FlGridData(
+                                  show: true,
+                                  drawVerticalLine: false,
+                                  getDrawingHorizontalLine: (value) => FlLine(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      strokeWidth: 1),
+                                ),
+                                titlesData: FlTitlesData(
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      reservedSize: 48,
+                                      interval: 20,
+                                      getTitlesWidget: (value, meta) {
+                                        if (value % 20 != 0) return const SizedBox();
+                                        return Padding(
+                                          padding: const EdgeInsets.only(right: 8.0),
+                                          child: Text(
+                                            '${value.toInt()}%',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(fontSize: 12),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      reservedSize: 30,
+                                      interval: 1,
+                                      getTitlesWidget: (value, meta) {
+                                        final index = value.toInt();
+                                        if (index >= sessions.length) return const SizedBox();
+                                        return Padding(
+                                          padding: const EdgeInsets.only(top: 8.0),
+                                          child: Text(
+                                            'S${index + 1}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(fontSize: 12),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  topTitles: const AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false)),
+                                  rightTitles: const AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false)),
+                                ),
+                                borderData: FlBorderData(
+                                  show: true,
+                                  border: Border.all(
+                                      color: Colors.grey.withOpacity(0.3), width: 1),
+                                ),
+                                minX: 0,
+                                maxX: (sessions.length > 10
+                                        ? 9
+                                        : sessions.length - 1)
+                                    .toDouble(),
+                                minY: 0,
+                                maxY: 100,
+                                lineBarsData: [
+                                  LineChartBarData(
+                                    spots: getAccuracySpots(),
+                                    isCurved: false,
+                                    color: Colors.blue,
+                                    barWidth: 4,
+                                    dotData: FlDotData(
+                                      show: true,
+                                      getDotPainter: (spot, percent, barData, index) =>
+                                          FlDotSquarePainter(
+                                        size: 8,
+                                        color: Colors.blue,
+                                        strokeWidth: 2,
+                                        strokeColor: Colors.white,
+                                      ),
+                                    ),
+                                    belowBarData: BarAreaData(
+                                      show: true,
+                                      color: Colors.blue.withOpacity(0.1),
+                                    ),
+                                  ),
+                                ],
+                                lineTouchData: LineTouchData(
+                                  enabled: true,
+                                  touchTooltipData: LineTouchTooltipData(
+                                    getTooltipItems: (touchedSpots) =>
+                                        touchedSpots.map((spot) {
+                                      return LineTooltipItem(
+                                        'Session ${spot.x.toInt() + 1}\n${spot.y.toStringAsFixed(1)}%',
+                                        Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(color: Colors.white),
+                                      );
+                                    }).toList(),
+                                  ),
                                 ),
                               ),
                             ),
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                getTitlesWidget: (value, meta) => Text(
-                                  'S${value.toInt() + 1}',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ),
-                            ),
-                            topTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false)),
-                            rightTitles: const AxisTitles(
-                                sideTitles: SideTitles(showTitles: false)),
-                          ),
-                          borderData: FlBorderData(show: true),
-                          minX: 0,
-                          maxX: (sessions.length > 10 ? 9 : sessions.length - 1)
-                              .toDouble(),
-                          minY: 0,
-                          maxY: 100,
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: getAccuracySpots(),
-                              isCurved: true,
-                              color: Colors.blue,
-                              dotData: const FlDotData(show: true),
-                              belowBarData: BarAreaData(
-                                show: true,
-                                color: Colors.blue.withOpacity(0.1),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                ),
               ),
             ),
             const SizedBox(height: 16),
