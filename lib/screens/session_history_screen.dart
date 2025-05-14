@@ -239,11 +239,23 @@ class SessionDetailScreen extends StatelessWidget {
           itemCount: session.results.length,
           itemBuilder: (context, index) {
             final result = session.results[index];
-            final question =
-                questionBank.firstWhere((q) => q.text == result['question']);
-            final userAnswerText = question.getOptionText(result['userAnswer']!);
-            final correctAnswerText =
-                question.getOptionText(result['correctAnswer']!);
+            final allQuestions = [...level6aQuestions, ...level5aQuestions];
+            final question = allQuestions.firstWhere(
+              (q) => q.text == result['question'],
+              orElse: () => Question(
+                text: result['question']!,
+                options: [],
+                correctAnswer: result['correctAnswer']!,
+                explanation: 'No explanation available',
+                level: result['level'] == 'level6a' ? QuestionLevel.level6a : QuestionLevel.level5a,
+              ),
+            );
+            final userAnswerText = question.options.isNotEmpty
+                ? question.getOptionText(result['userAnswer']!)
+                : result['userAnswer']!;
+            final correctAnswerText = question.options.isNotEmpty
+                ? question.getOptionText(result['correctAnswer']!)
+                : result['correctAnswer']!;
             return Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
@@ -256,7 +268,7 @@ class SessionDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Question: ${result['question']}',
+                      'Question: ${result['question']} (Level: ${result['level'] == 'level6a' ? '6a' : '5a'})',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),

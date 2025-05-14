@@ -52,7 +52,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
         questionState.dailyQuestions[questionState.currentQuestionIndex];
 
     ref.listen<QuestionState>(questionProvider, (prev, next) {
-      if (prev?.currentQuestionIndex != next.currentQuestionIndex) {
+      if (prev?.currentQuestionIndex != next.currentQuestionIndex ||
+          prev?.dailyQuestions != next.dailyQuestions) {
         _animateQuestionChange();
       }
     });
@@ -82,6 +83,14 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          'Level: ${currentQuestion.level == QuestionLevel.level6a ? '6a' : '5a'}',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        const SizedBox(height: 8),
                         Text(
                           currentQuestion.text,
                           style: Theme.of(context).textTheme.titleLarge,

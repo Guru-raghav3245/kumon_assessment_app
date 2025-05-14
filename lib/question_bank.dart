@@ -1,6 +1,8 @@
 import 'package:kumon_assessment_app/models.dart';
+import 'package:kumon_assessment_app/state_management.dart';
 
-final List<Question> questionBank = [
+// Level 6a Questions (3 questions)
+final List<Question> level6aQuestions = [
   Question(
     text:
         "A student rushes through their worksheet, making many mistakes. What should you do?",
@@ -13,6 +15,7 @@ final List<Question> questionBank = [
     correctAnswer: "B",
     explanation:
         "B is correct because Kumon emphasizes the importance of mastery before progression.",
+    level: QuestionLevel.level6a,
   ),
   Question(
     text:
@@ -25,31 +28,7 @@ final List<Question> questionBank = [
     ],
     correctAnswer: "A",
     explanation: "A is correct because Kumon promotes self-learning.",
-  ),
-  Question(
-    text:
-        "A student repeatedly asks for help before even attempting problems. How do you respond?",
-    options: [
-      "A. Reduce the number of questions so they don’t feel overwhelmed.",
-      "B. Offer answers when asked to keep them motivated and prevent frustration.",
-      "C. Provide guidance by encouraging them to try solving the problem independently before seeking help.",
-      "D. Allow them to continue asking for help freely, as it ensures they don’t make mistakes.",
-    ],
-    correctAnswer: "C",
-    explanation:
-        "C is correct because Kumon emphasizes independence in learning.",
-  ),
-  Question(
-    text:
-        "A student takes too long to complete a worksheet. What should you do?",
-    options: [
-      "A. Allow them to take as long as needed to ensure they understand the material fully.",
-      "B. Encourage them to work at a steady pace and remind them that with practice, speed will improve.",
-      "C. Reduce the number of questions to help them feel more successful and finish quickly.",
-      "D. Tell them to finish quickly, even if they make mistakes, to improve their speed.",
-    ],
-    correctAnswer: "B",
-    explanation: "B is correct because Kumon focuses on mastery before speed.",
+    level: QuestionLevel.level6a,
   ),
   Question(
     text:
@@ -63,5 +42,37 @@ final List<Question> questionBank = [
     correctAnswer: "D",
     explanation:
         "D is correct because both A and C align with Kumon’s philosophy.",
+    level: QuestionLevel.level6a,
+  ),
+];
+
+// Level 5a Questions (2 questions)
+final List<Question> level5aQuestions = [
+  Question(
+    text:
+        "A student repeatedly asks for help before even attempting problems. How do you respond?",
+    options: [
+      "A. Reduce the number of questions so they don’t feel overwhelmed.",
+      "B. Offer answers when asked to keep them motivated and prevent frustration.",
+      "C. Provide guidance by encouraging them to try solving the problem independently before seeking help.",
+      "D. Allow them to continue asking for help freely, as it ensures they don’t make mistakes.",
+    ],
+    correctAnswer: "C",
+    explanation:
+        "C is correct because Kumon emphasizes independence in learning.",
+    level: QuestionLevel.level5a,
+  ),
+  Question(
+    text:
+        "A student takes too long to complete a worksheet. What should you do?",
+    options: [
+      "A. Allow them to take as long as needed to ensure they understand the material fully.",
+      "B. Encourage them to work at a steady pace and remind them that with practice, speed will improve.",
+      "C. Reduce the number of questions to help them feel more successful and finish quickly.",
+      "D. Tell them to finish quickly, even if they make mistakes, to improve their speed.",
+    ],
+    correctAnswer: "B",
+    explanation: "B is correct because Kumon focuses on mastery before speed.",
+    level: QuestionLevel.level5a,
   ),
 ];

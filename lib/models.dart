@@ -1,14 +1,18 @@
+import 'package:kumon_assessment_app/state_management.dart';
+
 class Question {
   final String text;
   final List<String> options;
   final String correctAnswer;
   final String explanation;
+  final QuestionLevel level;
 
   Question({
     required this.text,
     required this.options,
     required this.correctAnswer,
     required this.explanation,
+    required this.level,
   });
 
   Map<String, dynamic> toJson() => {
@@ -16,6 +20,7 @@ class Question {
         'options': options,
         'correctAnswer': correctAnswer,
         'explanation': explanation,
+        'level': level == QuestionLevel.level6a ? 'level6a' : 'level5a',
       };
 
   factory Question.fromJson(Map<String, dynamic> json) => Question(
@@ -23,6 +28,7 @@ class Question {
         options: List<String>.from(json['options']),
         correctAnswer: json['correctAnswer'],
         explanation: json['explanation'],
+        level: json['level'] == 'level5a' ? QuestionLevel.level5a : QuestionLevel.level6a,
       );
 
   String getOptionText(String letter) {
@@ -30,11 +36,9 @@ class Question {
   }
 }
 
-// Session Model
 class Session {
   final String name;
-  final List<Map<String, String>>
-      results; // {question, userAnswer, correctAnswer}
+  final List<Map<String, String>> results; // {question, userAnswer, correctAnswer, level}
 
   Session({required this.name, required this.results});
 

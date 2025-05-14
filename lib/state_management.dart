@@ -5,6 +5,8 @@ import 'package:kumon_assessment_app/models.dart';
 import 'package:kumon_assessment_app/question_bank.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+enum QuestionLevel { level6a, level5a }
+
 class QuestionState {
   final List<Question> dailyQuestions;
   final int currentQuestionIndex;
@@ -78,14 +80,16 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
 
         List<Question> questions = [];
         try {
+          final allQuestions = [...level6aQuestions, ...level5aQuestions];
           questions = savedQuestions
-              .map((text) => questionBank.firstWhere(
+              .map((text) => allQuestions.firstWhere(
                     (q) => q.text == text,
                     orElse: () => Question(
                       text: '',
                       options: [],
                       correctAnswer: '',
                       explanation: '',
+                      level: QuestionLevel.level6a,
                     ),
                   ))
               .where((q) => q.text.isNotEmpty)
@@ -117,8 +121,12 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
 
   List<Question> _getRandomQuestions() {
     final random = Random();
-    final shuffled = List<Question>.from(questionBank)..shuffle(random);
-    return shuffled.take(5).toList();
+    final level6aShuffled = List<Question>.from(level6aQuestions)..shuffle(random);
+    final level5aShuffled = List<Question>.from(level5aQuestions)..shuffle(random);
+    return [
+      ...level6aShuffled.take(3),
+      ...level5aShuffled.take(2),
+    ];
   }
 
   Future<void> _resetQuestions() async {
@@ -167,6 +175,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         'question': currentQuestion.text,
         'userAnswer': state.selectedAnswer!,
         'correctAnswer': currentQuestion.correctAnswer,
+        'level': currentQuestion.level == QuestionLevel.level6a ? 'level6a' : 'level5a',
       };
       final updatedResults = [...state.sessionResults, result];
 
@@ -196,6 +205,11 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,
           currentQuestionIndex: state.currentQuestionIndex + 1,
+          isCooldownActive: state.isCooldownActive,
+          cooldownEnd: state.cooldownEnd,
+          selectedAnswer: null,
+          isAnswerCorrect: null,
+          showExplanation: false,
           sessionResults: state.sessionResults,
           pastSessions: state.pastSessions,
         );
