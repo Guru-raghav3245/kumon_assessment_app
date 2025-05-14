@@ -60,7 +60,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question ${questionState.currentQuestionIndex + 1}/5'),
+        title: Text('Question ${questionState.currentQuestionIndex + 1}/4'), // Changed to 4
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.blue,
@@ -148,7 +148,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                 ElevatedButton.icon(
                   onPressed: () {
                     questionNotifier.nextQuestion();
-                    if (questionState.currentQuestionIndex + 1 >= 5) {
+                    if (questionState.currentQuestionIndex + 1 >= 4) { // Changed to 4
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -160,7 +160,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                     }
                   },
                   icon: const Icon(Icons.arrow_forward),
-                  label: Text(questionState.currentQuestionIndex + 1 < 5 ? 'Next' : 'Finish'),
+                  label: Text(questionState.currentQuestionIndex + 1 < 4 ? 'Next' : 'Finish'), // Changed to 4
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                     shape: RoundedRectangleBorder(

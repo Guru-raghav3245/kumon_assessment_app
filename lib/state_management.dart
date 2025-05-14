@@ -124,7 +124,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final level6aShuffled = List<Question>.from(level6aQuestions)..shuffle(random);
     final level5aShuffled = List<Question>.from(level5aQuestions)..shuffle(random);
     return [
-      ...level6aShuffled.take(3),
+      ...level6aShuffled.take(2),
       ...level5aShuffled.take(2),
     ];
   }
@@ -201,7 +201,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   void nextQuestion() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      if (state.currentQuestionIndex + 1 < state.dailyQuestions.length) {
+      if (state.currentQuestionIndex + 1 < 4) { // Changed to 4 questions
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,
           currentQuestionIndex: state.currentQuestionIndex + 1,
