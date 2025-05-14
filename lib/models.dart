@@ -38,7 +38,7 @@ class Question {
 
 class Session {
   final String name;
-  final List<Map<String, String>> results; // {question, userAnswer, correctAnswer, level}
+  final List<Map<String, String>> results;
 
   Session({required this.name, required this.results});
 

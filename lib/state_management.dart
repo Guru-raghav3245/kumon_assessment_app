@@ -5,7 +5,7 @@ import 'package:kumon_assessment_app/models.dart';
 import 'package:kumon_assessment_app/question_bank.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum QuestionLevel { level6a, level5a }
+enum QuestionLevel { level6a, level5a, level4a }
 
 class QuestionState {
   final List<Question> dailyQuestions;

@@ -16,7 +16,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kumon Instructor'),
+        title: const Text('Kumon Instructor Assessment'),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.blue,
