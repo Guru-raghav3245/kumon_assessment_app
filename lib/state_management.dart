@@ -78,7 +78,9 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
 
         List<Question> questions = [];
         try {
-          final allQuestions = [...level6aQuestions, ...level5aQuestions, ...level4aQuestions];
+          final allQuestions = levels
+              .expand((level) => level['questions'] as List<Question>)
+              .toList();
           questions = savedQuestions
               .map((text) => allQuestions.firstWhere(
                     (q) => q.text == text,
@@ -87,7 +89,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
                       options: [],
                       correctAnswer: '',
                       explanation: '',
-                      level: QuestionLevel.level6a,
+                      level: levels.first['level'] as QuestionLevel,
                     ),
                   ))
               .where((q) => q.text.isNotEmpty)
@@ -119,14 +121,14 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
 
   List<Question> _getRandomQuestions() {
     final random = Random();
-    final level6aShuffled = List<Question>.from(level6aQuestions)..shuffle(random);
-    final level5aShuffled = List<Question>.from(level5aQuestions)..shuffle(random);
-    final level4aShuffled = List<Question>.from(level4aQuestions)..shuffle(random);
-    return [
-      ...level6aShuffled.take(2),
-      ...level5aShuffled.take(2),
-      ...level4aShuffled.take(2),
-    ];
+    final selectedQuestions = <Question>[];
+    for (var level in levels) {
+      final questions = List<Question>.from(level['questions'] as List<Question>)
+        ..shuffle(random);
+      final questionsPerSession = level['questionsPerSession'] as int;
+      selectedQuestions.addAll(questions.take(questionsPerSession));
+    }
+    return selectedQuestions;
   }
 
   Future<void> _resetQuestions() async {
@@ -201,7 +203,9 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   void nextQuestion() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      if (state.currentQuestionIndex + 1 < 6) {
+      final totalQuestions =
+          levels.fold(0, (sum, level) => sum + (level['questionsPerSession'] as int));
+      if (state.currentQuestionIndex + 1 < totalQuestions) {
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,
           currentQuestionIndex: state.currentQuestionIndex + 1,
@@ -237,7 +241,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       final prefs = await SharedPreferences.getInstance();
       final today = DateTime.now();
       final dateStr =
-          "${today.day.toString().padLeft(2, '0')}-${today.month.toString().padLeft(2, '0')}-${today.year}";
+          "${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}";
       final todaySessions =
           state.pastSessions.where((s) => s.name.startsWith(dateStr)).toList();
       final sessionCount = todaySessions.length + 1;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/screens/session_summary_screen.dart';
+import 'package:kumon_assessment_app/question_bank.dart';
 
 class SessionScreen extends ConsumerStatefulWidget {
   const SessionScreen({super.key});
@@ -43,6 +44,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionProvider);
     final questionNotifier = ref.read(questionProvider.notifier);
+    final totalQuestions =
+        levels.fold(0, (sum, level) => sum + (level['questionsPerSession'] as int));
 
     if (questionState.dailyQuestions.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -60,7 +63,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question ${questionState.currentQuestionIndex + 1}/6'),
+        title: Text('Question ${questionState.currentQuestionIndex + 1}/$totalQuestions'),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.blue,
@@ -148,7 +151,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                 ElevatedButton.icon(
                   onPressed: () {
                     questionNotifier.nextQuestion();
-                    if (questionState.currentQuestionIndex + 1 >= 6) {
+                    if (questionState.currentQuestionIndex + 1 >= totalQuestions) {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -160,7 +163,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                     }
                   },
                   icon: const Icon(Icons.arrow_forward),
-                  label: Text(questionState.currentQuestionIndex + 1 < 6 ? 'Next' : 'Finish'),
+                  label: Text(questionState.currentQuestionIndex + 1 < totalQuestions ? 'Next' : 'Finish'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                     shape: RoundedRectangleBorder(

@@ -1,22 +1,4 @@
-class Session {
-  final String name;
-  final List<Map<String, String>> results;
-
-  Session({required this.name, required this.results});
-
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'results': results,
-      };
-
-  factory Session.fromJson(Map<String, dynamic> json) => Session(
-        name: json['name'],
-        results: List<Map<String, String>>.from(
-            json['results'].map((x) => Map<String, String>.from(x))),
-      );
-}
-
-enum QuestionLevel { level6a, level5a, level4a }
+enum QuestionLevel { level6a, level5a, level4a, level3a }
 
 class Question {
   final String text;
@@ -33,61 +15,30 @@ class Question {
     required this.level,
   });
 
-  Map<String, dynamic> toJson() => {
-        'text': text,
-        'options': options,
-        'correctAnswer': correctAnswer,
-        'explanation': explanation,
-        'level': level.toString().split('.').last, // Stores enum as string: 'level6a', 'level5a', 'level4a'
-      };
-
-  factory Question.fromJson(Map<String, dynamic> json) => Question(
-        text: json['text'],
-        options: List<String>.from(json['options']),
-        correctAnswer: json['correctAnswer'],
-        explanation: json['explanation'],
-        level: json['level'] == 'level4a'
-            ? QuestionLevel.level4a
-            : json['level'] == 'level5a'
-                ? QuestionLevel.level5a
-                : QuestionLevel.level6a,
-      );
-
-  String getOptionText(String letter) {
-    return options.firstWhere((option) => option.startsWith(letter));
+  String getOptionText(String optionLetter) {
+    final option = options.firstWhere(
+      (opt) => opt.startsWith('$optionLetter.'),
+      orElse: () => optionLetter,
+    );
+    return option.startsWith('$optionLetter.') ? option.substring(3).trim() : option;
   }
 }
 
-class SessionResult {
-  final List<Question> questions;
-  final List<String?> selectedAnswers;
-  final DateTime date;
+class Session {
+  final String name;
+  final List<Map<String, String>> results;
 
-  SessionResult({
-    required this.questions,
-    required this.selectedAnswers,
-    required this.date,
-  });
-
-  int get correctCount {
-    return questions.asMap().entries.fold(0, (sum, entry) {
-      int index = entry.key;
-      Question question = entry.value;
-      String? selected = selectedAnswers[index];
-      return sum + (selected == question.correctAnswer ? 1 : 0);
-    });
-  }
+  Session({required this.name, required this.results});
 
   Map<String, dynamic> toJson() => {
-        'questions': questions.map((q) => q.toJson()).toList(),
-        'selectedAnswers': selectedAnswers,
-        'date': date.toIso8601String(),
+        'name': name,
+        'results': results,
       };
 
-  factory SessionResult.fromJson(Map<String, dynamic> json) => SessionResult(
-        questions: List<Question>.from(
-            json['questions'].map((q) => Question.fromJson(q))),
-        selectedAnswers: List<String?>.from(json['selectedAnswers']),
-        date: DateTime.parse(json['date']),
+  factory Session.fromJson(Map<String, dynamic> json) => Session(
+        name: json['name'] as String,
+        results: (json['results'] as List<dynamic>)
+            .map((r) => Map<String, String>.from(r as Map))
+            .toList(),
       );
 }

@@ -226,6 +226,9 @@ class SessionDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final allQuestions =
+        levels.expand((level) => level['questions'] as List<Question>).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(session.name),
@@ -239,7 +242,6 @@ class SessionDetailScreen extends StatelessWidget {
           itemCount: session.results.length,
           itemBuilder: (context, index) {
             final result = session.results[index];
-            final allQuestions = [...level6aQuestions, ...level5aQuestions, ...level4aQuestions];
             final question = allQuestions.firstWhere(
               (q) => q.text == result['question'],
               orElse: () => Question(
@@ -247,11 +249,11 @@ class SessionDetailScreen extends StatelessWidget {
                 options: [],
                 correctAnswer: result['correctAnswer']!,
                 explanation: 'No explanation available',
-                level: result['level'] == 'level4a'
-                    ? QuestionLevel.level4a
-                    : result['level'] == 'level5a'
-                        ? QuestionLevel.level5a
-                        : QuestionLevel.level6a,
+                level: levels.firstWhere(
+                  (level) =>
+                      level['level'].toString().split('.').last == result['level'],
+                  orElse: () => levels.first,
+                )['level'] as QuestionLevel,
               ),
             );
             final userAnswerText = question.options.isNotEmpty

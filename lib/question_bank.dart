@@ -1,6 +1,28 @@
 import 'package:kumon_assessment_app/models.dart';
 
-// Level 6a Questions (33 questions, removed questions 2 and 24)
+final levels = [
+  {
+    'level': QuestionLevel.level6a,
+    'questions': level6aQuestions,
+    'questionsPerSession': 2,
+  },
+  {
+    'level': QuestionLevel.level5a,
+    'questions': level5aQuestions,
+    'questionsPerSession': 2,
+  },
+  {
+    'level': QuestionLevel.level4a,
+    'questions': level4aQuestions,
+    'questionsPerSession': 2,
+  },
+  {
+    'level': QuestionLevel.level3a,
+    'questions': level3aQuestions,
+    'questionsPerSession': 2,
+  },
+];
+
 final List<Question> level6aQuestions = [
   Question(
     text:
@@ -450,7 +472,6 @@ final List<Question> level6aQuestions = [
   ),
 ];
 
-// Level 5a Questions (33 questions, removed questions 2 and 24)
 final List<Question> level5aQuestions = [
   Question(
     text:
@@ -897,7 +918,6 @@ final List<Question> level5aQuestions = [
   ),
 ];
 
-// Level 4a Questions (33 questions, removed questions 2 and 24)
 final List<Question> level4aQuestions = [
   Question(
     text:
@@ -1342,5 +1362,478 @@ final List<Question> level4aQuestions = [
     explanation:
         "A ensures mastery. B focuses on speed, C skips tracing, D relies on others.",
     level: QuestionLevel.level4a,
+  ),
+];
+
+final List<Question> level3aQuestions = [
+  Question(
+    text:
+        'A student struggles to add 1 to numbers up to 120. What would you do?',
+    options: [
+      'A. Add 1 with them, pointing to each step.',
+      'B. Show an example and ask them to try.',
+      'C. Demonstrate adding 1, then have them follow.',
+      'D. Let them attempt again without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A provides direct support with pointing. B is passive, C shifts to modeling, D lacks guidance.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'A student hesitates when adding 2 to numbers 60-80. What’s your next step?',
+    options: [
+      'A. Add 2 with them, guiding each number.',
+      'B. Model adding 2, then ask them to copy.',
+      'C. Point to the numbers while they add.',
+      'D. Provide a new sheet for independent practice.',
+    ],
+    correctAnswer:
+        'A', // Note: Original says A & B; choosing A as primary based on guided support emphasis.
+    explanation:
+        'A and B offer guided and modeled support. C lacks addition focus, D avoids help.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'A student adds 1 but skips numbers in the sequence. How should you respond?',
+    options: [
+      'A. Add 1 with them, correcting the sequence.',
+      'B. Point out skips and guide their addition.',
+      'C. Review mistakes after they finish.',
+      'D. Let them continue and check later.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with immediate guidance. B is verbal-only, C delays, D avoids correction.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'A student finishes adding 1 quickly but makes errors. What would you do?',
+    options: [
+      'A. Review their work, guiding correct addition.',
+      'B. Praise their speed and ask for accuracy.',
+      'C. Assign a new addition exercise with focus.',
+      'D. Observe and let them self-correct next time.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses errors directly. B reinforces speed, C is preparatory, D lacks support.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'A student refuses to add aloud in a group. What’s your best action?',
+    options: [
+      'A. Allow silent addition and check their answer.',
+      'B. Pair them with a peer to add together.',
+      'C. Demonstrate adding aloud, inviting them to join.',
+      'D. Move to a one-on-one session for practice.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C encourages participation gently. A avoids verbal practice, B adds pressure, D over-adjusts.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'A student struggles with adding 2 to 90-100, mixing results. What should you do?',
+    options: [
+      'A. Add 2 with them, clarifying each step.',
+      'B. Show a number line and guide their addition.',
+      'C. Ask them to retry without assistance.',
+      'D. Give a simpler range to build confidence.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'A student hesitates adding 1 to numbers 50-70 on a worksheet. What would you do?',
+    options: [
+      'A. Add 1 with them, guiding each number.',
+      'B. Provide a number chart for them to use.',
+      'C. Demonstrate adding 1, asking them to copy.',
+      'D. Let them add again without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'A student stops at 80 while adding to 120. What’s your approach?',
+    options: [
+      'A. Add to 120 with them, emphasizing 80-120.',
+      'B. Encourage them past 80 with your guidance.',
+      'C. Show a number line and ask them to continue.',
+      'D. Assign a task stopping at 80 to build skill.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B builds on their limit with support. A over-directs, C relies on tools, D limits progress.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child repeats adding 1 daily. Is this necessary?”',
+    options: [
+      'A. Explain that repetition builds addition accuracy and skill.',
+      'B. Note that daily practice ensures strong number addition.',
+      'C. Assure them repetition strengthens adding habits over time.',
+      'D. Suggest that consistent addition prepares them for more.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ties repetition to accuracy. B is vague, C lacks detail, D shifts focus to progression.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child finds adding 2 boring.”',
+    options: [
+      'A. Highlight that adding 2 builds focus and number sense.',
+      'B. Explain that repetition improves addition and confidence.',
+      'C. Note that adding exercises develop accuracy and skills.',
+      'D. Assure them addition practice strengthens early math.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses focus and sense. B misses engagement, C is partial, D is too broad.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child knows adding 1 to 50. Why go to 120?”',
+    options: [
+      'A. Clarify that extending to 120 builds a stronger addition base.',
+      'B. Explain that adding to 120 ensures full early mastery.',
+      'C. Note that progressing to 120 develops confidence and skills.',
+      'D. Assure them reaching 120 solidifies number foundations.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child struggles with adding 2.”',
+    options: [
+      'A. Suggest practicing addition with guidance at home.',
+      'B. Recommend using worksheets to improve addition skills.',
+      'C. Offer to model adding during sessions.',
+      'D. Advise focusing on slow addition with support.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'Parent Says: “Why does my child add aloud so much?”',
+    options: [
+      'A. Explain that adding aloud builds verbal math skills.',
+      'B. Note that speaking during addition enhances memory.',
+      'C. Assure them adding aloud reinforces number sense.',
+      'D. Suggest that verbal addition strengthens math habits.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A links to verbal skills. B is secondary, C is vague, D is repetitive.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child makes errors when tired.”',
+    options: [
+      'A. Recommend a break before resuming with guidance.',
+      'B. Suggest continuing with fewer problems to finish.',
+      'C. Advise observing and correcting later.',
+      'D. Propose reducing the session length slightly.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'A student adds 1 inaccurately due to sequence confusion. What’s the best first step?',
+    options: [
+      'A. Add 1 with them, pointing to each number.',
+      'B. Demonstrate adding 1 before they retry.',
+      'C. Ask them to add without assistance.',
+      'D. Provide a new addition exercise with help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects confusion directly. B is preparatory, C lacks support, D delays focus.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'A student hesitates adding 2 to 90-100. What’s your priority?',
+    options: [
+      'A. Model adding 2 slowly, asking them to follow.',
+      'B. Add 2 with them, guiding each step.',
+      'C. Encourage them to add with minimal help.',
+      'D. Show a number chart for them to use.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B combines support and practice. A is modeling-only, C lacks aid, D is passive.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'A student skips numbers while adding 1. What should you do first?',
+    options: [
+      'A. Add 1 with them, pointing to missed numbers.',
+      'B. Let them retry and check their accuracy.',
+      'C. Assign a simpler range to rebuild.',
+      'D. Observe and offer hints if they struggle.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'A student struggles with adding 2 to 50-70. What’s your best action?',
+    options: [
+      'A. Add 2 with them, guiding each number.',
+      'B. Show a sequence chart and guide their addition.',
+      'C. Ask them to add without assistance.',
+      'D. Provide a new worksheet with number lines.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'A student loses focus adding to 120. What’s your priority?',
+    options: [
+      'A. Redirect with a short addition game and praise.',
+      'B. Continue adding with them, keeping focus.',
+      'C. Suggest a break before resuming the task.',
+      'D. Assign a new task to regain their interest.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B maintains engagement. A is distracting, C delays, D shifts focus.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'Case Study: A 5-year-old student adds 1 up to 60 but stops, looking confused. What’s the best way to help them progress?',
+    options: [
+      'A. Add 1 to 120 with them, guiding each step.',
+      'B. Show the numbers and ask them to add alone.',
+      'C. Guide their adding to 120 with support.',
+      'D. Provide a new sheet with addition written.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'Case Study: A student adds 1 to 1-50 correctly but stumbles at 51-120. How should you support their learning?',
+    options: [
+      'A. Add 1 to 51-120 with them, guiding each step.',
+      'B. Point to 51-120 while they add alone.',
+      'C. Show a number line and guide their addition.',
+      'D. Let them try again without immediate help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A combines visual and physical aid. B lacks guidance, C relies on tools, D lacks support.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'Case Study: A student adds 2 but reverses 90 and 100 often. What’s your first step to correct this?',
+    options: [
+      'A. Add 2 with them, clarifying 90-100 positions.',
+      'B. Show a number chart and ask them to add.',
+      'C. Guide their hand for 90 and 100 correctly.',
+      'D. Assign a new task focusing on 90-100.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with real-time guidance. B is passive, C is for tracing, D delays focus.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'Case Study: A student hesitates during adding 2, looking at peers. What should you do to build confidence?',
+    options: [
+      'A. Add 2 with them, offering praise.',
+      'B. Encourage them to watch peers, then try.',
+      'C. Demonstrate adding, asking them to follow.',
+      'D. Suggest they add silently to reduce pressure.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text:
+        'Case Study: A student struggles with adding 1 up to 120. What additional steps would you take?',
+    options: [
+      'A. Practice adding 1 with guidance daily.',
+      'B. Use number cards for extra addition drills.',
+      'C. Model adding, then guide their practice.',
+      'D. Assign more worksheets with addition lists.',
+    ],
+    correctAnswer:
+        'A', // Note: Original says A & C; choosing A as primary for daily guidance emphasis.
+    explanation:
+        'A and C reinforce adding with guidance. B is tool-dependent, D is repetitive.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'What is the main goal of adding 1 in Level 3A?',
+    options: [
+      'A. Build fluency in adding 1 up to 120.',
+      'B. Teach students to recognize number sums.',
+      'C. Help students memorize addition facts.',
+      'D. Ensure students add without errors daily.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'Why does Kumon emphasize guidance during adding?',
+    options: [
+      'A. It helps students understand each step.',
+      'B. It speeds up addition practice.',
+      'C. It reduces the need for verbal instructions.',
+      'D. It ensures students memorize sums.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A enhances understanding. B overstates speed, C minimizes teaching, D is incidental.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'When should a student move from adding 1 to adding 2?',
+    options: [
+      'A. After consistent accuracy with adding 1.',
+      'B. When they can add 1 without help.',
+      'C. Once they master adding 2 fully.',
+      'D. After recognizing all sums to 120.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures readiness. B lacks progression, C is premature, D skips adding.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'What is the purpose of number sequence in early levels?',
+    options: [
+      'A. Develop understanding of number order.',
+      'B. Teach students to write numbers correctly.',
+      'C. Help students count objects quickly.',
+      'D. Ensure mastery of addition tables.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A targets order. B is writing-focused, C is counting, D is broader.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'How should instructors handle a student skipping numbers?',
+    options: [
+      'A. Add with them, pointing to missed numbers.',
+      'B. Let them self-correct on the next attempt.',
+      'C. Assign easier problems to rebuild skills.',
+      'D. None of the above.',
+    ],
+    correctAnswer: 'D',
+    explanation:
+        'D applies; immediate correction is needed, not self-correction or easing.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'What role does repetition play in Level 3A?',
+    options: [
+      'A. Reinforces addition accuracy and confidence.',
+      'B. Helps students finish worksheets faster.',
+      'C. Ensures they memorize sums quickly.',
+      'D. Reduces the need for instructor guidance.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'According to Level 3A, how should instructors introduce adding 1?',
+    options: [
+      'A. Start with 1-60, then add 61-120 with guidance.',
+      'B. Begin with 120, reducing to 60 if needed.',
+      'C. Teach all additions at once with a chart.',
+      'D. Add silently, showing sums later.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'What does the manual suggest for students struggling with adding 2?',
+    options: [
+      'A. Add 2 with them to guide the process.',
+      'B. Let them observe peers before retrying.',
+      'C. Provide a new sheet without assistance.',
+      'D. Skip to adding 3 exercises.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A aligns with guidance. B delays, C lacks support, D shifts focus.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'How should instructors use the Adding 1 section?',
+    options: [
+      'A. Guide adding 1 with support up to 120.',
+      'B. Teach students to guess sums quickly.',
+      'C. Focus on writing numbers after adding.',
+      'D. Allow self-correction without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'What is the aim of the numbers up to 120 exercise per the manual?',
+    options: [
+      'A. Build initial sequence skills with support.',
+      'B. Ensure students memorize numbers to 120.',
+      'C. Teach fast adding without guidance.',
+      'D. Prepare for immediate number writing.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A reflects the goal. B is memorization, C skips support, D is unrelated.',
+    level: QuestionLevel.level3a,
+  ),
+  Question(
+    text: 'According to the manual, when can students solve addition smoothly?',
+    options: [
+      'A. After mastering adding 1 and 2 up to 120.',
+      'B. When they finish all addition exercises quickly.',
+      'C. If they recognize sums without guidance.',
+      'D. After observing peers solve additions.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
+    level: QuestionLevel.level3a,
   ),
 ];
