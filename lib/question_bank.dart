@@ -1,5 +1,4 @@
 import 'package:kumon_assessment_app/models.dart';
-import 'package:kumon_assessment_app/state_management.dart';
 
 // Level 6a Questions (33 questions, removed questions 2 and 24)
 final List<Question> level6aQuestions = [

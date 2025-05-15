@@ -5,8 +5,6 @@ import 'package:kumon_assessment_app/models.dart';
 import 'package:kumon_assessment_app/question_bank.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum QuestionLevel { level6a, level5a, level4a }
-
 class QuestionState {
   final List<Question> dailyQuestions;
   final int currentQuestionIndex;
@@ -80,7 +78,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
 
         List<Question> questions = [];
         try {
-          final allQuestions = [...level6aQuestions, ...level5aQuestions];
+          final allQuestions = [...level6aQuestions, ...level5aQuestions, ...level4aQuestions];
           questions = savedQuestions
               .map((text) => allQuestions.firstWhere(
                     (q) => q.text == text,
@@ -123,9 +121,11 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final random = Random();
     final level6aShuffled = List<Question>.from(level6aQuestions)..shuffle(random);
     final level5aShuffled = List<Question>.from(level5aQuestions)..shuffle(random);
+    final level4aShuffled = List<Question>.from(level4aQuestions)..shuffle(random);
     return [
       ...level6aShuffled.take(2),
       ...level5aShuffled.take(2),
+      ...level4aShuffled.take(2),
     ];
   }
 
@@ -175,7 +175,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         'question': currentQuestion.text,
         'userAnswer': state.selectedAnswer!,
         'correctAnswer': currentQuestion.correctAnswer,
-        'level': currentQuestion.level == QuestionLevel.level6a ? 'level6a' : 'level5a',
+        'level': currentQuestion.level.toString().split('.').last,
       };
       final updatedResults = [...state.sessionResults, result];
 
@@ -201,7 +201,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   void nextQuestion() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      if (state.currentQuestionIndex + 1 < 4) { // Changed to 4 questions
+      if (state.currentQuestionIndex + 1 < 6) {
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,
           currentQuestionIndex: state.currentQuestionIndex + 1,
@@ -237,7 +237,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       final prefs = await SharedPreferences.getInstance();
       final today = DateTime.now();
       final dateStr =
-          "${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}";
+          "${today.day.toString().padLeft(2, '0')}-${today.month.toString().padLeft(2, '0')}-${today.year}";
       final todaySessions =
           state.pastSessions.where((s) => s.name.startsWith(dateStr)).toList();
       final sessionCount = todaySessions.length + 1;
