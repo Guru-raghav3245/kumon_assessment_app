@@ -4,22 +4,22 @@ final levels = [
   {
     'level': QuestionLevel.level6a,
     'questions': level6aQuestions,
-    'questionsPerSession': 2,
+    'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.level5a,
     'questions': level5aQuestions,
-    'questionsPerSession': 2,
+    'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.level4a,
     'questions': level4aQuestions,
-    'questionsPerSession': 2,
+    'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.level3a,
     'questions': level3aQuestions,
-    'questionsPerSession': 2,
+    'questionsPerSession': 1,
   },
 ];
 
