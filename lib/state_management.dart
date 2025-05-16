@@ -68,9 +68,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         try {
           final decodedResults = jsonDecode(results);
           if (decodedResults is List) {
-            sessionResults = decodedResults
-                .map((r) => Map<String, String>.from(r))
-                .toList();
+            sessionResults =
+                decodedResults.map((r) => Map<String, String>.from(r)).toList();
           }
         } catch (e) {
           print('Error decoding sessionResults: $e');
@@ -123,8 +122,9 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final random = Random();
     final selectedQuestions = <Question>[];
     for (var level in levels) {
-      final questions = List<Question>.from(level['questions'] as List<Question>)
-        ..shuffle(random);
+      final questions =
+          List<Question>.from(level['questions'] as List<Question>)
+            ..shuffle(random);
       final questionsPerSession = level['questionsPerSession'] as int;
       selectedQuestions.addAll(questions.take(questionsPerSession));
     }
@@ -203,8 +203,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   void nextQuestion() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final totalQuestions =
-          levels.fold(0, (sum, level) => sum + (level['questionsPerSession'] as int));
+      final totalQuestions = levels.fold(
+          0, (sum, level) => sum + (level['questionsPerSession'] as int));
       if (state.currentQuestionIndex + 1 < totalQuestions) {
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,
@@ -239,13 +239,12 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   Future<void> _saveSession() async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      final sessionNumber =
+          state.pastSessions.length + 1; // Next session number
       final today = DateTime.now();
       final dateStr =
-          "${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}";
-      final todaySessions =
-          state.pastSessions.where((s) => s.name.startsWith(dateStr)).toList();
-      final sessionCount = todaySessions.length + 1;
-      final sessionName = sessionCount > 1 ? '$dateStr-$sessionCount' : dateStr;
+          "${today.day.toString().padLeft(2, '0')}-${today.month.toString().padLeft(2, '0')}-${today.year}";
+      final sessionName = "s$sessionNumber $dateStr"; // e.g., "s1 01-01-2025"
 
       final newSession =
           Session(name: sessionName, results: state.sessionResults);
