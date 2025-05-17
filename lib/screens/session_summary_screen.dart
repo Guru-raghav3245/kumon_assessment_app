@@ -3,8 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SessionSummaryScreen extends ConsumerWidget {
   final List<Map<String, String>> results;
+  final int duration; // Duration in seconds
 
-  const SessionSummaryScreen({super.key, required this.results});
+  const SessionSummaryScreen({super.key, required this.results, required this.duration});
+
+  String _formatDuration(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes}m ${remainingSeconds}s';
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -83,6 +90,18 @@ class SessionSummaryScreen extends ConsumerWidget {
                       const SizedBox(width: 8),
                       Text(
                         'Correct: $correctCount/$total',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.timer, color: Colors.blue),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Time: ${_formatDuration(duration)}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ],

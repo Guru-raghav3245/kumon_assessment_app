@@ -59,12 +59,13 @@ class MyApp extends ConsumerWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/summary': (context) {
-          final results = ModalRoute.of(context)!.settings.arguments
-              as List<Map<String, String>>;
-          return SessionSummaryScreen(results: results);
+          final args = ModalRoute.of(context)!.settings.arguments
+              as Map<String, dynamic>;
+          final results = args['results'] as List<Map<String, String>>;
+          final duration = args['duration'] as int;
+          return SessionSummaryScreen(results: results, duration: duration);
         },
       },
     );
   }
 }
-

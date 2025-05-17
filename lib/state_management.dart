@@ -42,10 +42,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   Future<void> _loadState() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final lastReset = prefs.getInt('lastReset') ?? 0;
-      final now = DateTime.now().millisecondsSinceEpoch;
-      final cooldownEndMillis = prefs.getInt('cooldownEnd') ?? 0;
       final savedSessions = prefs.getString('pastSessions') ?? '[]';
+
       List<Session> pastSessions = [];
       try {
         final decodedSessions = jsonDecode(savedSessions);
@@ -58,57 +56,16 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         print('Error decoding pastSessions: $e');
       }
 
-      if (now >= cooldownEndMillis && (now - lastReset) > 20 * 1000) {
-        await _resetQuestions();
-      } else {
-        final savedQuestions = prefs.getStringList('dailyQuestions') ?? [];
-        final index = prefs.getInt('currentQuestionIndex') ?? 0;
-        final results = prefs.getString('sessionResults') ?? '[]';
-        List<Map<String, String>> sessionResults = [];
-        try {
-          final decodedResults = jsonDecode(results);
-          if (decodedResults is List) {
-            sessionResults =
-                decodedResults.map((r) => Map<String, String>.from(r)).toList();
-          }
-        } catch (e) {
-          print('Error decoding sessionResults: $e');
-        }
+      // Always get new questions when loading state
+      final newQuestions = _getRandomQuestions();
+      await prefs.setStringList(
+          'dailyQuestions', newQuestions.map((q) => q.text).toList());
+      await prefs.setInt('currentQuestionIndex', 0);
 
-        List<Question> questions = [];
-        try {
-          final allQuestions = levels
-              .expand((level) => level['questions'] as List<Question>)
-              .toList();
-          questions = savedQuestions
-              .map((text) => allQuestions.firstWhere(
-                    (q) => q.text == text,
-                    orElse: () => Question(
-                      text: '',
-                      options: [],
-                      correctAnswer: '',
-                      explanation: '',
-                      level: levels.first['level'] as QuestionLevel,
-                    ),
-                  ))
-              .where((q) => q.text.isNotEmpty)
-              .toList();
-        } catch (e) {
-          print('Error mapping questions: $e');
-        }
-
-        state = QuestionState(
-          dailyQuestions:
-              questions.isNotEmpty ? questions : _getRandomQuestions(),
-          currentQuestionIndex: index.clamp(0, questions.length - 1),
-          isCooldownActive: now < cooldownEndMillis,
-          cooldownEnd: cooldownEndMillis > 0
-              ? DateTime.fromMillisecondsSinceEpoch(cooldownEndMillis)
-              : null,
-          sessionResults: sessionResults,
-          pastSessions: pastSessions,
-        );
-      }
+      state = QuestionState(
+        dailyQuestions: newQuestions,
+        pastSessions: pastSessions,
+      );
     } catch (e) {
       print('Error loading state: $e');
       state = QuestionState(
@@ -121,6 +78,10 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   List<Question> _getRandomQuestions() {
     final random = Random();
     final selectedQuestions = <Question>[];
+
+    // Reset the random seed to get different questions each time
+    random.nextInt(100); // This helps ensure different sequences
+
     for (var level in levels) {
       final questions =
           List<Question>.from(level['questions'] as List<Question>)
@@ -128,6 +89,10 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       final questionsPerSession = level['questionsPerSession'] as int;
       selectedQuestions.addAll(questions.take(questionsPerSession));
     }
+
+    // Sort questions by level (6A first, then 5A, etc.)
+    selectedQuestions.sort((a, b) => a.level.index.compareTo(b.level.index));
+
     return selectedQuestions;
   }
 
@@ -219,7 +184,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         );
         await prefs.setInt('currentQuestionIndex', state.currentQuestionIndex);
       } else {
-        await _saveSession();
         final cooldownEnd = DateTime.now().add(const Duration(seconds: 20));
         await prefs.setInt('cooldownEnd', cooldownEnd.millisecondsSinceEpoch);
         state = QuestionState(
@@ -236,30 +200,40 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     }
   }
 
-  Future<void> _saveSession() async {
+  Future<void> saveSession({int duration = 0}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final sessionNumber =
-          state.pastSessions.length + 1; // Next session number
+      final sessionNumber = state.pastSessions.length + 1;
       final today = DateTime.now();
       final dateStr =
           "${today.day.toString().padLeft(2, '0')}-${today.month.toString().padLeft(2, '0')}-${today.year}";
-      final sessionName = "s$sessionNumber $dateStr"; // e.g., "s1 01-01-2025"
+      final sessionName = "s$sessionNumber $dateStr";
 
-      final newSession =
-          Session(name: sessionName, results: state.sessionResults);
+      final newSession = Session(
+        name: sessionName,
+        results: state.sessionResults,
+        duration: duration,
+      );
       final updatedSessions = [...state.pastSessions, newSession];
       await prefs.setString('pastSessions',
           jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
+      // Get new questions for the next session
+      final newQuestions = _getRandomQuestions();
+
       state = QuestionState(
-        dailyQuestions: state.dailyQuestions,
-        currentQuestionIndex: state.currentQuestionIndex,
+        dailyQuestions: newQuestions,
+        currentQuestionIndex: 0,
         isCooldownActive: state.isCooldownActive,
         cooldownEnd: state.cooldownEnd,
         sessionResults: [],
         pastSessions: updatedSessions,
       );
+
+      // Save the new questions to shared preferences
+      await prefs.setStringList(
+          'dailyQuestions', newQuestions.map((q) => q.text).toList());
+      await prefs.setInt('currentQuestionIndex', 0);
     } catch (e) {
       print('Error saving session: $e');
     }

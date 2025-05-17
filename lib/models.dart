@@ -27,12 +27,14 @@ class Question {
 class Session {
   final String name;
   final List<Map<String, String>> results;
+  final int duration; // Duration in seconds
 
-  Session({required this.name, required this.results});
+  Session({required this.name, required this.results, required this.duration});
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'results': results,
+        'duration': duration,
       };
 
   factory Session.fromJson(Map<String, dynamic> json) => Session(
@@ -40,5 +42,6 @@ class Session {
         results: (json['results'] as List<dynamic>)
             .map((r) => Map<String, String>.from(r as Map))
             .toList(),
+        duration: json['duration'] as int? ?? 0, // Default to 0 if null
       );
 }

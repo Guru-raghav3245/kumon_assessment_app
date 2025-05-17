@@ -15,10 +15,12 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  late DateTime _startTime;
 
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now(); // Start the timer
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -149,17 +151,21 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
-                  onPressed: () {
-                    questionNotifier.nextQuestion();
+                  onPressed: () async {
                     if (questionState.currentQuestionIndex + 1 >= totalQuestions) {
+                      final duration = DateTime.now().difference(_startTime).inSeconds;
+                      await questionNotifier.saveSession(duration: duration);
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (_) => SessionSummaryScreen(
                             results: questionState.sessionResults,
+                            duration: duration,
                           ),
                         ),
                       );
+                    } else {
+                      questionNotifier.nextQuestion();
                     }
                   },
                   icon: const Icon(Icons.arrow_forward),
