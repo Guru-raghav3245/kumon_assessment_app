@@ -5,7 +5,8 @@ class SessionSummaryScreen extends ConsumerWidget {
   final List<Map<String, String>> results;
   final int duration; // Duration in seconds
 
-  const SessionSummaryScreen({super.key, required this.results, required this.duration});
+  const SessionSummaryScreen(
+      {super.key, required this.results, required this.duration});
 
   String _formatDuration(int seconds) {
     final minutes = seconds ~/ 60;
@@ -71,7 +72,8 @@ class SessionSummaryScreen extends ConsumerWidget {
                           value: percentage / 100,
                           strokeWidth: 8,
                           backgroundColor: Colors.grey[200],
-                          valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                          valueColor:
+                              const AlwaysStoppedAnimation<Color>(Colors.blue),
                         ),
                       ),
                       Text(
@@ -118,16 +120,13 @@ class SessionSummaryScreen extends ConsumerWidget {
                   const SizedBox(height: 24),
                   ElevatedButton.icon(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        '/',
-                        (route) => false,
-                      );
+                      Navigator.pushReplacementNamed(context, '/');
                     },
                     icon: const Icon(Icons.home),
                     label: const Text('Return to Home'),
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),

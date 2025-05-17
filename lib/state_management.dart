@@ -8,8 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class QuestionState {
   final List<Question> dailyQuestions;
   final int currentQuestionIndex;
-  final bool isCooldownActive;
-  final DateTime? cooldownEnd;
   final String? selectedAnswer;
   final bool? isAnswerCorrect;
   final bool showExplanation;
@@ -19,8 +17,6 @@ class QuestionState {
   QuestionState({
     required this.dailyQuestions,
     this.currentQuestionIndex = 0,
-    this.isCooldownActive = false,
-    this.cooldownEnd,
     this.selectedAnswer,
     this.isAnswerCorrect,
     this.showExplanation = false,
@@ -104,7 +100,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       await prefs.setStringList(
           'dailyQuestions', newQuestions.map((q) => q.text).toList());
       await prefs.setInt('currentQuestionIndex', 0);
-      await prefs.setInt('cooldownEnd', 0);
       await prefs.setString('sessionResults', '[]');
 
       state = QuestionState(
@@ -124,8 +119,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     state = QuestionState(
       dailyQuestions: state.dailyQuestions,
       currentQuestionIndex: state.currentQuestionIndex,
-      isCooldownActive: state.isCooldownActive,
-      cooldownEnd: state.cooldownEnd,
       selectedAnswer: answer,
       isAnswerCorrect: null,
       showExplanation: false,
@@ -149,8 +142,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       state = QuestionState(
         dailyQuestions: state.dailyQuestions,
         currentQuestionIndex: state.currentQuestionIndex,
-        isCooldownActive: state.isCooldownActive,
-        cooldownEnd: state.cooldownEnd,
         selectedAnswer: state.selectedAnswer,
         isAnswerCorrect: isCorrect,
         showExplanation: true,
@@ -174,8 +165,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,
           currentQuestionIndex: state.currentQuestionIndex + 1,
-          isCooldownActive: state.isCooldownActive,
-          cooldownEnd: state.cooldownEnd,
           selectedAnswer: null,
           isAnswerCorrect: null,
           showExplanation: false,
@@ -183,17 +172,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
           pastSessions: state.pastSessions,
         );
         await prefs.setInt('currentQuestionIndex', state.currentQuestionIndex);
-      } else {
-        final cooldownEnd = DateTime.now().add(const Duration(seconds: 20));
-        await prefs.setInt('cooldownEnd', cooldownEnd.millisecondsSinceEpoch);
-        state = QuestionState(
-          dailyQuestions: state.dailyQuestions,
-          currentQuestionIndex: state.currentQuestionIndex,
-          isCooldownActive: true,
-          cooldownEnd: cooldownEnd,
-          sessionResults: state.sessionResults,
-          pastSessions: state.pastSessions,
-        );
       }
     } catch (e) {
       print('Error navigating to next question: $e');
@@ -218,35 +196,16 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       await prefs.setString('pastSessions',
           jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
-      // Get new questions for the next session
-      final newQuestions = _getRandomQuestions();
+      await _resetQuestions(); // Reset questions immediately after saving session
 
       state = QuestionState(
-        dailyQuestions: newQuestions,
+        dailyQuestions: state.dailyQuestions,
         currentQuestionIndex: 0,
-        isCooldownActive: state.isCooldownActive,
-        cooldownEnd: state.cooldownEnd,
         sessionResults: [],
         pastSessions: updatedSessions,
       );
-
-      // Save the new questions to shared preferences
-      await prefs.setStringList(
-          'dailyQuestions', newQuestions.map((q) => q.text).toList());
-      await prefs.setInt('currentQuestionIndex', 0);
     } catch (e) {
       print('Error saving session: $e');
-    }
-  }
-
-  void checkCooldown() async {
-    try {
-      final now = DateTime.now();
-      if (state.isCooldownActive && now.isAfter(state.cooldownEnd!)) {
-        await _resetQuestions();
-      }
-    } catch (e) {
-      print('Error checking cooldown: $e');
     }
   }
 }
