@@ -13,6 +13,8 @@ class QuestionState {
   final bool showExplanation;
   final List<Map<String, String>> sessionResults;
   final List<Session> pastSessions;
+  final bool isCooldownActive;
+  final int? cooldownEnd;
 
   QuestionState({
     required this.dailyQuestions,
@@ -22,6 +24,8 @@ class QuestionState {
     this.showExplanation = false,
     this.sessionResults = const [],
     this.pastSessions = const [],
+    this.isCooldownActive = false,
+    this.cooldownEnd,
   });
 }
 
@@ -39,6 +43,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final savedSessions = prefs.getString('pastSessions') ?? '[]';
+      final savedCooldownEnd = prefs.getInt('cooldownEnd');
+      final now = DateTime.now().millisecondsSinceEpoch;
 
       List<Session> pastSessions = [];
       try {
@@ -52,7 +58,11 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         print('Error decoding pastSessions: $e');
       }
 
-      // Always get new questions when loading state
+      // Determine cooldown status
+      bool isCooldownActive = savedCooldownEnd != null && now < savedCooldownEnd;
+      int? cooldownEnd = isCooldownActive ? savedCooldownEnd : null;
+
+      // Load or generate new questions
       final newQuestions = _getRandomQuestions();
       await prefs.setStringList(
           'dailyQuestions', newQuestions.map((q) => q.text).toList());
@@ -61,6 +71,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       state = QuestionState(
         dailyQuestions: newQuestions,
         pastSessions: pastSessions,
+        isCooldownActive: isCooldownActive,
+        cooldownEnd: cooldownEnd,
       );
     } catch (e) {
       print('Error loading state: $e');
@@ -75,8 +87,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final random = Random();
     final selectedQuestions = <Question>[];
 
-    // Reset the random seed to get different questions each time
-    random.nextInt(100); // This helps ensure different sequences
+    random.nextInt(100); // Ensure different sequences
 
     for (var level in levels) {
       final questions =
@@ -86,7 +97,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       selectedQuestions.addAll(questions.take(questionsPerSession));
     }
 
-    // Sort questions by level (6A first, then 5A, etc.)
     selectedQuestions.sort((a, b) => a.level.index.compareTo(b.level.index));
 
     return selectedQuestions;
@@ -105,6 +115,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       state = QuestionState(
         dailyQuestions: newQuestions,
         pastSessions: state.pastSessions,
+        isCooldownActive: state.isCooldownActive,
+        cooldownEnd: state.cooldownEnd,
       );
     } catch (e) {
       print('Error resetting questions: $e');
@@ -124,6 +136,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       showExplanation: false,
       sessionResults: state.sessionResults,
       pastSessions: state.pastSessions,
+      isCooldownActive: state.isCooldownActive,
+      cooldownEnd: state.cooldownEnd,
     );
   }
 
@@ -147,6 +161,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         showExplanation: true,
         sessionResults: updatedResults,
         pastSessions: state.pastSessions,
+        isCooldownActive: state.isCooldownActive,
+        cooldownEnd: state.cooldownEnd,
       );
 
       final prefs = await SharedPreferences.getInstance();
@@ -170,6 +186,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
           showExplanation: false,
           sessionResults: state.sessionResults,
           pastSessions: state.pastSessions,
+          isCooldownActive: state.isCooldownActive,
+          cooldownEnd: state.cooldownEnd,
         );
         await prefs.setInt('currentQuestionIndex', state.currentQuestionIndex);
       }
@@ -196,16 +214,45 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       await prefs.setString('pastSessions',
           jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
-      await _resetQuestions(); // Reset questions immediately after saving session
+      // Set 20-second cooldown
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final cooldownDuration = 20 * 1000; // 20 seconds in milliseconds
+      final newCooldownEnd = now + cooldownDuration;
+      await prefs.setInt('cooldownEnd', newCooldownEnd);
+
+      await _resetQuestions();
 
       state = QuestionState(
         dailyQuestions: state.dailyQuestions,
         currentQuestionIndex: 0,
         sessionResults: [],
         pastSessions: updatedSessions,
+        isCooldownActive: true,
+        cooldownEnd: newCooldownEnd,
       );
     } catch (e) {
       print('Error saving session: $e');
+    }
+  }
+
+  // Method to clear cooldown when it expires
+  Future<void> clearCooldown() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('cooldownEnd');
+      state = QuestionState(
+        dailyQuestions: state.dailyQuestions,
+        currentQuestionIndex: state.currentQuestionIndex,
+        selectedAnswer: state.selectedAnswer,
+        isAnswerCorrect: state.isAnswerCorrect,
+        showExplanation: state.showExplanation,
+        sessionResults: state.sessionResults,
+        pastSessions: state.pastSessions,
+        isCooldownActive: false,
+        cooldownEnd: null,
+      );
+    } catch (e) {
+      print('Error clearing cooldown: $e');
     }
   }
 }

@@ -1,14 +1,99 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/screens/session_screen.dart';
 import 'package:kumon_assessment_app/screens/session_history_screen.dart';
 import 'package:kumon_assessment_app/screens/settings_screen.dart';
+import 'dart:async';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  Timer? _cooldownTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start a periodic timer to check cooldown status every second
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        final questionState = ref.read(questionProvider);
+        if (questionState.isCooldownActive && questionState.cooldownEnd != null) {
+          final now = DateTime.now().millisecondsSinceEpoch;
+          if (now >= questionState.cooldownEnd!) {
+            // Cooldown has expired
+            ref.read(questionProvider.notifier).clearCooldown();
+            timer.cancel(); // Stop the timer
+          }
+          setState(() {}); // Trigger rebuild for countdown
+        } else {
+          timer.cancel(); // Stop the timer if no cooldown
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _cooldownTimer?.cancel();
+    super.dispose();
+  }
+
+  Widget _buildCooldownTimer(int secondsRemaining) {
+    const totalCooldown = 20; // Total cooldown duration in seconds
+    final progress = secondsRemaining / totalCooldown;
+
+    return Column(
+      children: [
+        const SizedBox(height: 20),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            SizedBox(
+              width: 80,
+              height: 80,
+              child: CircularProgressIndicator(
+                value: progress,
+                strokeWidth: 8,
+                backgroundColor: Colors.grey.shade300,
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            ),
+            Text(
+              '$secondsRemaining',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Text(
+          'Wait to start new session',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.blue.shade700,
+                fontWeight: FontWeight.w600,
+              ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final questionState = ref.watch(questionProvider);
+    final now = DateTime.now().millisecondsSinceEpoch;
+    final secondsRemaining = questionState.isCooldownActive &&
+            questionState.cooldownEnd != null
+        ? ((questionState.cooldownEnd! - now) / 1000).ceil()
+        : 0;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kumon Instructor Assessment'),
@@ -69,11 +154,14 @@ class HomeScreen extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SessionScreen()),
-                    ),
+                    onPressed: questionState.isCooldownActive &&
+                            secondsRemaining > 0
+                        ? null
+                        : () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const SessionScreen()),
+                            ),
                     icon: const Icon(Icons.play_arrow),
                     label: const Text('Start Session'),
                     style: ElevatedButton.styleFrom(
@@ -82,16 +170,26 @@ class HomeScreen extends ConsumerWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Ready to start!',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.green,
-                          fontWeight: FontWeight.w500,
+                  if (questionState.isCooldownActive && secondsRemaining > 0)
+                    _buildCooldownTimer(secondsRemaining)
+                  else
+                    Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        Text(
+                          'Ready to start!',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Colors.green.shade700,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                         ),
-                  ),
+                      ],
+                    ),
                 ],
               ),
             ),
