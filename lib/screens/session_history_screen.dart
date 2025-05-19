@@ -99,8 +99,9 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       reservedSize: 48,
                                       interval: 20,
                                       getTitlesWidget: (value, meta) {
-                                        if (value % 20 != 0)
+                                        if (value % 20 != 0) {
                                           return const SizedBox();
+                                        }
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(right: 8.0),
@@ -121,8 +122,9 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       reservedSize: 48,
                                       interval: 60,
                                       getTitlesWidget: (value, meta) {
-                                        if (value % 60 != 0)
+                                        if (value % 60 != 0) {
                                           return const SizedBox();
+                                        }
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(left: 8.0),
@@ -144,8 +146,9 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       interval: 1,
                                       getTitlesWidget: (value, meta) {
                                         final index = value.toInt();
-                                        if (index >= sessions.length)
+                                        if (index >= sessions.length) {
                                           return const SizedBox();
+                                        }
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 8.0),
@@ -339,8 +342,7 @@ class SessionDetailScreen extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 itemCount: session.results.length,
-                // Replace this part in the ListView.builder itemBuilder:
-                itemBuilder: (context, index) {
+                                itemBuilder: (context, index) {
                   final result = session.results[index];
                   final question = allQuestions.firstWhere(
                     (q) => q.text == result['question'],
@@ -350,11 +352,10 @@ class SessionDetailScreen extends StatelessWidget {
                       correctAnswer: result['correctAnswer'] ?? 'Unknown',
                       explanation: 'No explanation available',
                       level: levels.first['level']
-                          as QuestionLevel, // Default level
+                          as QuestionLevel, 
                     ),
                   );
 
-                  // Safely get level from result or use default
                   final levelStr = result['level'] ??
                       levels.first['level'].toString().split('.').last;
 
