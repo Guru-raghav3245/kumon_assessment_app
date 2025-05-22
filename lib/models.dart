@@ -1,4 +1,4 @@
-enum QuestionLevel { level6a, level5a, level4a, level3a, level2a, levelA, levelB}
+enum QuestionLevel { level6a, level5a, level4a, level3a, level2a, levelA, levelB, levelC}
 
 class Question {
   final String text;
@@ -27,7 +27,7 @@ class Question {
 class Session {
   final String name;
   final List<Map<String, String>> results;
-  final int duration; // Duration in seconds
+  final int duration;
 
   Session({required this.name, required this.results, required this.duration});
 
@@ -42,6 +42,6 @@ class Session {
         results: (json['results'] as List<dynamic>)
             .map((r) => Map<String, String>.from(r as Map))
             .toList(),
-        duration: json['duration'] as int? ?? 0, // Default to 0 if null
+        duration: json['duration'] as int? ?? 0,
       );
 }

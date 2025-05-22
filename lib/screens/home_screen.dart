@@ -19,20 +19,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Start a periodic timer to check cooldown status every second
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
         final questionState = ref.read(questionProvider);
         if (questionState.isCooldownActive && questionState.cooldownEnd != null) {
           final now = DateTime.now().millisecondsSinceEpoch;
           if (now >= questionState.cooldownEnd!) {
-            // Cooldown has expired
             ref.read(questionProvider.notifier).clearCooldown();
-            timer.cancel(); // Stop the timer
+            timer.cancel();
           }
-          setState(() {}); // Trigger rebuild for countdown
+          setState(() {});
         } else {
-          timer.cancel(); // Stop the timer if no cooldown
+          timer.cancel();
         }
       });
     });
@@ -45,7 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildCooldownTimer(int secondsRemaining) {
-    const totalCooldown = 20; // Total cooldown duration in seconds
+    const totalCooldown = 20;
     final progress = secondsRemaining / totalCooldown;
 
     return Column(

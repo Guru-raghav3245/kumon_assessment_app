@@ -20,7 +20,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   @override
   void initState() {
     super.initState();
-    _startTime = DateTime.now(); // Start the timer
+    _startTime = DateTime.now(); 
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),

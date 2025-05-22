@@ -58,11 +58,9 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         print('Error decoding pastSessions: $e');
       }
 
-      // Determine cooldown status
       bool isCooldownActive = savedCooldownEnd != null && now < savedCooldownEnd;
       int? cooldownEnd = isCooldownActive ? savedCooldownEnd : null;
 
-      // Load or generate new questions
       final newQuestions = _getRandomQuestions();
       await prefs.setStringList(
           'dailyQuestions', newQuestions.map((q) => q.text).toList());
@@ -87,7 +85,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final random = Random();
     final selectedQuestions = <Question>[];
 
-    random.nextInt(100); // Ensure different sequences
+    random.nextInt(100);
 
     for (var level in levels) {
       final questions =
@@ -214,9 +212,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       await prefs.setString('pastSessions',
           jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
-      // Set 20-second cooldown
       final now = DateTime.now().millisecondsSinceEpoch;
-      final cooldownDuration = 20 * 1000; // 20 seconds in milliseconds
+      final cooldownDuration = 20 * 1000; 
       final newCooldownEnd = now + cooldownDuration;
       await prefs.setInt('cooldownEnd', newCooldownEnd);
 
@@ -235,7 +232,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     }
   }
 
-  // Method to clear cooldown when it expires
   Future<void> clearCooldown() async {
     try {
       final prefs = await SharedPreferences.getInstance();

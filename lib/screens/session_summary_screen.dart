@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SessionSummaryScreen extends ConsumerWidget {
   final List<Map<String, String>> results;
-  final int duration; // Duration in seconds
+  final int duration;
 
   const SessionSummaryScreen(
       {super.key, required this.results, required this.duration});
