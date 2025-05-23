@@ -17,15 +17,16 @@ class SessionHistoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final questionState = ref.watch(questionProvider);
-    // Sort sessions in descending order by session number
     final sessions = List<Session>.from(questionState.pastSessions)
       ..sort((a, b) => b.name.compareTo(a.name));
+
+    final graphSessions = sessions.reversed.toList();
     
     List<FlSpot> getAccuracySpots() {
       final maxSessions = 10;
-      final recentSessions = sessions.length > maxSessions
-          ? sessions.sublist(0, maxSessions)
-          : sessions;
+      final recentSessions = graphSessions.length > maxSessions
+          ? graphSessions.sublist(0, maxSessions)
+          : graphSessions;
       return recentSessions.asMap().entries.map((entry) {
         final index = entry.key.toDouble();
         final session = entry.value;
@@ -40,9 +41,9 @@ class SessionHistoryScreen extends ConsumerWidget {
 
     List<FlSpot> getDurationSpots() {
       final maxSessions = 10;
-      final recentSessions = sessions.length > maxSessions
-          ? sessions.sublist(0, maxSessions)
-          : sessions;
+      final recentSessions = graphSessions.length > maxSessions
+          ? graphSessions.sublist(0, maxSessions)
+          : graphSessions;
       return recentSessions.asMap().entries.map((entry) {
         final index = entry.key.toDouble();
         final session = entry.value;
@@ -184,14 +185,14 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       interval: 1,
                                       getTitlesWidget: (value, meta) {
                                         final index = value.toInt();
-                                        if (index >= sessions.length) {
+                                        if (index >= graphSessions.length) {
                                           return const SizedBox();
-                                        }
+                                        }                                        final sessionNumber = graphSessions[index].name.split(' ')[0].substring(1);
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 8.0),
                                           child: Text(
-                                            'S${sessions.length - index}',
+                                            'S$sessionNumber',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall
@@ -212,9 +213,9 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       width: 1),
                                 ),
                                 minX: 0,
-                                maxX: (sessions.length > 10
+                                maxX: (graphSessions.length > 10
                                         ? 9
-                                        : sessions.length - 1)
+                                        : graphSessions.length - 1)
                                     .toDouble(),
                                 minY: 0,
                                 maxY: 100,
@@ -277,12 +278,12 @@ class SessionHistoryScreen extends ConsumerWidget {
                                     getTooltipItems: (touchedSpots) =>
                                         touchedSpots.map((spot) {
                                       final isAccuracy = spot.barIndex == 0;
+                                      // Extract session number for tooltip
+                                      final sessionNumber = graphSessions[spot.x.toInt()].name.split(' ')[0].substring(1);
                                       return LineTooltipItem(
                                         isAccuracy
-                                            ? 'Session ${sessions.length - spot.x.toInt()}'
-                                                '\n${spot.y.toStringAsFixed(1)}%'
-                                            : 'Session ${sessions.length - spot.x.toInt()}'
-                                                '\n${spot.y.toInt()}s',
+                                            ? 'Session $sessionNumber\n${spot.y.toStringAsFixed(1)}%'
+                                            : 'Session $sessionNumber\n${spot.y.toInt()}s',
                                         Theme.of(context)
                                             .textTheme
                                             .bodySmall!

@@ -160,7 +160,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               MaterialPageRoute(
                                   builder: (_) => const SessionScreen()),
                             ),
-                    icon: const Icon(Icons.play_arrow),
+                    icon: const Icon(Icons.play_arrow, color: Colors.white),
                     label: const Text('Start Session'),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
