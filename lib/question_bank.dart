@@ -3,42 +3,42 @@ import 'package:kumon_assessment_app/models.dart';
 final levels = [
   {
     'level': QuestionLevel.level6a,
-    'questions': level6aQuestions,
+    'questions': mathlevel6aQuestions,
     'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.level5a,
-    'questions': level5aQuestions,
+    'questions': mathlevel5aQuestions,
     'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.level4a,
-    'questions': level4aQuestions,
+    'questions': mathlevel4aQuestions,
     'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.level3a,
-    'questions': level3aQuestions,
+    'questions':mathlevel3aQuestions,
     'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.level2a,
-    'questions': level2aQuestions,
+    'questions': mathlevel2aQuestions,
     'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.levelA,
-    'questions': levelAQuestions,
+    'questions': mathlevelAQuestions,
     'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.levelB,
-    'questions': levelBQuestions,
+    'questions': mathlevelBQuestions,
     'questionsPerSession': 1,
   },
   {
     'level': QuestionLevel.levelC,
-    'questions': levelCQuestions,
+    'questions': mathlevelCQuestions,
     'questionsPerSession': 1,
   },
   {
@@ -71,9 +71,19 @@ final levels = [
     'questions': englevel2aQuestions,
     'questionsPerSession': 1,
   },
+  {
+    'level': QuestionLevel.EngLevelA1,
+    'questions': englevelA1Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelA2,
+    'questions': englevelA2Questions,
+    'questionsPerSession': 1,
+  },
 ];
 
-final List<Question> level6aQuestions = [
+final List<Question> mathlevel6aQuestions = [
   Question(
     text:
         "A student struggles to count objects up to 5, often losing track. What would you do?",
@@ -522,7 +532,7 @@ final List<Question> level6aQuestions = [
   ),
 ];
 
-final List<Question> level5aQuestions = [
+final List<Question> mathlevel5aQuestions = [
   Question(
     text:
         "A student struggles to read numbers up to 50 aloud. What would you do?",
@@ -968,7 +978,7 @@ final List<Question> level5aQuestions = [
   ),
 ];
 
-final List<Question> level4aQuestions = [
+final List<Question> mathlevel4aQuestions = [
   Question(
     text:
         "A student struggles to trace numbers up to 50 accurately. What would you do?",
@@ -1415,7 +1425,7 @@ final List<Question> level4aQuestions = [
   ),
 ];
 
-final List<Question> level3aQuestions = [
+final List<Question> mathlevel3aQuestions = [
   Question(
     text:
         'A student struggles to add 1 to numbers up to 120. What would you do?',
@@ -1888,7 +1898,7 @@ final List<Question> level3aQuestions = [
   ),
 ];
 
-final List<Question> level2aQuestions = [
+final List<Question> mathlevel2aQuestions = [
   Question(
     text:
         'A student struggles to solve addition facts up to 10 (e.g., 7 + 2). What would you do?',
@@ -2366,7 +2376,7 @@ final List<Question> level2aQuestions = [
   ),
 ];
 
-final List<Question> levelAQuestions = [
+final List<Question> mathlevelAQuestions = [
   Question(
     text:
         'A student struggles to solve subtraction problems up to 100 (e.g., 85 - 37). What would you do?',
@@ -2830,7 +2840,7 @@ final List<Question> levelAQuestions = [
   ),
 ];
 
-final List<Question> levelBQuestions = [
+final List<Question> mathlevelBQuestions = [
   Question(
     text:
         'A student struggles to solve addition problems up to 200 (e.g., 145 + 38). What would you do?',
@@ -3284,7 +3294,7 @@ final List<Question> levelBQuestions = [
   ),
 ];
 
-final List<Question> levelCQuestions = [
+final List<Question> mathlevelCQuestions = [
   Question(
     text:
         'A student struggles to solve multiplication facts up to 12 (e.g., 7 × 8). What would you do?',
@@ -6435,5 +6445,851 @@ final List<Question> englevel2aQuestions = [
     explanation:
         'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
     level: QuestionLevel.EngLevel2a,
+  ),
+];
+
+final List<Question> englevelA1Questions = [
+  Question(
+    text: 'A student struggles to read simple words like "cat" and "dog." What would you do?',
+    options: [
+      'A. Let them attempt without assistance.',
+      'B. Show the word and ask them to try again.',
+      'C. Read the word with them, guiding each sound.',
+      'D. Demonstrate reading, then have them follow.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C provides direct phonics support. A lacks guidance, B is passive, D shifts to modeling.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student hesitates when forming simple sentences (e.g., "I see a ___"). What’s your next step?',
+    options: [
+      'A. Provide a new sentence for independent practice.',
+      'B. Model the sentence, then ask them to repeat.',
+      'C. Point to the words while they form the sentence.',
+      'D. Form the sentence with them, guiding each word.',
+    ],
+    correctAnswer: 'B & D',
+    explanation: 'B and D offer modeled and guided support. A avoids help, C lacks focus on sentence structure.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student makes errors while reading a short sentence (e.g., "The dog runs"). How should you respond?',
+    options: [
+      'A. Correct mistakes after they finish.',
+      'B. Let them continue and review later.',
+      'C. Read the sentence correctly, asking them to follow.',
+      'D. Point out errors and guide their reading.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C corrects with immediate guidance. A delays, B avoids correction, D is verbal-only.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student finishes vocabulary exercises quickly but with mistakes. What would you do?',
+    options: [
+      'A. Observe and let them self-correct next time.',
+      'B. Praise their speed and ask for accuracy.',
+      'C. Assign a new vocabulary exercise with focus.',
+      'D. Review their work, guiding correct answers.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D addresses errors directly. A lacks support, B reinforces speed, C is preparatory.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student refuses to read aloud in a group setting. What’s your best action?',
+    options: [
+      'A. Pair them with a peer to read together.',
+      'B. Allow silent reading and check their work.',
+      'C. Move to a one-on-one session for practice.',
+      'D. Model reading aloud, inviting them to join.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D encourages participation gently. A adds pressure, B avoids group practice, C over-adjusts.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student struggles with identifying basic vocabulary (e.g., "big" vs. "small"). What should you do?',
+    options: [
+      'A. Show a picture chart and guide their identification.',
+      'B. Ask them to retry without assistance.',
+      'C. Solve the problem with them, correcting meanings.',
+      'D. Give simpler words to build confidence.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C corrects with guidance. A relies on tools, B lacks support, D lowers difficulty.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student hesitates reading a short sentence on a worksheet. What would you do?',
+    options: [
+      'A. Provide a sample sentence for them to study first.',
+      'B. Let them read again without help.',
+      'C. Demonstrate reading, asking them to copy.',
+      'D. Read the sentence with them, guiding each word.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D offers direct support. A delays practice, B lacks aid, C shifts to modeling.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student stops at sentence 5 while reading 10 simple sentences. What’s your approach?',
+    options: [
+      'A. Assign a task stopping at 5 to build skill.',
+      'B. Show a sentence list and ask them to continue.',
+      'C. Encourage them past 5 with your guidance.',
+      'D. Read all 10 with them, emphasizing 5-10.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C builds on their limit with support. A limits progress, B relies on tools, D over-directs.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Parent Says: “My child reads the same words daily. Is this necessary?”',
+    options: [
+      'A. Assure them repetition strengthens reading habits over time.',
+      'B. Note that daily practice ensures quick word recall.',
+      'C. Explain that repetition builds reading accuracy and fluency.',
+      'D. Suggest that consistent reading prepares them for writing.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C ties repetition to accuracy and fluency. A lacks detail, B is vague, D shifts focus to writing.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Parent Says: “My child finds reading boring.”',
+    options: [
+      'A. Highlight that reading builds focus and comprehension skills.',
+      'B. Assure them reading practice strengthens early literacy.',
+      'C. Note that reading practice develops vocabulary skills.',
+      'D. Explain that repetition improves reading and confidence.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A addresses focus and comprehension. B is too broad, C is partial, D misses engagement.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Parent Says: “My child knows basic words. Why practice sentences?”',
+    options: [
+      'A. Note that progressing to sentences develops confidence.',
+      'B. Clarify that sentences build a stronger literacy base.',
+      'C. Assure them sentence practice solidifies word foundations.',
+      'D. Explain that sentence practice ensures full early mastery.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D emphasizes mastery. A focuses on confidence, B is general, C lacks specificity.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Parent Says: “My child struggles with reading short sentences.”',
+    options: [
+      'A. Suggest practicing reading with guidance at home.',
+      'B. Recommend using worksheets to improve reading skills.',
+      'C. Offer to model reading during sessions.',
+      'D. Advise focusing on slow reading with support.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Parent Says: “Why does my child read aloud so much?”',
+    options: [
+      'A. Suggest that verbal reading strengthens habits.',
+      'B. Assure them reading aloud reinforces word recall.',
+      'C. Note that speaking enhances memory and understanding.',
+      'D. Explain that reading aloud builds verbal literacy skills.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D links to verbal skills. A is repetitive, B is vague, C is secondary.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Parent Says: “My child makes mistakes when tired.”',
+    options: [
+      'A. Advise observing and correcting later.',
+      'B. Propose reducing the session length slightly.',
+      'C. Suggest continuing with fewer sentences to finish.',
+      'D. Recommend a break before resuming with guidance.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D addresses fatigue effectively. A delays help, B is temporary, C lowers expectation.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student reads words inaccurately due to phonics issues. What’s the best first step?',
+    options: [
+      'A. Provide a new word list with help.',
+      'B. Ask them to read without assistance.',
+      'C. Demonstrate correct reading before they retry.',
+      'D. Read the word with them, guiding phonics.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D corrects phonics directly. A delays focus, B lacks support, C is preparatory.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student hesitates forming simple sentences. What’s your priority?',
+    options: [
+      'A. Show a sentence chart for them to study.',
+      'B. Encourage them to form sentences with minimal help.',
+      'C. Form the sentence with them, guiding each word.',
+      'D. Model forming sentences, asking them to follow.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C combines support and practice. A is passive, B lacks aid, D is modeling-only.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student skips words while reading a sentence. What should you do first?',
+    options: [
+      'A. Observe and offer hints if they struggle.',
+      'B. Assign simpler sentences to rebuild.',
+      'C. Let them retry and check their accuracy.',
+      'D. Read the sentence with them, pointing to missed words.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D ensures immediate correction. A is indirect, B reduces challenge, C delays help.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student struggles with basic vocabulary identification. What’s your best action?',
+    options: [
+      'A. Ask them to identify without assistance.',
+      'B. Provide a new worksheet with vocabulary exercises.',
+      'C. Show a picture chart and guide their identification.',
+      'D. Identify the words with them, guiding each meaning.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D offers direct guidance. A lacks support, B is preparatory, C relies on tools.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'A student loses focus reading a 10-sentence set. What’s your priority?',
+    options: [
+      'A. Suggest a break before resuming the task.',
+      'B. Assign a new task to regain their interest.',
+      'C. Continue reading with them, keeping focus.',
+      'D. Redirect with a short reading game and praise.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C maintains engagement. A delays, B shifts focus, D is distracting.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Case Study: A 6-year-old student reads words but stops, looking confused. What’s the best way to help them progress?',
+    options: [
+      'A. Provide a new sheet with words printed.',
+      'B. Guide their reading to 10 with support.',
+      'C. Show the words and ask them to read alone.',
+      'D. Read to 10 with them, guiding each word.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B builds on their skill with guidance. A adds complexity, C lacks aid, D is gradual.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Case Study: A student reads 1-5 sentences correctly but stumbles at 6-10. How should you support their learning?',
+    options: [
+      'A. Point to 6-10 while they read alone.',
+      'B. Show a sentence list and guide their reading.',
+      'C. Read 6-10 with them, guiding each word.',
+      'D. Let them try again without immediate help.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C combines verbal and physical aid. A lacks guidance, B relies on tools, D lacks support.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Case Study: A student makes errors in vocabulary exercises often. What’s your first step to correct this?',
+    options: [
+      'A. Assign a new task focusing on vocabulary.',
+      'B. Guide their identification for each word.',
+      'C. Show a word chart and ask them to resolve.',
+      'D. Identify the words with them, correcting errors.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D corrects with real-time guidance. A delays focus, B is general, C is passive.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Case Study: A student hesitates during reading practice, looking at peers. What should you do to build confidence?',
+    options: [
+      'A. Suggest they read silently to reduce pressure.',
+      'B. Read with them, offering praise.',
+      'C. Encourage them to watch peers, then try.',
+      'D. Demonstrate reading, asking them to follow.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B boosts confidence with support. A avoids practice, C increases comparison, D shifts focus.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Case Study: A student struggles with reading a 10-sentence set. What additional steps would you take?',
+    options: [
+      'A. Assign more worksheets with word lists.',
+      'B. Model reading, then guide their practice.',
+      'C. Use picture cards for extra vocabulary drills.',
+      'D. Practice reading with guidance daily.',
+    ],
+    correctAnswer: 'B & D',
+    explanation: 'B and D reinforce reading with guidance. A is repetitive, C is tool-dependent.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'What is the main goal of reading in Level A1?',
+    options: [
+      'A. Help students memorize word lists.',
+      'B. Build fluency in reading simple words and sentences.',
+      'C. Teach students to recognize letters quickly.',
+      'D. Ensure students read without errors daily.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B focuses on fluency. A is memorization, C is secondary, D is unrealistic.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'Why does Kumon emphasize guidance during reading practice?',
+    options: [
+      'A. It ensures students memorize word patterns.',
+      'B. It reduces the need for verbal instructions.',
+      'C. It speeds up reading practice.',
+      'D. It helps students understand correct phonics and meaning.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D enhances phonics and meaning. A is incidental, B minimizes teaching, C overstates speed.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'When should a student move from word reading to sentence reading?',
+    options: [
+      'A. After recognizing all letters.',
+      'B. Once they master sentences fully.',
+      'C. When they can read words without help.',
+      'D. After consistent accuracy with word reading.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D ensures readiness. A skips words, B is premature, C lacks progression.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'What is the purpose of the 10-sentence structure in Level A1?',
+    options: [
+      'A. Ensure mastery of letter lists.',
+      'B. Help students count words quickly.',
+      'C. Teach students to write words correctly.',
+      'D. Develop skills for reading and comprehension.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D targets reading and comprehension. A is broader, B is unrelated, C is writing-focused.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'How should instructors handle a student skipping words in sentences?',
+    options: [
+      'A. Assign easier sentences to rebuild skills.',
+      'B. Let them self-correct on the next attempt.',
+      'C. Read with them, pointing to missed words.',
+      'D. None of the above.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D applies; immediate correction is needed, not self-correction or easing.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'What role does repetition play in Level A1?',
+    options: [
+      'A. Reduces the need for instructor guidance.',
+      'B. Ensures they memorize words quickly.',
+      'C. Helps students finish worksheets faster.',
+      'D. Reinforces reading accuracy and confidence.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D builds skills. A is incorrect, B is memorization, C focuses on speed.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'According to Level A1, how should instructors introduce sentence reading?',
+    options: [
+      'A. Solve silently, showing sentences later.',
+      'B. Teach all sentences at once with a chart.',
+      'C. Begin with 10 sentences, reducing if needed.',
+      'D. Start with 1-5 sentences, then add more with guidance.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D follows the manual’s progression. A skips verbal, B overwhelms, C reverses order.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'What does the manual suggest for students struggling with reading?',
+    options: [
+      'A. Skip to writing exercises.',
+      'B. Provide a new sheet without assistance.',
+      'C. Let them observe peers before retrying.',
+      'D. Read with them to guide the process.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D aligns with guidance. A shifts focus, B lacks support, C delays.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'How should instructors use the 10-sentence structure?',
+    options: [
+      'A. Allow self-correction without help.',
+      'B. Focus on writing after reading.',
+      'C. Teach students to guess words quickly.',
+      'D. Guide reading with support for the full set.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D matches the manual. A lacks support, B is premature, C avoids accuracy.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'What is the aim of the vocabulary exercise per the manual?',
+    options: [
+      'A. Prepare for immediate writing tasks.',
+      'B. Teach fast reading without guidance.',
+      'C. Ensure students memorize all words.',
+      'D. Build initial vocabulary recognition with support.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D reflects the goal. A is unrelated, B skips support, C is memorization.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+  Question(
+    text: 'According to the manual, when can students read 10 sentences smoothly?',
+    options: [
+      'A. After observing peers read successfully.',
+      'B. If they recognize words without help.',
+      'C. When they finish all sheets quickly.',
+      'D. After mastering reading the 10-sentence set accurately.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D ensures mastery. A relies on others, B skips practice, C focuses on speed.',
+    level: QuestionLevel.EngLevelA1,
+  ),
+];
+
+final List<Question> englevelA2Questions = [
+  Question(
+    text: 'A student struggles to read a short passage with simple sentences (e.g., "The cat sits on the mat"). What would you do?',
+    options: [
+      'A. Read the passage with them, guiding each word.',
+      'B. Ask them to read the passage again with hints.',
+      'C. Show them the passage and let them try independently.',
+      'D. Break the passage into smaller parts and read together.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A provides direct support for reading fluency. B offers minimal help, C lacks guidance, D is a slower approach but still relevant.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student hesitates when using simple present tense (e.g., "She ___ to school"). What’s your next step?',
+    options: [
+      'A. Model the correct sentence and have them repeat.',
+      'B. Provide a similar sentence for them to complete.',
+      'C. Explain the rule and guide them to fill the blank.',
+      'D. Let them try again with a different sentence.',
+    ],
+    correctAnswer: 'A & C',
+    explanation: 'A and C offer modeling and explanation for grammar. B is practice-focused, D lacks direct support.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student misuses vocabulary in a sentence (e.g., "The dog runs happy" instead of "happily"). How should you respond?',
+    options: [
+      'A. Correct the sentence and explain the word form.',
+      'B. Let them continue and review the mistake later.',
+      'C. Model the correct sentence and ask them to repeat.',
+      'D. Provide a new sentence with the same word to try.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A corrects with immediate explanation. B delays feedback, C lacks explanation, D shifts focus.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student finishes a comprehension exercise quickly but with errors. What would you do?',
+    options: [
+      'A. Review their answers and guide them to correct ones.',
+      'B. Let them redo the exercise with closer monitoring.',
+      'C. Praise their effort and suggest slowing down.',
+      'D. Assign a similar exercise to practice again.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A addresses errors directly with guidance. B monitors but lacks correction, C focuses on effort, D is practice-focused.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student avoids answering comprehension questions in a group. What’s your best action?',
+    options: [
+      'A. Encourage them to share with gentle prompting.',
+      'B. Let them answer silently and check their work.',
+      'C. Pair them with a peer to discuss answers.',
+      'D. Provide the answers and ask them to repeat.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A encourages participation gently. B avoids group interaction, C adds peer pressure, D gives answers directly.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student struggles with subject-verb agreement (e.g., "He run" instead of "He runs"). What should you do?',
+    options: [
+      'A. Provide a simpler sentence to build confidence.',
+      'B. Correct the sentence and explain the rule.',
+      'C. Let them retry the sentence independently.',
+      'D. Show examples of correct sentences to study.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B corrects with guidance on grammar. A lowers difficulty, C lacks support, D is passive.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student hesitates to read a passage aloud during practice. What would you do?',
+    options: [
+      'A. Let them read silently and discuss afterwards.',
+      'B. Model reading the passage and ask them to follow.',
+      'C. Read the passage with them, guiding their pace.',
+      'D. Provide a shorter passage for them to try first.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C offers direct support for fluency. A avoids reading aloud, B shifts to modeling, D adjusts difficulty.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student stops at question 5 in a 10-question comprehension set. What’s your approach?',
+    options: [
+      'A. Guide them through questions 5-10 with support.',
+      'B. Let them stop and retry the set later.',
+      'C. Break the set into smaller parts for practice.',
+      'D. Model answers for 5-10 and have them follow.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A builds on their progress with support. B delays, C slows progress, D shifts to modeling.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Parent Says: “My child reads the same passages daily. Is this necessary?”',
+    options: [
+      'A. Explain that repetition builds reading fluency and comprehension.',
+      'B. Assure them repetition helps with faster reading.',
+      'C. Note that daily practice improves word recognition.',
+      'D. Suggest that consistent reading prepares them for writing.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A ties repetition to fluency and comprehension. B focuses on speed, C is partial, D shifts focus.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Parent Says: “My child finds grammar exercises boring.”',
+    options: [
+      'A. Note that grammar practice builds sentence accuracy.',
+      'B. Explain that grammar helps with better communication skills.',
+      'C. Highlight that grammar exercises improve writing clarity.',
+      'D. Assure them grammar practice strengthens literacy.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B connects grammar to communication skills. A is specific, C focuses on writing, D is broad.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Parent Says: “My child can read. Why practice comprehension questions?”',
+    options: [
+      'A. Explain that comprehension ensures understanding of texts.',
+      'B. Note that comprehension questions build confidence.',
+      'C. Assure them comprehension solidifies reading skills.',
+      'D. Clarify that comprehension prepares for longer passages.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A emphasizes understanding. B focuses on confidence, C is general, D looks ahead.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Parent Says: “My child struggles with new vocabulary words.”',
+    options: [
+      'A. Suggest practicing vocabulary with support at home.',
+      'B. Offer to introduce new words with examples in sessions.',
+      'C. Recommend using flashcards to learn vocabulary.',
+      'D. Advise focusing on fewer words with guidance.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B provides direct support in sessions. A shifts to parents, C is tool-based, D limits exposure.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Parent Says: “Why does my child read aloud so much?”',
+    options: [
+      'A. Explain that reading aloud builds fluency and confidence.',
+      'B. Note that reading aloud helps with word pronunciation.',
+      'C. Assure them reading aloud improves comprehension.',
+      'D. Suggest that reading aloud strengthens memory.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A links to fluency and confidence. B is specific, C overstates comprehension, D is secondary.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Parent Says: “My child makes mistakes when tired.”',
+    options: [
+      'A. Suggest reducing the number of exercises when tired.',
+      'B. Recommend a break before resuming with guidance.',
+      'C. Advise completing the session and reviewing later.',
+      'D. Propose shortening the session time slightly.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B addresses fatigue effectively. A lowers expectation, C delays help, D is temporary.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student uses incorrect grammar in sentences (e.g., "They are happy"). What’s the best first step?',
+    options: [
+      'A. Provide a new sentence to practice the same rule.',
+      'B. Correct the sentence and explain the grammar rule.',
+      'C. Let them retry the sentence with minimal hints.',
+      'D. Show examples of correct sentences to follow.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B corrects with immediate explanation. A is practice-focused, C lacks guidance, D is passive.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student hesitates answering comprehension questions after reading. What’s your priority?',
+    options: [
+      'A. Guide them through the questions with support.',
+      'B. Model answering the questions for them to follow.',
+      'C. Let them reread the passage with hints.',
+      'D. Provide a simpler passage to build confidence.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A combines support and practice. B shifts to modeling, C lacks direct help, D lowers difficulty.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student skips words while reading a short passage. What should you do first?',
+    options: [
+      'A. Let them reread and check for accuracy.',
+      'B. Read the passage with them, pointing to skipped words.',
+      'C. Provide a shorter passage to practice reading.',
+      'D. Offer hints while they reread the passage.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B ensures immediate correction. A delays help, C reduces challenge, D is indirect.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student struggles with understanding new vocabulary in a passage. What’s your best action?',
+    options: [
+      'A. Let them guess the meanings and check later.',
+      'B. Explain the meanings and guide their usage.',
+      'C. Provide a list of words to study independently.',
+      'D. Show examples of the words in new sentences.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B offers direct guidance. A lacks support, C is passive, D is example-based.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'A student loses focus during a 10-sentence reading set. What’s your priority?',
+    options: [
+      'A. Continue reading with them to maintain focus.',
+      'B. Assign a new passage to regain their interest.',
+      'C. Suggest a break before resuming the task.',
+      'D. Introduce a reading game to re-engage them.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A maintains engagement. B shifts focus, C delays, D distracts from the task.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Case Study: A 6-year-old student reads a passage but stops, looking confused. What’s the best way to help them progress?',
+    options: [
+      'A. Show the passage and let them read independently.',
+      'B. Guide their reading to the end with support.',
+      'C. Provide a shorter passage to build confidence.',
+      'D. Read the rest of the passage with them, guiding each word.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B builds on their skill with guidance. A lacks support, C lowers difficulty, D is gradual.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Case Study: A student answers 1-5 comprehension questions correctly but struggles with 6-10. How should you support their learning?',
+    options: [
+      'A. Let them retry questions 6-10 with hints.',
+      'B. Guide them through questions 6-10 with support.',
+      'C. Model answers for 6-10 and ask them to follow.',
+      'D. Provide a simpler passage with new questions.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B offers direct support. A provides minimal help, C shifts to modeling, D lowers difficulty.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Case Study: A student makes frequent grammar errors in sentence exercises. What’s your first step to correct this?',
+    options: [
+      'A. Provide more sentences to practice the same rule.',
+      'B. Correct their errors and explain the grammar rule.',
+      'C. Let them retry the sentences with guidance.',
+      'D. Show examples of correct sentences to study.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B corrects with real-time guidance. A is practice-focused, C lacks explanation, D is passive.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Case Study: A student hesitates during a group reading activity, looking at peers. What should you do to build confidence?',
+    options: [
+      'A. Model reading and ask them to follow along.',
+      'B. Read with them, offering encouragement.',
+      'C. Let them read silently to reduce pressure.',
+      'D. Pair them with a peer to read together.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B boosts confidence with support. A shifts to modeling, C avoids group activity, D adds pressure.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Case Study: A student struggles with a 10-sentence reading set. What additional steps would you take?',
+    options: [
+      'A. Practice reading with guidance daily.',
+      'B. Assign more passages for independent practice.',
+      'C. Model reading the set, then guide their practice.',
+      'D. Use flashcards for extra vocabulary practice.',
+    ],
+    correctAnswer: 'A & C',
+    explanation: 'A and C reinforce reading with guidance. B lacks support, D focuses on vocabulary.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'What is the main goal of reading practice in Level A2?',
+    options: [
+      'A. Build fluency in reading and understanding short passages.',
+      'B. Help students memorize new vocabulary words.',
+      'C. Teach students to recognize grammar rules quickly.',
+      'D. Ensure students read without errors daily.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A focuses on fluency and comprehension. B is memorization, C is grammar-focused, D is unrealistic.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'Why does Kumon emphasize guidance during grammar exercises?',
+    options: [
+      'A. It helps students understand correct sentence structure.',
+      'B. It ensures students memorize grammar rules.',
+      'C. It speeds up grammar practice.',
+      'D. It reduces the need for verbal instructions.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A enhances sentence structure understanding. B is memorization, C overstates speed, D minimizes teaching.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'When should a student move from word reading to passage comprehension?',
+    options: [
+      'A. After consistent accuracy with word reading.',
+      'B. Once they master comprehension fully.',
+      'C. When they can read words without help.',
+      'D. After recognizing all new vocabulary.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A ensures readiness. B is premature, C lacks progression, D focuses on vocabulary.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'What is the purpose of the 10-sentence structure in Level A2?',
+    options: [
+      'A. Teach students to write sentences correctly.',
+      'B. Develop skills for reading fluency and comprehension.',
+      'C. Help students recognize words quickly.',
+      'D. Ensure mastery of grammar rules.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B targets fluency and comprehension. A is writing-focused, C is word-focused, D is grammar-focused.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'How should instructors handle a student skipping grammar rules in sentences?',
+    options: [
+      'A. Let them self-correct on the next attempt.',
+      'B. Correct the sentence and explain the rule.',
+      'C. Assign simpler sentences to rebuild skills.',
+      'D. None of the above.',
+    ],
+    correctAnswer: 'D',
+    explanation: 'D applies; immediate correction is needed, not self-correction or easing.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'What role does repetition play in Level A2?',
+    options: [
+      'A. Helps students finish exercises faster.',
+      'B. Ensures they memorize passages quickly.',
+      'C. Reinforces reading fluency and grammar accuracy.',
+      'D. Reduces the need for instructor guidance.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C builds skills. A focuses on speed, B is memorization, D is incorrect.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'According to Level A2, how should instructors introduce passage reading?',
+    options: [
+      'A. Start with 1-5 sentences, then add more with guidance.',
+      'B. Teach all sentences at once with a chart.',
+      'C. Begin with 10 sentences, reducing if needed.',
+      'D. Read silently, showing passages later.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A follows the manual’s progression. B overwhelms, C reverses order, D skips verbal guidance.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'What does the manual suggest for students struggling with comprehension?',
+    options: [
+      'A. Let them observe peers before retrying.',
+      'B. Provide a new passage without assistance.',
+      'C. Guide them through the questions with support.',
+      'D. Skip to grammar exercises.',
+    ],
+    correctAnswer: 'C',
+    explanation: 'C aligns with guidance. A delays, B lacks support, D shifts focus.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'How should instructors use the 10-sentence structure?',
+    options: [
+      'A. Focus on writing after reading.',
+      'B. Guide reading with support for the full set.',
+      'C. Teach students to guess answers quickly.',
+      'D. Allow self-correction without help.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B matches the manual. A is premature, C avoids accuracy, D lacks support.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'What is the aim of the grammar exercise per the manual?',
+    options: [
+      'A. Teach fast sentence correction without guidance.',
+      'B. Build understanding of basic grammar rules with support.',
+      'C. Ensure students memorize all grammar rules.',
+      'D. Prepare for immediate writing tasks.',
+    ],
+    correctAnswer: 'B',
+    explanation: 'B reflects the goal. A skips support, C is memorization, D is unrelated.',
+    level: QuestionLevel.EngLevelA2,
+  ),
+  Question(
+    text: 'According to the manual, when can students complete 10 comprehension questions smoothly?',
+    options: [
+      'A. After mastering the 10-sentence set with accuracy.',
+      'B. When they finish all the passages quickly.',
+      'C. After observing peers answer successfully.',
+      'D. If they recognize vocabulary without help.',
+    ],
+    correctAnswer: 'A',
+    explanation: 'A ensures mastery. B focuses on speed, C relies on others, D skips comprehension.',
+    level: QuestionLevel.EngLevelA2,
   ),
 ];

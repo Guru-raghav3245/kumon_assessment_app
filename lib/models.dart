@@ -1,18 +1,21 @@
-enum QuestionLevel { 
-  level6a, 
-  level5a, 
-  level4a, 
-  level3a, 
-  level2a, 
-  levelA, 
-  levelB, 
-  levelC, 
-  EngLevel7a, 
-  EngLevel6a, 
-  EngLevel5a, 
-  EngLevel4a, 
-  EngLevel3a, 
-  EngLevel2a}
+enum QuestionLevel {
+  level6a,
+  level5a,
+  level4a,
+  level3a,
+  level2a,
+  levelA,
+  levelB,
+  levelC,
+  EngLevel7a,
+  EngLevel6a,
+  EngLevel5a,
+  EngLevel4a,
+  EngLevel3a,
+  EngLevel2a,
+  EngLevelA1,
+  EngLevelA2,
+}
 
 class Question {
   final String text;
@@ -34,7 +37,9 @@ class Question {
       (opt) => opt.startsWith('$optionLetter.'),
       orElse: () => optionLetter,
     );
-    return option.startsWith('$optionLetter.') ? option.substring(3).trim() : option;
+    return option.startsWith('$optionLetter.')
+        ? option.substring(3).trim()
+        : option;
   }
 }
 
