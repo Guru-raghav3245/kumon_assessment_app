@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
-import 'package:kumon_assessment_app/screens/session_summary_screen.dart';
+import 'package:kumon_assessment_app/screens/session_review_screen.dart';
 import 'package:kumon_assessment_app/question_bank.dart';
 import 'package:kumon_assessment_app/models.dart';
 
@@ -191,9 +191,13 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => SessionSummaryScreen(
-                            results: questionState.sessionResults,
-                            duration: duration,
+                          builder: (_) => SessionReviewScreen(
+                            session: Session(
+                              name: 's${questionState.pastSessions.length + 1} ${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}',
+                              results: questionState.sessionResults,
+                              duration: duration,
+                            ),
+                            isNewSession: true,
                           ),
                         ),
                       );

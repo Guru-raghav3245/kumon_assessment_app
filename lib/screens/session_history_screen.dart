@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/models.dart';
-import 'package:kumon_assessment_app/question_bank.dart';
+import 'package:kumon_assessment_app/screens/session_review_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class SessionHistoryScreen extends ConsumerWidget {
@@ -17,12 +17,14 @@ class SessionHistoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final questionState = ref.watch(questionProvider);
-    final sessions = questionState.pastSessions;
-
+    // Sort sessions in descending order by session number
+    final sessions = List<Session>.from(questionState.pastSessions)
+      ..sort((a, b) => b.name.compareTo(a.name));
+    
     List<FlSpot> getAccuracySpots() {
       final maxSessions = 10;
       final recentSessions = sessions.length > maxSessions
-          ? sessions.sublist(sessions.length - maxSessions)
+          ? sessions.sublist(0, maxSessions)
           : sessions;
       return recentSessions.asMap().entries.map((entry) {
         final index = entry.key.toDouble();
@@ -39,7 +41,7 @@ class SessionHistoryScreen extends ConsumerWidget {
     List<FlSpot> getDurationSpots() {
       final maxSessions = 10;
       final recentSessions = sessions.length > maxSessions
-          ? sessions.sublist(sessions.length - maxSessions)
+          ? sessions.sublist(0, maxSessions)
           : sessions;
       return recentSessions.asMap().entries.map((entry) {
         final index = entry.key.toDouble();
@@ -48,12 +50,48 @@ class SessionHistoryScreen extends ConsumerWidget {
       }).toList();
     }
 
+    void deleteSession(Session session) {
+      ref.read(questionProvider.notifier).deleteSession(session);
+    }
+
+    void deleteAllSessions() {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Clear All Sessions'),
+          content: const Text('Are you sure you want to delete all sessions? This action cannot be undone.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                ref.read(questionProvider.notifier).deleteAllSessions();
+                Navigator.pop(context);
+              },
+              child: const Text('Delete All', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Session History'),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.blue,
+        actions: sessions.isNotEmpty
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.delete_forever),
+                  onPressed: deleteAllSessions,
+                  tooltip: 'Clear All Sessions',
+                ),
+              ]
+            : null,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
@@ -153,7 +191,7 @@ class SessionHistoryScreen extends ConsumerWidget {
                                           padding:
                                               const EdgeInsets.only(top: 8.0),
                                           child: Text(
-                                            'S${index + 1}',
+                                            'S${sessions.length - index}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodySmall
@@ -241,8 +279,10 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       final isAccuracy = spot.barIndex == 0;
                                       return LineTooltipItem(
                                         isAccuracy
-                                            ? 'Session ${spot.x.toInt() + 1}\n${spot.y.toStringAsFixed(1)}%'
-                                            : 'Session ${spot.x.toInt() + 1}\n${spot.y.toInt()}s',
+                                            ? 'Session ${sessions.length - spot.x.toInt()}'
+                                                '\n${spot.y.toStringAsFixed(1)}%'
+                                            : 'Session ${sessions.length - spot.x.toInt()}'
+                                                '\n${spot.y.toInt()}s',
                                         Theme.of(context)
                                             .textTheme
                                             .bodySmall!
@@ -285,154 +325,43 @@ class SessionHistoryScreen extends ConsumerWidget {
                         'Time: ${_formatDuration(session.duration)}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Delete Session'),
+                                  content: Text('Are you sure you want to delete ${session.name}?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        deleteSession(session);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Delete', style: TextStyle(color: Colors.red)),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            tooltip: 'Delete Session',
+                          ),
+                          const Icon(Icons.arrow_forward_ios, size: 16),
+                        ],
+                      ),
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => SessionDetailScreen(session: session),
+                          builder: (_) => SessionReviewScreen(session: session),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SessionDetailScreen extends StatelessWidget {
-  final Session session;
-
-  const SessionDetailScreen({super.key, required this.session});
-
-  String _formatDuration(int seconds) {
-    final minutes = seconds ~/ 60;
-    final remainingSeconds = seconds % 60;
-    return '${minutes}m ${remainingSeconds}s';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final allQuestions =
-        levels.expand((level) => level['questions'] as List<Question>).toList();
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(session.name),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.blue,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                'Duration: ${_formatDuration(session.duration)}',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: session.results.length,
-                                itemBuilder: (context, index) {
-                  final result = session.results[index];
-                  final question = allQuestions.firstWhere(
-                    (q) => q.text == result['question'],
-                    orElse: () => Question(
-                      text: result['question'] ?? 'Unknown question',
-                      options: [],
-                      correctAnswer: result['correctAnswer'] ?? 'Unknown',
-                      explanation: 'No explanation available',
-                      level: levels.first['level']
-                          as QuestionLevel, 
-                    ),
-                  );
-
-                  final levelStr = result['level'] ??
-                      levels.first['level'].toString().split('.').last;
-
-                  final userAnswerText = question.options.isNotEmpty
-                      ? question
-                          .getOptionText(result['userAnswer'] ?? 'Unknown')
-                      : result['userAnswer'] ?? 'Unknown';
-
-                  final correctAnswerText = question.options.isNotEmpty
-                      ? question
-                          .getOptionText(result['correctAnswer'] ?? 'Unknown')
-                      : result['correctAnswer'] ?? 'Unknown';
-
-                  return Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    margin: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Question: ${result['question'] ?? 'Unknown'} (Level: ${levelStr.replaceFirst('level', '')})',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Your Answer: $userAnswerText',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          Text(
-                            'Correct Answer: $correctAnswerText',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  color: Colors.green,
-                                ),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Icon(
-                                result['userAnswer'] == result['correctAnswer']
-                                    ? Icons.check_circle
-                                    : Icons.cancel,
-                                color: result['userAnswer'] ==
-                                        result['correctAnswer']
-                                    ? Colors.green
-                                    : Colors.red,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                result['userAnswer'] == result['correctAnswer']
-                                    ? 'Correct'
-                                    : 'Incorrect',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                      color: result['userAnswer'] ==
-                                              result['correctAnswer']
-                                          ? Colors.green
-                                          : Colors.red,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ],
                       ),
                     ),
                   );

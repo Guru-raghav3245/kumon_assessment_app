@@ -58,7 +58,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         print('Error decoding pastSessions: $e');
       }
 
-      bool isCooldownActive = savedCooldownEnd != null && now < savedCooldownEnd;
+      bool isCooldownActive =
+          savedCooldownEnd != null && now < savedCooldownEnd;
       int? cooldownEnd = isCooldownActive ? savedCooldownEnd : null;
 
       final newQuestions = _getRandomQuestions();
@@ -213,7 +214,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
           jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
       final now = DateTime.now().millisecondsSinceEpoch;
-      final cooldownDuration = 20 * 1000; 
+      final cooldownDuration = 20 * 1000;
       final newCooldownEnd = now + cooldownDuration;
       await prefs.setInt('cooldownEnd', newCooldownEnd);
 
@@ -249,6 +250,66 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error clearing cooldown: $e');
+    }
+  }
+
+  Future<void> deleteSession(Session session) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final updatedSessions =
+          state.pastSessions.where((s) => s != session).toList();
+      await prefs.setString('pastSessions',
+          jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
+
+      // Reassign session numbers to maintain sequential order
+      final reindexedSessions = updatedSessions.asMap().entries.map((entry) {
+        final index = entry.key + 1;
+        final s = entry.value;
+        final dateStr = s.name.split(' ')[1]; // Extract date part
+        return Session(
+          name: 's$index $dateStr',
+          results: s.results,
+          duration: s.duration,
+        );
+      }).toList();
+
+      state = QuestionState(
+        dailyQuestions: state.dailyQuestions,
+        currentQuestionIndex: state.currentQuestionIndex,
+        selectedAnswer: state.selectedAnswer,
+        isAnswerCorrect: state.isAnswerCorrect,
+        showExplanation: state.showExplanation,
+        sessionResults: state.sessionResults,
+        pastSessions: reindexedSessions,
+        isCooldownActive: state.isCooldownActive,
+        cooldownEnd: state.cooldownEnd,
+      );
+
+      await prefs.setString('pastSessions',
+          jsonEncode(reindexedSessions.map((s) => s.toJson()).toList()));
+    } catch (e) {
+      print('Error deleting session: $e');
+    }
+  }
+
+  Future<void> deleteAllSessions() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('pastSessions', '[]');
+
+      state = QuestionState(
+        dailyQuestions: state.dailyQuestions,
+        currentQuestionIndex: state.currentQuestionIndex,
+        selectedAnswer: state.selectedAnswer,
+        isAnswerCorrect: state.isAnswerCorrect,
+        showExplanation: state.showExplanation,
+        sessionResults: state.sessionResults,
+        pastSessions: [],
+        isCooldownActive: state.isCooldownActive,
+        cooldownEnd: state.cooldownEnd,
+      );
+    } catch (e) {
+      print('Error deleting all sessions: $e');
     }
   }
 }
