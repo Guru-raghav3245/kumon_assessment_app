@@ -51,6 +51,26 @@ final levels = [
     'questions': englevel6aQuestions,
     'questionsPerSession': 1,
   },
+  {
+    'level': QuestionLevel.EngLevel5a,
+    'questions': englevel5aQuestions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevel4a,
+    'questions': englevel4aQuestions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevel3a,
+    'questions': englevel3aQuestions,
+    'questionsPerSession': 1,
+  },
+   {
+    'level': QuestionLevel.EngLevel2a,
+    'questions': englevel2aQuestions,
+    'questionsPerSession': 1,
+  },
 ];
 
 final List<Question> level6aQuestions = [
@@ -1870,7 +1890,8 @@ final List<Question> level3aQuestions = [
 
 final List<Question> level2aQuestions = [
   Question(
-    text: 'A student struggles to solve addition facts up to 10 (e.g., 7 + 2). What would you do?',
+    text:
+        'A student struggles to solve addition facts up to 10 (e.g., 7 + 2). What would you do?',
     options: [
       'A. Solve the problem with them, guiding each step.',
       'B. Show the problem and ask them to try again.',
@@ -1878,23 +1899,28 @@ final List<Question> level2aQuestions = [
       'D. Let them attempt without assistance.',
     ],
     correctAnswer: 'A',
-    explanation: 'A provides direct support. B is passive, C shifts to modeling, D lacks guidance.',
+    explanation:
+        'A provides direct support. B is passive, C shifts to modeling, D lacks guidance.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student hesitates when counting numbers in sequence (e.g., 6, 7, __). What’s your next step?',
+    text:
+        'A student hesitates when counting numbers in sequence (e.g., 6, 7, __). What’s your next step?',
     options: [
       'A. Count the sequence with them, guiding each number.',
       'B. Model the sequence, then ask them to repeat.',
       'C. Point to the numbers while they count.',
       'D. Provide a new sequence for independent practice.',
     ],
-    correctAnswer: 'A', // Choosing A as primary based on guided support emphasis
-    explanation: 'A and B offer guided and modeled support, but A is prioritized for direct guidance. C lacks counting focus, D avoids help.',
+    correctAnswer:
+        'A', // Choosing A as primary based on guided support emphasis
+    explanation:
+        'A and B offer guided and modeled support, but A is prioritized for direct guidance. C lacks counting focus, D avoids help.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student makes errors while adding numbers (e.g., 5 + 3 = 9). How should you respond?',
+    text:
+        'A student makes errors while adding numbers (e.g., 5 + 3 = 9). How should you respond?',
     options: [
       'A. Solve the problem correctly, asking them to follow.',
       'B. Point out errors and guide their calculation.',
@@ -1902,11 +1928,13 @@ final List<Question> level2aQuestions = [
       'D. Let them continue and review later.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with immediate guidance. B is verbal-only, C delays, D avoids correction.',
+    explanation:
+        'A corrects with immediate guidance. B is verbal-only, C delays, D avoids correction.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student finishes addition problems quickly but with mistakes. What would you do?',
+    text:
+        'A student finishes addition problems quickly but with mistakes. What would you do?',
     options: [
       'A. Review their work, guiding correct solutions.',
       'B. Praise their speed and ask for accuracy.',
@@ -1914,11 +1942,13 @@ final List<Question> level2aQuestions = [
       'D. Observe and let them self-correct next time.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses errors directly. B reinforces speed, C is preparatory, D lacks support.',
+    explanation:
+        'A addresses errors directly. B reinforces speed, C is preparatory, D lacks support.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student refuses to count aloud in a group setting. What’s your best action?',
+    text:
+        'A student refuses to count aloud in a group setting. What’s your best action?',
     options: [
       'A. Allow silent counting and check their work.',
       'B. Pair them with a peer to count together.',
@@ -1926,11 +1956,13 @@ final List<Question> level2aQuestions = [
       'D. Move to a one-on-one session for practice.',
     ],
     correctAnswer: 'C',
-    explanation: 'C encourages participation gently. A avoids group practice, B adds pressure, D over-adjusts.',
+    explanation:
+        'C encourages participation gently. A avoids group practice, B adds pressure, D over-adjusts.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student struggles with writing numbers in a sequence, mixing order. What should you do?',
+    text:
+        'A student struggles with writing numbers in a sequence, mixing order. What should you do?',
     options: [
       'A. Write the sequence with them, correcting order.',
       'B. Show a number chart and guide their writing.',
@@ -1938,11 +1970,13 @@ final List<Question> level2aQuestions = [
       'D. Give simpler sequences to build confidence.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
+    explanation:
+        'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student hesitates solving addition on a worksheet. What would you do?',
+    text:
+        'A student hesitates solving addition on a worksheet. What would you do?',
     options: [
       'A. Solve the problems with them, guiding each step.',
       'B. Provide a sample problem for them to study first.',
@@ -1950,11 +1984,13 @@ final List<Question> level2aQuestions = [
       'D. Let them solve again without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
+    explanation:
+        'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student stops at problem 5 while solving 10 addition problems. What’s your approach?',
+    text:
+        'A student stops at problem 5 while solving 10 addition problems. What’s your approach?',
     options: [
       'A. Solve all 10 with them, emphasizing 5-10.',
       'B. Encourage them past 5 with your guidance.',
@@ -1962,11 +1998,13 @@ final List<Question> level2aQuestions = [
       'D. Assign a task stopping at 5 to build skill.',
     ],
     correctAnswer: 'B',
-    explanation: 'B builds on their limit with support. A over-directs, C relies on tools, D limits progress.',
+    explanation:
+        'B builds on their limit with support. A over-directs, C relies on tools, D limits progress.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'Parent Says: “My child solves the same addition problems daily. Is this necessary?”',
+    text:
+        'Parent Says: “My child solves the same addition problems daily. Is this necessary?”',
     options: [
       'A. Explain that repetition builds addition accuracy and skill.',
       'B. Note that daily practice ensures quick number recognition.',
@@ -1974,7 +2012,8 @@ final List<Question> level2aQuestions = [
       'D. Suggest that consistent solving prepares them for subtraction.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ties repetition to accuracy. B is vague, C lacks detail, D shifts focus to subtraction.',
+    explanation:
+        'A ties repetition to accuracy. B is vague, C lacks detail, D shifts focus to subtraction.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -1986,7 +2025,8 @@ final List<Question> level2aQuestions = [
       'D. Assure them counting practice strengthens early math.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses focus and recognition. B misses engagement, C is partial, D is too broad.',
+    explanation:
+        'A addresses focus and recognition. B misses engagement, C is partial, D is too broad.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -1998,7 +2038,8 @@ final List<Question> level2aQuestions = [
       'D. Assure them addition solidifies number foundations.',
     ],
     correctAnswer: 'B',
-    explanation: 'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
+    explanation:
+        'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2010,7 +2051,8 @@ final List<Question> level2aQuestions = [
       'D. Advise focusing on slow solving with support.',
     ],
     correctAnswer: 'C',
-    explanation: 'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
+    explanation:
+        'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2022,7 +2064,8 @@ final List<Question> level2aQuestions = [
       'D. Suggest that verbal counting strengthens habits.',
     ],
     correctAnswer: 'A',
-    explanation: 'A links to verbal skills. B is secondary, C is vague, D is repetitive.',
+    explanation:
+        'A links to verbal skills. B is secondary, C is vague, D is repetitive.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2034,11 +2077,13 @@ final List<Question> level2aQuestions = [
       'D. Propose reducing the session length slightly.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
+    explanation:
+        'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student adds numbers inaccurately due to counting issues. What’s the best first step?',
+    text:
+        'A student adds numbers inaccurately due to counting issues. What’s the best first step?',
     options: [
       'A. Solve the problem with them, guiding counting.',
       'B. Demonstrate correct addition before they retry.',
@@ -2046,7 +2091,8 @@ final List<Question> level2aQuestions = [
       'D. Provide a new addition list with help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects counting directly. B is preparatory, C lacks support, D delays focus.',
+    explanation:
+        'A corrects counting directly. B is preparatory, C lacks support, D delays focus.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2058,11 +2104,13 @@ final List<Question> level2aQuestions = [
       'D. Show a number chart for them to study.',
     ],
     correctAnswer: 'B',
-    explanation: 'B combines support and practice. A is modeling-only, C lacks aid, D is passive.',
+    explanation:
+        'B combines support and practice. A is modeling-only, C lacks aid, D is passive.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student skips numbers while counting sequences. What should you do first?',
+    text:
+        'A student skips numbers while counting sequences. What should you do first?',
     options: [
       'A. Count the sequence with them, pointing to missed numbers.',
       'B. Let them retry and check their accuracy.',
@@ -2070,11 +2118,13 @@ final List<Question> level2aQuestions = [
       'D. Observe and offer hints if they struggle.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
+    explanation:
+        'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'A student struggles with addition facts up to 10. What’s your best action?',
+    text:
+        'A student struggles with addition facts up to 10. What’s your best action?',
     options: [
       'A. Solve the problems with them, guiding each step.',
       'B. Show an addition chart and guide their solving.',
@@ -2082,7 +2132,8 @@ final List<Question> level2aQuestions = [
       'D. Provide a new worksheet with addition problems.',
     ],
     correctAnswer: 'A',
-    explanation: 'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
+    explanation:
+        'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2094,11 +2145,13 @@ final List<Question> level2aQuestions = [
       'D. Assign a new task to regain their interest.',
     ],
     correctAnswer: 'B',
-    explanation: 'B maintains engagement. A is distracting, C delays, D shifts focus.',
+    explanation:
+        'B maintains engagement. A is distracting, C delays, D shifts focus.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'Case Study: A 5-year-old student counts numbers but stops, looking confused. What’s the best way to help them progress?',
+    text:
+        'Case Study: A 5-year-old student counts numbers but stops, looking confused. What’s the best way to help them progress?',
     options: [
       'A. Count to 10 with them, guiding each number.',
       'B. Show the numbers and ask them to count alone.',
@@ -2106,11 +2159,13 @@ final List<Question> level2aQuestions = [
       'D. Provide a new sheet with numbers printed.',
     ],
     correctAnswer: 'C',
-    explanation: 'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
+    explanation:
+        'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'Case Study: A student solves 1-5 addition problems correctly but stumbles at 6-10. How should you support their learning?',
+    text:
+        'Case Study: A student solves 1-5 addition problems correctly but stumbles at 6-10. How should you support their learning?',
     options: [
       'A. Solve 6-10 with them, guiding each problem.',
       'B. Point to 6-10 while they solve alone.',
@@ -2118,11 +2173,13 @@ final List<Question> level2aQuestions = [
       'D. Let them try again without immediate help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
+    explanation:
+        'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'Case Study: A student makes errors in addition facts often. What’s your first step to correct this?',
+    text:
+        'Case Study: A student makes errors in addition facts often. What’s your first step to correct this?',
     options: [
       'A. Solve the problems with them, correcting errors.',
       'B. Show an addition chart and ask them to resolve.',
@@ -2130,11 +2187,13 @@ final List<Question> level2aQuestions = [
       'D. Assign a new task focusing on addition facts.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with real-time guidance. B is passive, C is general, D delays focus.',
+    explanation:
+        'A corrects with real-time guidance. B is passive, C is general, D delays focus.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'Case Study: A student hesitates during number sequence writing, looking at peers. What should you do to build confidence?',
+    text:
+        'Case Study: A student hesitates during number sequence writing, looking at peers. What should you do to build confidence?',
     options: [
       'A. Write with them, offering praise.',
       'B. Encourage them to watch peers, then try.',
@@ -2142,11 +2201,13 @@ final List<Question> level2aQuestions = [
       'D. Suggest they write silently to reduce pressure.',
     ],
     correctAnswer: 'A',
-    explanation: 'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
+    explanation:
+        'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'Case Study: A student struggles with solving a 10-sheet set. What additional steps would you take?',
+    text:
+        'Case Study: A student struggles with solving a 10-sheet set. What additional steps would you take?',
     options: [
       'A. Practice solving with guidance daily.',
       'B. Use number cards for extra counting drills.',
@@ -2154,7 +2215,8 @@ final List<Question> level2aQuestions = [
       'D. Assign more worksheets with problem lists.',
     ],
     correctAnswer: 'A', // Choosing A as primary for daily guidance emphasis
-    explanation: 'A and C reinforce solving with guidance, but A is prioritized for consistent practice. B is tool-dependent, D is repetitive.',
+    explanation:
+        'A and C reinforce solving with guidance, but A is prioritized for consistent practice. B is tool-dependent, D is repetitive.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2166,7 +2228,8 @@ final List<Question> level2aQuestions = [
       'D. Ensure students add without errors daily.',
     ],
     correctAnswer: 'A',
-    explanation: 'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
+    explanation:
+        'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2178,7 +2241,8 @@ final List<Question> level2aQuestions = [
       'D. It ensures students memorize number facts.',
     ],
     correctAnswer: 'A',
-    explanation: 'A enhances calculation. B overstates speed, C minimizes teaching, D is incidental.',
+    explanation:
+        'A enhances calculation. B overstates speed, C minimizes teaching, D is incidental.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2190,7 +2254,8 @@ final List<Question> level2aQuestions = [
       'D. After recognizing all numbers.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures readiness. B lacks progression, C is premature, D skips addition.',
+    explanation:
+        'A ensures readiness. B lacks progression, C is premature, D skips addition.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2202,7 +2267,8 @@ final List<Question> level2aQuestions = [
       'D. Ensure mastery of number lists.',
     ],
     correctAnswer: 'A',
-    explanation: 'A targets addition and counting. B is writing-focused, C is unrelated, D is broader.',
+    explanation:
+        'A targets addition and counting. B is writing-focused, C is unrelated, D is broader.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2214,7 +2280,8 @@ final List<Question> level2aQuestions = [
       'D. None of the above.',
     ],
     correctAnswer: 'D',
-    explanation: 'D applies; immediate correction is needed, not self-correction or easing.',
+    explanation:
+        'D applies; immediate correction is needed, not self-correction or easing.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2226,11 +2293,13 @@ final List<Question> level2aQuestions = [
       'D. Reduces the need for instructor guidance.',
     ],
     correctAnswer: 'A',
-    explanation: 'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
+    explanation:
+        'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'According to Level 2A, how should instructors introduce addition facts?',
+    text:
+        'According to Level 2A, how should instructors introduce addition facts?',
     options: [
       'A. Start with 1-5 problems, then add more with guidance.',
       'B. Begin with 10 problems, reducing if needed.',
@@ -2238,7 +2307,8 @@ final List<Question> level2aQuestions = [
       'D. Solve silently, showing problems later.',
     ],
     correctAnswer: 'A',
-    explanation: 'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
+    explanation:
+        'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2250,7 +2320,8 @@ final List<Question> level2aQuestions = [
       'D. Skip to counting exercises.',
     ],
     correctAnswer: 'A',
-    explanation: 'A aligns with guidance. B delays, C lacks support, D shifts focus.',
+    explanation:
+        'A aligns with guidance. B delays, C lacks support, D shifts focus.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2262,7 +2333,8 @@ final List<Question> level2aQuestions = [
       'D. Allow self-correction without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
+    explanation:
+        'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
     level: QuestionLevel.level2a,
   ),
   Question(
@@ -2274,11 +2346,13 @@ final List<Question> level2aQuestions = [
       'D. Prepare for immediate addition facts.',
     ],
     correctAnswer: 'A',
-    explanation: 'A reflects the goal. B is memorization, C skips support, D is unrelated.',
+    explanation:
+        'A reflects the goal. B is memorization, C skips support, D is unrelated.',
     level: QuestionLevel.level2a,
   ),
   Question(
-    text: 'According to the manual, when can students solve 10 addition problems smoothly?',
+    text:
+        'According to the manual, when can students solve 10 addition problems smoothly?',
     options: [
       'A. After mastering solving the 10-sheet set accurately.',
       'B. When they finish all the sheets quickly.',
@@ -2286,14 +2360,16 @@ final List<Question> level2aQuestions = [
       'D. After observing peers solve successfully.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
+    explanation:
+        'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
     level: QuestionLevel.level2a,
   ),
 ];
 
 final List<Question> levelAQuestions = [
   Question(
-    text: 'A student struggles to solve subtraction problems up to 100 (e.g., 85 - 37). What would you do?',
+    text:
+        'A student struggles to solve subtraction problems up to 100 (e.g., 85 - 37). What would you do?',
     options: [
       'A. Let them attempt without assistance.',
       'B. Solve the problem with them, guiding each step.',
@@ -2301,11 +2377,13 @@ final List<Question> levelAQuestions = [
       'D. Show the problem and ask them to try again.',
     ],
     correctAnswer: 'B',
-    explanation: 'B provides direct support. A lacks guidance, C shifts to modeling, D is passive.',
+    explanation:
+        'B provides direct support. A lacks guidance, C shifts to modeling, D is passive.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'A student makes errors while solving word problems (e.g., "Tom has 45 apples, gives away 19. How many left?"). How should you respond?',
+    text:
+        'A student makes errors while solving word problems (e.g., "Tom has 45 apples, gives away 19. How many left?"). How should you respond?',
     options: [
       'A. Correct mistakes after they finish.',
       'B. Let them continue and review later.',
@@ -2313,11 +2391,13 @@ final List<Question> levelAQuestions = [
       'D. Point out errors and guide their calculation.',
     ],
     correctAnswer: 'C',
-    explanation: 'C corrects with immediate guidance. A delays, B avoids correction, D is verbal-only.',
+    explanation:
+        'C corrects with immediate guidance. A delays, B avoids correction, D is verbal-only.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'A student finishes subtraction problems quickly but with mistakes. What would you do?',
+    text:
+        'A student finishes subtraction problems quickly but with mistakes. What would you do?',
     options: [
       'A. Observe and let them self-correct next time.',
       'B. Assign a new subtraction exercise with focus.',
@@ -2325,11 +2405,13 @@ final List<Question> levelAQuestions = [
       'D. Review their work, guiding correct solutions.',
     ],
     correctAnswer: 'D',
-    explanation: 'D addresses errors directly. A lacks support, B is preparatory, C reinforces speed.',
+    explanation:
+        'D addresses errors directly. A lacks support, B is preparatory, C reinforces speed.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'A student refuses to solve word problems in a group setting. What’s your best action?',
+    text:
+        'A student refuses to solve word problems in a group setting. What’s your best action?',
     options: [
       'A. Move to a one-on-one session for practice.',
       'B. Model solving aloud, inviting them to join.',
@@ -2337,11 +2419,13 @@ final List<Question> levelAQuestions = [
       'D. Allow silent solving and check their work.',
     ],
     correctAnswer: 'B',
-    explanation: 'B encourages participation gently. A over-adjusts, C adds pressure, D avoids group practice.',
+    explanation:
+        'B encourages participation gently. A over-adjusts, C adds pressure, D avoids group practice.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'A student struggles with addition up to 100, mixing up place values. What should you do?',
+    text:
+        'A student struggles with addition up to 100, mixing up place values. What should you do?',
     options: [
       'A. Give simpler problems to build confidence.',
       'B. Ask them to retry without assistance.',
@@ -2349,11 +2433,13 @@ final List<Question> levelAQuestions = [
       'D. Solve the problem with them, correcting place values.',
     ],
     correctAnswer: 'D',
-    explanation: 'D corrects with guidance. A lowers difficulty, B lacks support, C relies on tools.',
+    explanation:
+        'D corrects with guidance. A lowers difficulty, B lacks support, C relies on tools.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'A student hesitates solving a subtraction problem on a worksheet. What would you do?',
+    text:
+        'A student hesitates solving a subtraction problem on a worksheet. What would you do?',
     options: [
       'A. Let them solve it again without help.',
       'B. Demonstrate solving, asking them to copy.',
@@ -2361,11 +2447,13 @@ final List<Question> levelAQuestions = [
       'D. Solve the problem with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D offers direct support. A lacks aid, B shifts to modeling, C delays practice.',
+    explanation:
+        'D offers direct support. A lacks aid, B shifts to modeling, C delays practice.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'A student stops at problem 5 while solving 10 subtraction problems. What’s your approach?',
+    text:
+        'A student stops at problem 5 while solving 10 subtraction problems. What’s your approach?',
     options: [
       'A. Assign a task stopping at 5 to build skill.',
       'B. Show a problem list and ask them to continue.',
@@ -2373,11 +2461,13 @@ final List<Question> levelAQuestions = [
       'D. Solve all 10 with them, emphasizing 5-10.',
     ],
     correctAnswer: 'C',
-    explanation: 'C builds on their limit with support. A limits progress, B relies on tools, D over-directs.',
+    explanation:
+        'C builds on their limit with support. A limits progress, B relies on tools, D over-directs.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'Parent Says: “My child solves the same subtraction problems daily. Is this necessary?”',
+    text:
+        'Parent Says: “My child solves the same subtraction problems daily. Is this necessary?”',
     options: [
       'A. Note that daily practice ensures quick number recall.',
       'B. Suggest that consistent solving prepares them for multiplication.',
@@ -2385,7 +2475,8 @@ final List<Question> levelAQuestions = [
       'D. Explain that repetition builds subtraction accuracy and skill.',
     ],
     correctAnswer: 'D',
-    explanation: 'D ties repetition to accuracy. A is vague, B shifts focus to multiplication, C lacks detail.',
+    explanation:
+        'D ties repetition to accuracy. A is vague, B shifts focus to multiplication, C lacks detail.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2397,7 +2488,8 @@ final List<Question> levelAQuestions = [
       'D. Highlight that word problems build focus and application.',
     ],
     correctAnswer: 'D',
-    explanation: 'D addresses focus and application. A is too broad, B is partial, C misses engagement.',
+    explanation:
+        'D addresses focus and application. A is too broad, B is partial, C misses engagement.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2409,7 +2501,8 @@ final List<Question> levelAQuestions = [
       'D. Clarify that subtraction builds a stronger math base.',
     ],
     correctAnswer: 'C',
-    explanation: 'C emphasizes mastery. A lacks specificity, B focuses on confidence, D is general.',
+    explanation:
+        'C emphasizes mastery. A lacks specificity, B focuses on confidence, D is general.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2421,7 +2514,8 @@ final List<Question> levelAQuestions = [
       'D. Suggest practicing subtraction with guidance at home.',
     ],
     correctAnswer: 'C',
-    explanation: 'C provides direct support. A lacks structure, B is passive, D shifts to parents.',
+    explanation:
+        'C provides direct support. A lacks structure, B is passive, D shifts to parents.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2433,7 +2527,8 @@ final List<Question> levelAQuestions = [
       'D. Explain that reading aloud builds verbal math skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D links to verbal skills. A is repetitive, B is vague, C is secondary.',
+    explanation:
+        'D links to verbal skills. A is repetitive, B is vague, C is secondary.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2445,11 +2540,13 @@ final List<Question> levelAQuestions = [
       'D. Recommend a break before resuming with guidance.',
     ],
     correctAnswer: 'D',
-    explanation: 'D addresses fatigue effectively. A is temporary, B delays help, C lowers expectation.',
+    explanation:
+        'D addresses fatigue effectively. A is temporary, B delays help, C lowers expectation.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'A student subtracts numbers inaccurately due to place value issues. What’s the best first step?',
+    text:
+        'A student subtracts numbers inaccurately due to place value issues. What’s the best first step?',
     options: [
       'A. Provide a new subtraction list with help.',
       'B. Ask them to subtract without assistance.',
@@ -2457,7 +2554,8 @@ final List<Question> levelAQuestions = [
       'D. Solve the problem with them, guiding place values.',
     ],
     correctAnswer: 'D',
-    explanation: 'D corrects place values directly. A delays focus, B lacks support, C is preparatory.',
+    explanation:
+        'D corrects place values directly. A delays focus, B lacks support, C is preparatory.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2469,11 +2567,13 @@ final List<Question> levelAQuestions = [
       'D. Model solving slowly, asking them to follow.',
     ],
     correctAnswer: 'C',
-    explanation: 'C combines support and practice. A is passive, B lacks aid, D is modeling-only.',
+    explanation:
+        'C combines support and practice. A is passive, B lacks aid, D is modeling-only.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'A student skips steps while subtracting numbers. What should you do first?',
+    text:
+        'A student skips steps while subtracting numbers. What should you do first?',
     options: [
       'A. Observe and offer hints if they struggle.',
       'B. Assign simpler problems to rebuild.',
@@ -2481,7 +2581,8 @@ final List<Question> levelAQuestions = [
       'D. Solve the problem with them, pointing to missed steps.',
     ],
     correctAnswer: 'D',
-    explanation: 'D ensures immediate correction. A is indirect, B reduces challenge, C delays help.',
+    explanation:
+        'D ensures immediate correction. A is indirect, B reduces challenge, C delays help.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2493,7 +2594,8 @@ final List<Question> levelAQuestions = [
       'D. Identify the pattern with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D offers direct guidance. A is preparatory, B lacks support, C relies on tools.',
+    explanation:
+        'D offers direct guidance. A is preparatory, B lacks support, C relies on tools.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2505,11 +2607,13 @@ final List<Question> levelAQuestions = [
       'D. Redirect with a short math game and praise.',
     ],
     correctAnswer: 'C',
-    explanation: 'C maintains engagement. A shifts focus, B delays, D is distracting.',
+    explanation:
+        'C maintains engagement. A shifts focus, B delays, D is distracting.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'Case Study: A 6-year-old student solves addition but stops, looking confused. What’s the best way to help them progress?',
+    text:
+        'Case Study: A 6-year-old student solves addition but stops, looking confused. What’s the best way to help them progress?',
     options: [
       'A. Provide a new sheet with problems printed.',
       'B. Guide their solving to 10 with support.',
@@ -2517,11 +2621,13 @@ final List<Question> levelAQuestions = [
       'D. Solve to 10 with them, guiding each step.',
     ],
     correctAnswer: 'B',
-    explanation: 'B builds on their skill with guidance. A adds complexity, C lacks aid, D is gradual.',
+    explanation:
+        'B builds on their skill with guidance. A adds complexity, C lacks aid, D is gradual.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'Case Study: A student solves 1-5 subtraction problems correctly but stumbles at 6-10. How should you support their learning?',
+    text:
+        'Case Study: A student solves 1-5 subtraction problems correctly but stumbles at 6-10. How should you support their learning?',
     options: [
       'A. Let them try again without immediate help.',
       'B. Show a problem list and guide their solving.',
@@ -2529,11 +2635,13 @@ final List<Question> levelAQuestions = [
       'D. Solve 6-10 with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D combines verbal and physical aid. A lacks support, B relies on tools, C lacks guidance.',
+    explanation:
+        'D combines verbal and physical aid. A lacks support, B relies on tools, C lacks guidance.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'Case Study: A student makes errors in word problems often. What’s your first step to correct this?',
+    text:
+        'Case Study: A student makes errors in word problems often. What’s your first step to correct this?',
     options: [
       'A. Assign a new task focusing on problem-solving.',
       'B. Guide their solving for each problem.',
@@ -2541,11 +2649,13 @@ final List<Question> levelAQuestions = [
       'D. Solve the problem with them, correcting errors.',
     ],
     correctAnswer: 'D',
-    explanation: 'D corrects with real-time guidance. A delays focus, B is general, C is passive.',
+    explanation:
+        'D corrects with real-time guidance. A delays focus, B is general, C is passive.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'Case Study: A student hesitates during number pattern solving, looking at peers. What should you do to build confidence?',
+    text:
+        'Case Study: A student hesitates during number pattern solving, looking at peers. What should you do to build confidence?',
     options: [
       'A. Suggest they solve silently to reduce pressure.',
       'B. Demonstrate solving, asking them to follow.',
@@ -2553,11 +2663,13 @@ final List<Question> levelAQuestions = [
       'D. Solve with them, offering praise.',
     ],
     correctAnswer: 'D',
-    explanation: 'D boosts confidence with support. A avoids practice, B shifts focus, C increases comparison.',
+    explanation:
+        'D boosts confidence with support. A avoids practice, B shifts focus, C increases comparison.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'Case Study: A student struggles with solving a 10-sheet set. What additional steps would you take?',
+    text:
+        'Case Study: A student struggles with solving a 10-sheet set. What additional steps would you take?',
     options: [
       'A. Assign more worksheets with problem lists.',
       'B. Model solving, then guide their practice.',
@@ -2565,7 +2677,8 @@ final List<Question> levelAQuestions = [
       'D. Practice solving with guidance daily.',
     ],
     correctAnswer: 'B & D',
-    explanation: 'B and D reinforce solving with guidance. A is repetitive, C is tool-dependent.',
+    explanation:
+        'B and D reinforce solving with guidance. A is repetitive, C is tool-dependent.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2577,7 +2690,8 @@ final List<Question> levelAQuestions = [
       'D. Ensure students subtract without errors daily.',
     ],
     correctAnswer: 'C',
-    explanation: 'C focuses on fluency. A is memorization, B is secondary, D is unrealistic.',
+    explanation:
+        'C focuses on fluency. A is memorization, B is secondary, D is unrealistic.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2589,7 +2703,8 @@ final List<Question> levelAQuestions = [
       'D. It helps students understand correct application.',
     ],
     correctAnswer: 'D',
-    explanation: 'D enhances application. A is incidental, B minimizes teaching, C overstates speed.',
+    explanation:
+        'D enhances application. A is incidental, B minimizes teaching, C overstates speed.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2601,7 +2716,8 @@ final List<Question> levelAQuestions = [
       'D. After consistent accuracy with addition.',
     ],
     correctAnswer: 'D',
-    explanation: 'D ensures readiness. A skips addition, B is premature, C lacks progression.',
+    explanation:
+        'D ensures readiness. A skips addition, B is premature, C lacks progression.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2613,11 +2729,13 @@ final List<Question> levelAQuestions = [
       'D. Develop skills for addition and subtraction.',
     ],
     correctAnswer: 'D',
-    explanation: 'D targets addition and subtraction. A is broader, B is unrelated, C is writing-focused.',
+    explanation:
+        'D targets addition and subtraction. A is broader, B is unrelated, C is writing-focused.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'How should instructors handle a student skipping steps in subtraction?',
+    text:
+        'How should instructors handle a student skipping steps in subtraction?',
     options: [
       'A. Assign easier problems to rebuild skills.',
       'B. Let them self-correct on the next attempt.',
@@ -2625,7 +2743,8 @@ final List<Question> levelAQuestions = [
       'D. None of the above.',
     ],
     correctAnswer: 'D',
-    explanation: 'D applies; immediate correction is needed, not self-correction or easing.',
+    explanation:
+        'D applies; immediate correction is needed, not self-correction or easing.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2637,11 +2756,13 @@ final List<Question> levelAQuestions = [
       'D. Reinforces subtraction accuracy and confidence.',
     ],
     correctAnswer: 'D',
-    explanation: 'D builds skills. A is incorrect, B is memorization, C focuses on speed.',
+    explanation:
+        'D builds skills. A is incorrect, B is memorization, C focuses on speed.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'According to Level A, how should instructors introduce subtraction problems?',
+    text:
+        'According to Level A, how should instructors introduce subtraction problems?',
     options: [
       'A. Solve silently, showing problems later.',
       'B. Teach all problems at once with a chart.',
@@ -2649,11 +2770,13 @@ final List<Question> levelAQuestions = [
       'D. Start with 1-5 problems, then add more with guidance.',
     ],
     correctAnswer: 'D',
-    explanation: 'D follows the manual’s progression. A skips verbal, B overwhelms, C reverses order.',
+    explanation:
+        'D follows the manual’s progression. A skips verbal, B overwhelms, C reverses order.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'What does the manual suggest for students struggling with subtraction?',
+    text:
+        'What does the manual suggest for students struggling with subtraction?',
     options: [
       'A. Skip to addition exercises.',
       'B. Provide a new sheet without assistance.',
@@ -2661,7 +2784,8 @@ final List<Question> levelAQuestions = [
       'D. Solve with them to guide the process.',
     ],
     correctAnswer: 'D',
-    explanation: 'D aligns with guidance. A shifts focus, B lacks support, C delays.',
+    explanation:
+        'D aligns with guidance. A shifts focus, B lacks support, C delays.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2673,7 +2797,8 @@ final List<Question> levelAQuestions = [
       'D. Guide solving with support for the full set.',
     ],
     correctAnswer: 'D',
-    explanation: 'D matches the manual. A lacks support, B is premature, C avoids accuracy.',
+    explanation:
+        'D matches the manual. A lacks support, B is premature, C avoids accuracy.',
     level: QuestionLevel.levelA,
   ),
   Question(
@@ -2685,11 +2810,13 @@ final List<Question> levelAQuestions = [
       'D. Build initial pattern recognition skills with support.',
     ],
     correctAnswer: 'D',
-    explanation: 'D reflects the goal. A is unrelated, B skips support, C is memorization.',
+    explanation:
+        'D reflects the goal. A is unrelated, B skips support, C is memorization.',
     level: QuestionLevel.levelA,
   ),
   Question(
-    text: 'According to the manual, when can students solve 10 subtraction problems smoothly?',
+    text:
+        'According to the manual, when can students solve 10 subtraction problems smoothly?',
     options: [
       'A. After observing peers solve successfully.',
       'B. If they recognize numbers without help.',
@@ -2697,14 +2824,16 @@ final List<Question> levelAQuestions = [
       'D. After mastering solving the 10-sheet set accurately.',
     ],
     correctAnswer: 'D',
-    explanation: 'D ensures mastery. A relies on others, B skips practice, C focuses on speed.',
+    explanation:
+        'D ensures mastery. A relies on others, B skips practice, C focuses on speed.',
     level: QuestionLevel.levelA,
   ),
 ];
 
 final List<Question> levelBQuestions = [
   Question(
-    text: 'A student struggles to solve addition problems up to 200 (e.g., 145 + 38). What would you do?',
+    text:
+        'A student struggles to solve addition problems up to 200 (e.g., 145 + 38). What would you do?',
     options: [
       'A. Demonstrate solving, then have them follow.',
       'B. Show the problem and ask them to try again.',
@@ -2712,11 +2841,13 @@ final List<Question> levelBQuestions = [
       'D. Let them attempt without assistance.',
     ],
     correctAnswer: 'C',
-    explanation: 'C provides direct support. A shifts to modeling, B is passive, D lacks guidance.',
+    explanation:
+        'C provides direct support. A shifts to modeling, B is passive, D lacks guidance.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student makes errors while subtracting larger numbers (e.g., 192 - 76 = 126). How should you respond?',
+    text:
+        'A student makes errors while subtracting larger numbers (e.g., 192 - 76 = 126). How should you respond?',
     options: [
       'A. Let them continue and review later.',
       'B. Correct mistakes after they finish.',
@@ -2724,11 +2855,13 @@ final List<Question> levelBQuestions = [
       'D. Solve the problem correctly, asking them to follow.',
     ],
     correctAnswer: 'D',
-    explanation: 'D corrects with immediate guidance. A avoids correction, B delays, C is verbal-only.',
+    explanation:
+        'D corrects with immediate guidance. A avoids correction, B delays, C is verbal-only.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student finishes word problems quickly but with mistakes. What would you do?',
+    text:
+        'A student finishes word problems quickly but with mistakes. What would you do?',
     options: [
       'A. Praise their speed and ask for accuracy.',
       'B. Review their work, guiding correct solutions.',
@@ -2736,11 +2869,13 @@ final List<Question> levelBQuestions = [
       'D. Assign a new word problem exercise with focus.',
     ],
     correctAnswer: 'B',
-    explanation: 'B addresses errors directly. A reinforces speed, C lacks support, D is preparatory.',
+    explanation:
+        'B addresses errors directly. A reinforces speed, C lacks support, D is preparatory.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student refuses to solve multiplication problems in a group setting. What’s your best action?',
+    text:
+        'A student refuses to solve multiplication problems in a group setting. What’s your best action?',
     options: [
       'A. Pair them with a peer to solve together.',
       'B. Allow silent solving and check their work.',
@@ -2748,11 +2883,13 @@ final List<Question> levelBQuestions = [
       'D. Model solving aloud, inviting them to join.',
     ],
     correctAnswer: 'D',
-    explanation: 'D encourages participation gently. A adds pressure, B avoids group practice, C over-adjusts.',
+    explanation:
+        'D encourages participation gently. A adds pressure, B avoids group practice, C over-adjusts.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student struggles with subtraction up to 200, mixing up borrowing. What should you do?',
+    text:
+        'A student struggles with subtraction up to 200, mixing up borrowing. What should you do?',
     options: [
       'A. Solve the problem with them, correcting borrowing.',
       'B. Give simpler problems to build confidence.',
@@ -2760,11 +2897,13 @@ final List<Question> levelBQuestions = [
       'D. Ask them to retry without assistance.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with guidance. B lowers difficulty, C relies on tools, D lacks support.',
+    explanation:
+        'A corrects with guidance. B lowers difficulty, C relies on tools, D lacks support.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student hesitates solving a multiplication problem on a worksheet. What would you do?',
+    text:
+        'A student hesitates solving a multiplication problem on a worksheet. What would you do?',
     options: [
       'A. Provide a sample problem for them to study first.',
       'B. Solve the problem with them, guiding each step.',
@@ -2772,11 +2911,13 @@ final List<Question> levelBQuestions = [
       'D. Demonstrate solving, asking them to copy.',
     ],
     correctAnswer: 'B',
-    explanation: 'B offers direct support. A delays practice, C lacks aid, D shifts to modeling.',
+    explanation:
+        'B offers direct support. A delays practice, C lacks aid, D shifts to modeling.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student stops at problem 5 while solving 10 word problems. What’s your approach?',
+    text:
+        'A student stops at problem 5 while solving 10 word problems. What’s your approach?',
     options: [
       'A. Solve all 10 with them, emphasizing 5-10.',
       'B. Show a problem list and ask them to continue.',
@@ -2784,11 +2925,13 @@ final List<Question> levelBQuestions = [
       'D. Encourage them past 5 with your guidance.',
     ],
     correctAnswer: 'D',
-    explanation: 'D builds on their limit with support. A over-directs, B relies on tools, C limits progress.',
+    explanation:
+        'D builds on their limit with support. A over-directs, B relies on tools, C limits progress.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'Parent Says: “My child solves the same problems daily. Is this necessary?”',
+    text:
+        'Parent Says: “My child solves the same problems daily. Is this necessary?”',
     options: [
       'A. Assure them repetition strengthens math habits over time.',
       'B. Explain that repetition builds accuracy and skill with larger numbers.',
@@ -2796,7 +2939,8 @@ final List<Question> levelBQuestions = [
       'D. Note that daily practice ensures quick number recall.',
     ],
     correctAnswer: 'B',
-    explanation: 'B ties repetition to accuracy with larger numbers. A lacks detail, C shifts focus to division, D is vague.',
+    explanation:
+        'B ties repetition to accuracy with larger numbers. A lacks detail, C shifts focus to division, D is vague.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -2808,11 +2952,13 @@ final List<Question> levelBQuestions = [
       'D. Explain that repetition improves multiplication and confidence.',
     ],
     correctAnswer: 'B',
-    explanation: 'B addresses focus and understanding. A is partial, C is too broad, D misses engagement.',
+    explanation:
+        'B addresses focus and understanding. A is partial, C is too broad, D misses engagement.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'Parent Says: “My child knows subtraction. Why practice word problems?”',
+    text:
+        'Parent Says: “My child knows subtraction. Why practice word problems?”',
     options: [
       'A. Note that progressing to word problems develops confidence.',
       'B. Clarify that word problems build a stronger math base.',
@@ -2820,7 +2966,8 @@ final List<Question> levelBQuestions = [
       'D. Explain that word problems ensure full early mastery.',
     ],
     correctAnswer: 'D',
-    explanation: 'D emphasizes mastery. A focuses on confidence, B is general, C lacks specificity.',
+    explanation:
+        'D emphasizes mastery. A focuses on confidence, B is general, C lacks specificity.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -2832,7 +2979,8 @@ final List<Question> levelBQuestions = [
       'D. Advise focusing on slow solving with support.',
     ],
     correctAnswer: 'B',
-    explanation: 'B provides direct support. A shifts to parents, C is passive, D lacks structure.',
+    explanation:
+        'B provides direct support. A shifts to parents, C is passive, D lacks structure.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -2844,7 +2992,8 @@ final List<Question> levelBQuestions = [
       'D. Assure them reading aloud reinforces problem recall.',
     ],
     correctAnswer: 'B',
-    explanation: 'B links to verbal skills. A is secondary, C is repetitive, D is vague.',
+    explanation:
+        'B links to verbal skills. A is secondary, C is repetitive, D is vague.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -2856,11 +3005,13 @@ final List<Question> levelBQuestions = [
       'D. Advise observing and correcting later.',
     ],
     correctAnswer: 'B',
-    explanation: 'B addresses fatigue effectively. A lowers expectation, C is temporary, D delays help.',
+    explanation:
+        'B addresses fatigue effectively. A lowers expectation, C is temporary, D delays help.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student subtracts larger numbers inaccurately due to borrowing issues. What’s the best first step?',
+    text:
+        'A student subtracts larger numbers inaccurately due to borrowing issues. What’s the best first step?',
     options: [
       'A. Solve the problem with them, guiding borrowing.',
       'B. Provide a new subtraction list with help.',
@@ -2868,11 +3019,13 @@ final List<Question> levelBQuestions = [
       'D. Demonstrate correct subtraction before they retry.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects borrowing directly. B delays focus, C lacks support, D is preparatory.',
+    explanation:
+        'A corrects borrowing directly. B delays focus, C lacks support, D is preparatory.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student hesitates solving multiplication problems. What’s your priority?',
+    text:
+        'A student hesitates solving multiplication problems. What’s your priority?',
     options: [
       'A. Model solving slowly, asking them to follow.',
       'B. Encourage them to solve with minimal help.',
@@ -2880,11 +3033,13 @@ final List<Question> levelBQuestions = [
       'D. Show a multiplication chart for them to study.',
     ],
     correctAnswer: 'C',
-    explanation: 'C combines support and practice. A is modeling-only, B lacks aid, D is passive.',
+    explanation:
+        'C combines support and practice. A is modeling-only, B lacks aid, D is passive.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student skips steps while solving word problems. What should you do first?',
+    text:
+        'A student skips steps while solving word problems. What should you do first?',
     options: [
       'A. Let them retry and check their accuracy.',
       'B. Solve the problem with them, pointing to missed steps.',
@@ -2892,11 +3047,13 @@ final List<Question> levelBQuestions = [
       'D. Observe and offer hints if they struggle.',
     ],
     correctAnswer: 'B',
-    explanation: 'B ensures immediate correction. A delays help, C reduces challenge, D is indirect.',
+    explanation:
+        'B ensures immediate correction. A delays help, C reduces challenge, D is indirect.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'A student struggles with subtraction up to 200. What’s your best action?',
+    text:
+        'A student struggles with subtraction up to 200. What’s your best action?',
     options: [
       'A. Ask them to subtract without assistance.',
       'B. Solve the problem with them, guiding each step.',
@@ -2904,7 +3061,8 @@ final List<Question> levelBQuestions = [
       'D. Show a place value chart and guide their solving.',
     ],
     correctAnswer: 'B',
-    explanation: 'B offers direct guidance. A lacks support, C is preparatory, D relies on tools.',
+    explanation:
+        'B offers direct guidance. A lacks support, C is preparatory, D relies on tools.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -2916,11 +3074,13 @@ final List<Question> levelBQuestions = [
       'D. Continue solving with them, keeping focus.',
     ],
     correctAnswer: 'D',
-    explanation: 'D maintains engagement. A delays, B is distracting, C shifts focus.',
+    explanation:
+        'D maintains engagement. A delays, B is distracting, C shifts focus.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'Case Study: A 7-year-old student solves subtraction but stops, looking confused. What’s the best way to help them progress?',
+    text:
+        'Case Study: A 7-year-old student solves subtraction but stops, looking confused. What’s the best way to help them progress?',
     options: [
       'A. Show the problems and ask them to solve alone.',
       'B. Guide their solving to 10 with support.',
@@ -2928,11 +3088,13 @@ final List<Question> levelBQuestions = [
       'D. Solve to 10 with them, guiding each step.',
     ],
     correctAnswer: 'B',
-    explanation: 'B builds on their skill with guidance. A lacks aid, C adds complexity, D is gradual.',
+    explanation:
+        'B builds on their skill with guidance. A lacks aid, C adds complexity, D is gradual.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'Case Study: A student solves 1-5 word problems correctly but stumbles at 6-10. How should you support their learning?',
+    text:
+        'Case Study: A student solves 1-5 word problems correctly but stumbles at 6-10. How should you support their learning?',
     options: [
       'A. Solve 6-10 with them, guiding each step.',
       'B. Let them try again without immediate help.',
@@ -2940,11 +3102,13 @@ final List<Question> levelBQuestions = [
       'D. Point to 6-10 while they solve alone.',
     ],
     correctAnswer: 'A',
-    explanation: 'A combines verbal and physical aid. B lacks support, C relies on tools, D lacks guidance.',
+    explanation:
+        'A combines verbal and physical aid. B lacks support, C relies on tools, D lacks guidance.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'Case Study: A student makes errors in multiplication problems often. What’s your first step to correct this?',
+    text:
+        'Case Study: A student makes errors in multiplication problems often. What’s your first step to correct this?',
     options: [
       'A. Show a multiplication chart and ask them to resolve.',
       'B. Solve the problem with them, correcting errors.',
@@ -2952,11 +3116,13 @@ final List<Question> levelBQuestions = [
       'D. Guide their solving for each problem.',
     ],
     correctAnswer: 'B',
-    explanation: 'B corrects with real-time guidance. A is passive, C delays focus, D is general.',
+    explanation:
+        'B corrects with real-time guidance. A is passive, C delays focus, D is general.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'Case Study: A student hesitates during word problem solving, looking at peers. What should you do to build confidence?',
+    text:
+        'Case Study: A student hesitates during word problem solving, looking at peers. What should you do to build confidence?',
     options: [
       'A. Encourage them to watch peers, then try.',
       'B. Solve with them, offering praise.',
@@ -2964,7 +3130,8 @@ final List<Question> levelBQuestions = [
       'D. Demonstrate solving, asking them to follow.',
     ],
     correctAnswer: 'B',
-    explanation: 'B boosts confidence with support. A increases comparison, C avoids practice, D shifts focus.',
+    explanation:
+        'B boosts confidence with support. A increases comparison, C avoids practice, D shifts focus.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -2976,11 +3143,13 @@ final List<Question> levelBQuestions = [
       'D. Help students memorize multiplication tables.',
     ],
     correctAnswer: 'B',
-    explanation: 'B focuses on understanding. A is unrealistic, C is secondary, D is memorization.',
+    explanation:
+        'B focuses on understanding. A is unrealistic, C is secondary, D is memorization.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'Why does Kumon emphasize guidance during subtraction with larger numbers?',
+    text:
+        'Why does Kumon emphasize guidance during subtraction with larger numbers?',
     options: [
       'A. It speeds up subtraction practice.',
       'B. It helps students understand correct borrowing.',
@@ -2988,7 +3157,8 @@ final List<Question> levelBQuestions = [
       'D. It reduces the need for verbal instructions.',
     ],
     correctAnswer: 'B',
-    explanation: 'B enhances borrowing. A overstates speed, C is incidental, D minimizes teaching.',
+    explanation:
+        'B enhances borrowing. A overstates speed, C is incidental, D minimizes teaching.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -3000,7 +3170,8 @@ final List<Question> levelBQuestions = [
       'D. After recognizing all larger numbers.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures readiness. B lacks progression, C is premature, D skips subtraction.',
+    explanation:
+        'A ensures readiness. B lacks progression, C is premature, D skips subtraction.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -3012,11 +3183,13 @@ final List<Question> levelBQuestions = [
       'D. Ensure mastery of number lists.',
     ],
     correctAnswer: 'C',
-    explanation: 'C targets subtraction and multiplication. A is writing-focused, B is unrelated, D is broader.',
+    explanation:
+        'C targets subtraction and multiplication. A is writing-focused, B is unrelated, D is broader.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'How should instructors handle a student skipping steps in word problems?',
+    text:
+        'How should instructors handle a student skipping steps in word problems?',
     options: [
       'A. Let them self-correct on the next attempt.',
       'B. Solve with them, pointing to missed steps.',
@@ -3024,7 +3197,8 @@ final List<Question> levelBQuestions = [
       'D. None of the above.',
     ],
     correctAnswer: 'D',
-    explanation: 'D applies; immediate correction is needed, not self-correction or easing.',
+    explanation:
+        'D applies; immediate correction is needed, not self-correction or easing.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -3036,11 +3210,13 @@ final List<Question> levelBQuestions = [
       'D. Reduces the need for instructor guidance.',
     ],
     correctAnswer: 'B',
-    explanation: 'B builds skills. A is memorization, C focuses on speed, D is incorrect.',
+    explanation:
+        'B builds skills. A is memorization, C focuses on speed, D is incorrect.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'According to Level B, how should instructors introduce multiplication problems?',
+    text:
+        'According to Level B, how should instructors introduce multiplication problems?',
     options: [
       'A. Teach all problems at once with a chart.',
       'B. Start with 1-5 problems, then add more with guidance.',
@@ -3048,11 +3224,13 @@ final List<Question> levelBQuestions = [
       'D. Begin with 10 problems, reducing if needed.',
     ],
     correctAnswer: 'B',
-    explanation: 'B follows the manual’s progression. A overwhelms, C skips verbal, D reverses order.',
+    explanation:
+        'B follows the manual’s progression. A overwhelms, C skips verbal, D reverses order.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'What does the manual suggest for students struggling with word problems?',
+    text:
+        'What does the manual suggest for students struggling with word problems?',
     options: [
       'A. Let them observe peers before retrying.',
       'B. Skip to subtraction exercises.',
@@ -3060,7 +3238,8 @@ final List<Question> levelBQuestions = [
       'D. Provide a new sheet without assistance.',
     ],
     correctAnswer: 'C',
-    explanation: 'C aligns with guidance. A delays, B shifts focus, D lacks support.',
+    explanation:
+        'C aligns with guidance. A delays, B shifts focus, D lacks support.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -3072,7 +3251,8 @@ final List<Question> levelBQuestions = [
       'D. Focus on writing after solving.',
     ],
     correctAnswer: 'B',
-    explanation: 'B matches the manual. A avoids accuracy, C lacks support, D is premature.',
+    explanation:
+        'B matches the manual. A avoids accuracy, C lacks support, D is premature.',
     level: QuestionLevel.levelB,
   ),
   Question(
@@ -3084,11 +3264,13 @@ final List<Question> levelBQuestions = [
       'D. Prepare for immediate division facts.',
     ],
     correctAnswer: 'B',
-    explanation: 'B reflects the goal. A skips support, C is memorization, D is unrelated.',
+    explanation:
+        'B reflects the goal. A skips support, C is memorization, D is unrelated.',
     level: QuestionLevel.levelB,
   ),
   Question(
-    text: 'According to the manual, when can students solve 10 word problems smoothly?',
+    text:
+        'According to the manual, when can students solve 10 word problems smoothly?',
     options: [
       'A. When they finish all sheets quickly.',
       'B. After mastering solving the 10-sheet set accurately.',
@@ -3096,14 +3278,16 @@ final List<Question> levelBQuestions = [
       'D. After observing peers solve successfully.',
     ],
     correctAnswer: 'B',
-    explanation: 'B ensures mastery. A focuses on speed, C skips practice, D relies on others.',
+    explanation:
+        'B ensures mastery. A focuses on speed, C skips practice, D relies on others.',
     level: QuestionLevel.levelB,
   ),
 ];
 
 final List<Question> levelCQuestions = [
   Question(
-    text: 'A student struggles to solve multiplication facts up to 12 (e.g., 7 × 8). What would you do?',
+    text:
+        'A student struggles to solve multiplication facts up to 12 (e.g., 7 × 8). What would you do?',
     options: [
       'A. Demonstrate solving, then have them follow.',
       'B. Solve the problem with them, guiding each step.',
@@ -3111,11 +3295,13 @@ final List<Question> levelCQuestions = [
       'D. Let them attempt without assistance.',
     ],
     correctAnswer: 'B',
-    explanation: 'B provides direct support. A shifts to modeling, C is passive, D lacks guidance.',
+    explanation:
+        'B provides direct support. A shifts to modeling, C is passive, D lacks guidance.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student makes errors while adding numbers up to 1,000 (e.g., 674 + 289 = 953). How should you respond?',
+    text:
+        'A student makes errors while adding numbers up to 1,000 (e.g., 674 + 289 = 953). How should you respond?',
     options: [
       'A. Point out errors and guide their calculation.',
       'B. Solve the problem correctly, asking them to follow.',
@@ -3123,11 +3309,13 @@ final List<Question> levelCQuestions = [
       'D. Correct mistakes after they finish.',
     ],
     correctAnswer: 'B',
-    explanation: 'B corrects with immediate guidance. A is verbal-only, C avoids correction, D delays.',
+    explanation:
+        'B corrects with immediate guidance. A is verbal-only, C avoids correction, D delays.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student finishes multi-step word problems quickly but with mistakes. What would you do?',
+    text:
+        'A student finishes multi-step word problems quickly but with mistakes. What would you do?',
     options: [
       'A. Observe and let them self-correct next time.',
       'B. Assign a new word problem exercise with focus.',
@@ -3135,11 +3323,13 @@ final List<Question> levelCQuestions = [
       'D. Praise their speed and ask for accuracy.',
     ],
     correctAnswer: 'C',
-    explanation: 'C addresses errors directly. A lacks support, B is preparatory, D reinforces speed.',
+    explanation:
+        'C addresses errors directly. A lacks support, B is preparatory, D reinforces speed.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student refuses to solve division problems in a group setting. What’s your best action?',
+    text:
+        'A student refuses to solve division problems in a group setting. What’s your best action?',
     options: [
       'A. Model solving aloud, inviting them to join.',
       'B. Move to a one-on-one session for practice.',
@@ -3147,11 +3337,13 @@ final List<Question> levelCQuestions = [
       'D. Pair them with a peer to solve together.',
     ],
     correctAnswer: 'A',
-    explanation: 'A encourages participation gently. B over-adjusts, C avoids group practice, D adds pressure.',
+    explanation:
+        'A encourages participation gently. B over-adjusts, C avoids group practice, D adds pressure.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student struggles with subtraction up to 1,000, mixing up borrowing. What should you do?',
+    text:
+        'A student struggles with subtraction up to 1,000, mixing up borrowing. What should you do?',
     options: [
       'A. Show a place value chart and guide their solving.',
       'B. Ask them to retry without assistance.',
@@ -3159,11 +3351,13 @@ final List<Question> levelCQuestions = [
       'D. Give simpler problems to build confidence.',
     ],
     correctAnswer: 'C',
-    explanation: 'C corrects with guidance. A relies on tools, B lacks support, D lowers difficulty.',
+    explanation:
+        'C corrects with guidance. A relies on tools, B lacks support, D lowers difficulty.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student hesitates solving a multi-step word problem on a worksheet. What would you do?',
+    text:
+        'A student hesitates solving a multi-step word problem on a worksheet. What would you do?',
     options: [
       'A. Demonstrate solving, asking them to copy.',
       'B. Let them solve it again without help.',
@@ -3171,11 +3365,13 @@ final List<Question> levelCQuestions = [
       'D. Provide a sample problem for them to study first.',
     ],
     correctAnswer: 'C',
-    explanation: 'C offers direct support. A shifts to modeling, B lacks aid, D delays practice.',
+    explanation:
+        'C offers direct support. A shifts to modeling, B lacks aid, D delays practice.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student stops at problem 5 while solving 10 multiplication problems. What’s your approach?',
+    text:
+        'A student stops at problem 5 while solving 10 multiplication problems. What’s your approach?',
     options: [
       'A. Show a problem list and ask them to continue.',
       'B. Encourage them past 5 with your guidance.',
@@ -3183,11 +3379,13 @@ final List<Question> levelCQuestions = [
       'D. Assign a task stopping at 5 to build skill.',
     ],
     correctAnswer: 'B',
-    explanation: 'B builds on their limit with support. A relies on tools, C over-directs, D limits progress.',
+    explanation:
+        'B builds on their limit with support. A relies on tools, C over-directs, D limits progress.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'Parent Says: “My child solves the same problems daily. Is this necessary?”',
+    text:
+        'Parent Says: “My child solves the same problems daily. Is this necessary?”',
     options: [
       'A. Note that daily practice ensures quick recall.',
       'B. Assure them repetition strengthens math habits over time.',
@@ -3195,7 +3393,8 @@ final List<Question> levelCQuestions = [
       'D. Suggest that consistent solving prepares them for fractions.',
     ],
     correctAnswer: 'C',
-    explanation: 'C ties repetition to accuracy with multiplication and division. A is vague, B lacks detail, D shifts focus to fractions.',
+    explanation:
+        'C ties repetition to accuracy with multiplication and division. A is vague, B lacks detail, D shifts focus to fractions.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3207,11 +3406,13 @@ final List<Question> levelCQuestions = [
       'D. Assure them division practice strengthens early math.',
     ],
     correctAnswer: 'B',
-    explanation: 'B addresses focus and problem-solving. A misses engagement, C is partial, D is too broad.',
+    explanation:
+        'B addresses focus and problem-solving. A misses engagement, C is partial, D is too broad.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'Parent Says: “My child knows multiplication. Why practice word problems?”',
+    text:
+        'Parent Says: “My child knows multiplication. Why practice word problems?”',
     options: [
       'A. Explain that word problems ensure full early mastery.',
       'B. Assure them word problems solidify multiplication foundations.',
@@ -3219,7 +3420,8 @@ final List<Question> levelCQuestions = [
       'D. Clarify that word problems build a stronger math base.',
     ],
     correctAnswer: 'A',
-    explanation: 'A emphasizes mastery. B lacks specificity, C focuses on confidence, D is general.',
+    explanation:
+        'A emphasizes mastery. B lacks specificity, C focuses on confidence, D is general.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3231,7 +3433,8 @@ final List<Question> levelCQuestions = [
       'D. Offer to model solving during sessions.',
     ],
     correctAnswer: 'D',
-    explanation: 'D provides direct support. A is passive, B lacks structure, C shifts to parents.',
+    explanation:
+        'D provides direct support. A is passive, B lacks structure, C shifts to parents.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3243,7 +3446,8 @@ final List<Question> levelCQuestions = [
       'D. Note that speaking enhances memory and understanding.',
     ],
     correctAnswer: 'C',
-    explanation: 'C links to verbal skills. A is vague, B is repetitive, D is secondary.',
+    explanation:
+        'C links to verbal skills. A is vague, B is repetitive, D is secondary.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3255,11 +3459,13 @@ final List<Question> levelCQuestions = [
       'D. Suggest continuing with fewer problems to finish.',
     ],
     correctAnswer: 'C',
-    explanation: 'C addresses fatigue effectively. A delays help, B is temporary, D lowers expectation.',
+    explanation:
+        'C addresses fatigue effectively. A delays help, B is temporary, D lowers expectation.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student divides numbers inaccurately due to misunderstanding remainders. What’s the best first step?',
+    text:
+        'A student divides numbers inaccurately due to misunderstanding remainders. What’s the best first step?',
     options: [
       'A. Demonstrate correct division before they retry.',
       'B. Solve the problem with them, guiding remainders.',
@@ -3267,11 +3473,13 @@ final List<Question> levelCQuestions = [
       'D. Ask them to divide without assistance.',
     ],
     correctAnswer: 'B',
-    explanation: 'B corrects remainders directly. A is preparatory, C delays focus, D lacks support.',
+    explanation:
+        'B corrects remainders directly. A is preparatory, C delays focus, D lacks support.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student hesitates solving multi-step word problems. What’s your priority?',
+    text:
+        'A student hesitates solving multi-step word problems. What’s your priority?',
     options: [
       'A. Show a problem chart for them to study.',
       'B. Model solving slowly, asking them to follow.',
@@ -3279,11 +3487,13 @@ final List<Question> levelCQuestions = [
       'D. Solve with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D combines support and practice. A is passive, B is modeling-only, C lacks aid.',
+    explanation:
+        'D combines support and practice. A is passive, B is modeling-only, C lacks aid.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student skips steps while subtracting numbers up to 1,000. What should you do first?',
+    text:
+        'A student skips steps while subtracting numbers up to 1,000. What should you do first?',
     options: [
       'A. Observe and offer hints if they struggle.',
       'B. Assign simpler problems to rebuild.',
@@ -3291,11 +3501,13 @@ final List<Question> levelCQuestions = [
       'D. Let them retry and check their accuracy.',
     ],
     correctAnswer: 'C',
-    explanation: 'C ensures immediate correction. A is indirect, B reduces challenge, D delays help.',
+    explanation:
+        'C ensures immediate correction. A is indirect, B reduces challenge, D delays help.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'A student struggles with multiplication facts up to 12. What’s your best action?',
+    text:
+        'A student struggles with multiplication facts up to 12. What’s your best action?',
     options: [
       'A. Show a multiplication chart and guide their solving.',
       'B. Provide a new worksheet with multiplication problems.',
@@ -3303,7 +3515,8 @@ final List<Question> levelCQuestions = [
       'D. Ask them to multiply without assistance.',
     ],
     correctAnswer: 'C',
-    explanation: 'C offers direct guidance. A relies on tools, B is preparatory, D lacks support.',
+    explanation:
+        'C offers direct guidance. A relies on tools, B is preparatory, D lacks support.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3315,11 +3528,13 @@ final List<Question> levelCQuestions = [
       'D. Redirect with a short math game and praise.',
     ],
     correctAnswer: 'A',
-    explanation: 'A maintains engagement. B shifts focus, C delays, D is distracting.',
+    explanation:
+        'A maintains engagement. B shifts focus, C delays, D is distracting.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'Case Study: A 7-year-old student solves multiplication but stops, looking confused. What’s the best way to help them progress?',
+    text:
+        'Case Study: A 7-year-old student solves multiplication but stops, looking confused. What’s the best way to help them progress?',
     options: [
       'A. Solve to 10 with them, guiding each step.',
       'B. Guide their solving to 10 with support.',
@@ -3327,11 +3542,13 @@ final List<Question> levelCQuestions = [
       'D. Provide a new sheet with problems printed.',
     ],
     correctAnswer: 'B',
-    explanation: 'B builds on their skill with guidance. A is gradual, C lacks aid, D adds complexity.',
+    explanation:
+        'B builds on their skill with guidance. A is gradual, C lacks aid, D adds complexity.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'Case Study: A student solves 1-5 division problems correctly but stumbles at 6-10. How should you support their learning?',
+    text:
+        'Case Study: A student solves 1-5 division problems correctly but stumbles at 6-10. How should you support their learning?',
     options: [
       'A. Point to 6-10 while they solve alone.',
       'B. Show a problem list and guide their solving.',
@@ -3339,11 +3556,13 @@ final List<Question> levelCQuestions = [
       'D. Let them try again without immediate help.',
     ],
     correctAnswer: 'C',
-    explanation: 'C combines verbal and physical aid. A lacks guidance, B relies on tools, D lacks support.',
+    explanation:
+        'C combines verbal and physical aid. A lacks guidance, B relies on tools, D lacks support.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'Case Study: A student makes errors in multi-step word problems often. What’s your first step to correct this?',
+    text:
+        'Case Study: A student makes errors in multi-step word problems often. What’s your first step to correct this?',
     options: [
       'A. Guide their solving for each problem.',
       'B. Solve the problem with them, correcting errors.',
@@ -3351,11 +3570,13 @@ final List<Question> levelCQuestions = [
       'D. Assign a new task focusing on problem-solving.',
     ],
     correctAnswer: 'B',
-    explanation: 'B corrects with real-time guidance. A is general, C is passive, D delays focus.',
+    explanation:
+        'B corrects with real-time guidance. A is general, C is passive, D delays focus.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'Case Study: A student hesitates during division problem solving, looking at peers. What should you do to build confidence?',
+    text:
+        'Case Study: A student hesitates during division problem solving, looking at peers. What should you do to build confidence?',
     options: [
       'A. Demonstrate solving, asking them to follow.',
       'B. Suggest they solve silently to reduce pressure.',
@@ -3363,7 +3584,8 @@ final List<Question> levelCQuestions = [
       'D. Encourage them to watch peers, then try.',
     ],
     correctAnswer: 'C',
-    explanation: 'C boosts confidence with support. A shifts focus, B avoids practice, D increases comparison.',
+    explanation:
+        'C boosts confidence with support. A shifts focus, B avoids practice, D increases comparison.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3375,7 +3597,8 @@ final List<Question> levelCQuestions = [
       'D. Ensure students divide without errors daily.',
     ],
     correctAnswer: 'B',
-    explanation: 'B focuses on fluency. A is secondary, C is memorization, D is unrealistic.',
+    explanation:
+        'B focuses on fluency. A is secondary, C is memorization, D is unrealistic.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3387,7 +3610,8 @@ final List<Question> levelCQuestions = [
       'D. It speeds up problem-solving practice.',
     ],
     correctAnswer: 'B',
-    explanation: 'B enhances problem-solving. A minimizes teaching, C is incidental, D overstates speed.',
+    explanation:
+        'B enhances problem-solving. A minimizes teaching, C is incidental, D overstates speed.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3399,7 +3623,8 @@ final List<Question> levelCQuestions = [
       'D. When they can multiply without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures readiness. B skips multiplication, C is premature, D lacks progression.',
+    explanation:
+        'A ensures readiness. B skips multiplication, C is premature, D lacks progression.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3411,7 +3636,8 @@ final List<Question> levelCQuestions = [
       'D. Help students count numbers quickly.',
     ],
     correctAnswer: 'B',
-    explanation: 'B targets multiplication and division. A is broader, C is writing-focused, D is unrelated.',
+    explanation:
+        'B targets multiplication and division. A is broader, C is writing-focused, D is unrelated.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3423,7 +3649,8 @@ final List<Question> levelCQuestions = [
       'D. None of the above.',
     ],
     correctAnswer: 'D',
-    explanation: 'D applies; immediate correction is needed, not self-correction or easing.',
+    explanation:
+        'D applies; immediate correction is needed, not self-correction or easing.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3435,11 +3662,13 @@ final List<Question> levelCQuestions = [
       'D. Ensures they memorize problems quickly.',
     ],
     correctAnswer: 'C',
-    explanation: 'C builds skills. A is incorrect, B focuses on speed, D is memorization.',
+    explanation:
+        'C builds skills. A is incorrect, B focuses on speed, D is memorization.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'According to Level C, how should instructors introduce division problems?',
+    text:
+        'According to Level C, how should instructors introduce division problems?',
     options: [
       'A. Solve silently, showing problems later.',
       'B. Begin with 10 problems, reducing if needed.',
@@ -3447,7 +3676,8 @@ final List<Question> levelCQuestions = [
       'D. Start with 1-5 problems, then add more with guidance.',
     ],
     correctAnswer: 'D',
-    explanation: 'D follows the manual’s progression. A skips verbal, B reverses order, C overwhelms.',
+    explanation:
+        'D follows the manual’s progression. A skips verbal, B reverses order, C overwhelms.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3459,7 +3689,8 @@ final List<Question> levelCQuestions = [
       'D. Let them observe peers before retrying.',
     ],
     correctAnswer: 'B',
-    explanation: 'B aligns with guidance. A lacks support, C shifts focus, D delays.',
+    explanation:
+        'B aligns with guidance. A lacks support, C shifts focus, D delays.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3471,7 +3702,8 @@ final List<Question> levelCQuestions = [
       'D. Focus on writing after solving.',
     ],
     correctAnswer: 'C',
-    explanation: 'C matches the manual. A lacks support, B avoids accuracy, D is premature.',
+    explanation:
+        'C matches the manual. A lacks support, B avoids accuracy, D is premature.',
     level: QuestionLevel.levelC,
   ),
   Question(
@@ -3483,11 +3715,13 @@ final List<Question> levelCQuestions = [
       'D. Prepare for immediate fraction facts.',
     ],
     correctAnswer: 'C',
-    explanation: 'C reflects the goal. A is memorization, B skips support, D is unrelated.',
+    explanation:
+        'C reflects the goal. A is memorization, B skips support, D is unrelated.',
     level: QuestionLevel.levelC,
   ),
   Question(
-    text: 'According to the manual, when can students solve 10 word problems smoothly?',
+    text:
+        'According to the manual, when can students solve 10 word problems smoothly?',
     options: [
       'A. After observing peers solve successfully.',
       'B. When they finish all the sheets quickly.',
@@ -3495,14 +3729,16 @@ final List<Question> levelCQuestions = [
       'D. If they recognize numbers without help.',
     ],
     correctAnswer: 'C',
-    explanation: 'C ensures mastery. A relies on others, B focuses on speed, D skips practice.',
+    explanation:
+        'C ensures mastery. A relies on others, B focuses on speed, D skips practice.',
     level: QuestionLevel.levelC,
   ),
 ];
 
 final List<Question> englevel7aQuestions = [
   Question(
-    text: 'A student struggles to repeat familiar words aloud. What would you do?',
+    text:
+        'A student struggles to repeat familiar words aloud. What would you do?',
     options: [
       'A. Repeat the words with them, pointing to each.',
       'B. Show the words and ask them to try again.',
@@ -3510,11 +3746,13 @@ final List<Question> englevel7aQuestions = [
       'D. Let them attempt silently without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A provides direct support with pointing. B is passive, C shifts to modeling, D lacks verbal practice.',
+    explanation:
+        'A provides direct support with pointing. B is passive, C shifts to modeling, D lacks verbal practice.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student mispronounces vocabulary during repetition. How should you respond?',
+    text:
+        'A student mispronounces vocabulary during repetition. How should you respond?',
     options: [
       'A. Repeat the words correctly, asking them to echo.',
       'B. Point out errors and guide their pronunciation.',
@@ -3522,11 +3760,13 @@ final List<Question> englevel7aQuestions = [
       'D. Let them continue and review later.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with immediate guidance. B is verbal only, C delays, D avoids correction.',
+    explanation:
+        'A corrects with immediate guidance. B is verbal only, C delays, D avoids correction.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student finishes repeating quickly but skips words. What would you do?',
+    text:
+        'A student finishes repeating quickly but skips words. What would you do?',
     options: [
       'A. Review their repetition, guiding missed words.',
       'B. Praise their speed and ask for accuracy.',
@@ -3534,11 +3774,13 @@ final List<Question> englevel7aQuestions = [
       'D. Observe and let them self correct next time.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses skips directly. B reinforces speed, C is preparatory, D lacks support.',
+    explanation:
+        'A addresses skips directly. B reinforces speed, C is preparatory, D lacks support.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student refuses to repeat in a group setting. What’s your best action?',
+    text:
+        'A student refuses to repeat in a group setting. What’s your best action?',
     options: [
       'A. Allow silent repetition and check their understanding.',
       'B. Pair them with a peer to repeat together.',
@@ -3546,11 +3788,13 @@ final List<Question> englevel7aQuestions = [
       'D. Move to a one on one session for practice.',
     ],
     correctAnswer: 'C',
-    explanation: 'C encourages participation gently. A avoids group practice, B adds pressure, D overadjusts.',
+    explanation:
+        'C encourages participation gently. A avoids group practice, B adds pressure, D overadjusts.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student struggles with repeating a 10sheet set, mixing word order. What should you do?',
+    text:
+        'A student struggles with repeating a 10sheet set, mixing word order. What should you do?',
     options: [
       'A. Repeat the set with them, correcting order.',
       'B. Show a word chart and guide their repetition.',
@@ -3558,11 +3802,13 @@ final List<Question> englevel7aQuestions = [
       'D. Give simpler expressions to build confidence.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
+    explanation:
+        'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student hesitates repeating vocabulary on a worksheet. What would you do?',
+    text:
+        'A student hesitates repeating vocabulary on a worksheet. What would you do?',
     options: [
       'A. Repeat the words with them, guiding pronunciation.',
       'B. Provide a word list for them to study first.',
@@ -3570,11 +3816,13 @@ final List<Question> englevel7aQuestions = [
       'D. Let them repeat again without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
+    explanation:
+        'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student stops at word 50 while repeating 100 words. What’s your approach?',
+    text:
+        'A student stops at word 50 while repeating 100 words. What’s your approach?',
     options: [
       'A. Repeat all 100 with them, emphasizing 50100.',
       'B. Encourage them past 50 with your guidance.',
@@ -3582,11 +3830,13 @@ final List<Question> englevel7aQuestions = [
       'D. Assign a task stopping at 50 to build skill.',
     ],
     correctAnswer: 'B',
-    explanation: 'B builds on their limit with support. A overdirects, C relies on tools, D limits progress.',
+    explanation:
+        'B builds on their limit with support. A overdirects, C relies on tools, D limits progress.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'Parent Says: “My child repeats the same words daily. Is this necessary?”',
+    text:
+        'Parent Says: “My child repeats the same words daily. Is this necessary?”',
     options: [
       'A. Explain that repetition builds pronunciation and recall.',
       'B. Note that daily practice ensures strong word recognition.',
@@ -3594,7 +3844,8 @@ final List<Question> englevel7aQuestions = [
       'D. Suggest that consistent repetition prepares them for expressions.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ties repetition to pronunciation. B is vague, C lacks detail, D shifts focus to expressions.',
+    explanation:
+        'A ties repetition to pronunciation. B is vague, C lacks detail, D shifts focus to expressions.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3606,7 +3857,8 @@ final List<Question> englevel7aQuestions = [
       'D. Assure them repeating practice strengthens early English.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses focus and fluency. B misses engagement, C is partial, D is too broad.',
+    explanation:
+        'A addresses focus and fluency. B misses engagement, C is partial, D is too broad.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3618,7 +3870,8 @@ final List<Question> englevel7aQuestions = [
       'D. Assure them 100 repetitions solidify word foundations.',
     ],
     correctAnswer: 'B',
-    explanation: 'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
+    explanation:
+        'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3630,7 +3883,8 @@ final List<Question> englevel7aQuestions = [
       'D. Advise focusing on slow repetition with support.',
     ],
     correctAnswer: 'C',
-    explanation: 'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
+    explanation:
+        'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3642,7 +3896,8 @@ final List<Question> englevel7aQuestions = [
       'D. Suggest that verbal repetition strengthens habits.',
     ],
     correctAnswer: 'A',
-    explanation: 'A link to verbal skills. B is secondary, C is vague, D is repetitive.',
+    explanation:
+        'A link to verbal skills. B is secondary, C is vague, D is repetitive.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3654,11 +3909,13 @@ final List<Question> englevel7aQuestions = [
       'D. Propose reducing the session length slightly.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
+    explanation:
+        'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student repeats words inaccurately due to pronunciation issues. What’s the best first step?',
+    text:
+        'A student repeats words inaccurately due to pronunciation issues. What’s the best first step?',
     options: [
       'A. Repeat the words with them, guiding pronunciation.',
       'B. Demonstrate correct pronunciation before they retry.',
@@ -3666,11 +3923,13 @@ final List<Question> englevel7aQuestions = [
       'D. Provide a new word list with help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects pronunciation directly. B is preparatory, C lacks support, D delays focus.',
+    explanation:
+        'A corrects pronunciation directly. B is preparatory, C lacks support, D delays focus.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student hesitates repeating everyday expressions. What’s your priority?',
+    text:
+        'A student hesitates repeating everyday expressions. What’s your priority?',
     options: [
       'A. Model repeating slowly, asking them to follow.',
       'B. Repeat with them, guiding each word.',
@@ -3678,11 +3937,13 @@ final List<Question> englevel7aQuestions = [
       'D. Show an expression chart for them to study.',
     ],
     correctAnswer: 'B',
-    explanation: 'B combines support and practice. A is modeling only, C lacks aid, D is passive.',
+    explanation:
+        'B combines support and practice. A is modeling only, C lacks aid, D is passive.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student skips words while repeating a 10sheet set. What should you do first?',
+    text:
+        'A student skips words while repeating a 10sheet set. What should you do first?',
     options: [
       'A. Repeat the set with them, pointing to missed words.',
       'B. Let them retry and check their accuracy.',
@@ -3690,11 +3951,13 @@ final List<Question> englevel7aQuestions = [
       'D. Observe and offer hints if they struggle.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
+    explanation:
+        'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student struggles with repeating vocabulary. What’s your best action?',
+    text:
+        'A student struggles with repeating vocabulary. What’s your best action?',
     options: [
       'A. Repeat the words with them, guiding each one.',
       'B. Show a vocabulary list and guide their repetition.',
@@ -3702,11 +3965,13 @@ final List<Question> englevel7aQuestions = [
       'D. Provide a new worksheet with word lines.',
     ],
     correctAnswer: 'A',
-    explanation: 'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
+    explanation:
+        'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'A student loses focus repeating a 10sheet set. What’s your priority?',
+    text:
+        'A student loses focus repeating a 10sheet set. What’s your priority?',
     options: [
       'A. Redirect with a short repetition game and praise.',
       'B. Continue repeating with them, keeping focus.',
@@ -3714,11 +3979,13 @@ final List<Question> englevel7aQuestions = [
       'D. Assign a new task to regain their interest.',
     ],
     correctAnswer: 'B',
-    explanation: 'B maintains engagement. A is distracting, C delays, D shifts focus.',
+    explanation:
+        'B maintains engagement. A is distracting, C delays, D shifts focus.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'Case Study: A 6 year old student repeats familiar words but stops, looking confused. What’s the best way to help them progress?',
+    text:
+        'Case Study: A 6 year old student repeats familiar words but stops, looking confused. What’s the best way to help them progress?',
     options: [
       'A. Repeat words to 50 with them, guiding pronunciation.',
       'B. Show the words and ask them to repeat alone.',
@@ -3726,11 +3993,13 @@ final List<Question> englevel7aQuestions = [
       'D. Provide a new sheet with words written.',
     ],
     correctAnswer: 'C',
-    explanation: 'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
+    explanation:
+        'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'Case Study: A student repeats 150 words correctly but stumbles at 51100. How should you support their learning?',
+    text:
+        'Case Study: A student repeats 150 words correctly but stumbles at 51100. How should you support their learning?',
     options: [
       'A. Repeat 51100 with them, guiding pronunciation.',
       'B. Point to 51100 while they repeat alone.',
@@ -3738,11 +4007,13 @@ final List<Question> englevel7aQuestions = [
       'D. Let them try again without immediate help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
+    explanation:
+        'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'Case Study: A student mixes word order in everyday expressions often. What’s your first step to correct this?',
+    text:
+        'Case Study: A student mixes word order in everyday expressions often. What’s your first step to correct this?',
     options: [
       'A. Repeat the expressions with them, correcting order.',
       'B. Show an expression chart and ask them to repeat.',
@@ -3750,11 +4021,13 @@ final List<Question> englevel7aQuestions = [
       'D. Assign a new task focusing on expression order.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with real time guidance. B is passive, C is general, D delays focus.',
+    explanation:
+        'A corrects with real time guidance. B is passive, C is general, D delays focus.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'Case Study: A student hesitates during vocabulary repetition, looking at peers. What should you do to build confidence?',
+    text:
+        'Case Study: A student hesitates during vocabulary repetition, looking at peers. What should you do to build confidence?',
     options: [
       'A. Repeat with them, offering praise.',
       'B. Encourage them to watch peers, then try.',
@@ -3762,7 +4035,8 @@ final List<Question> englevel7aQuestions = [
       'D. Suggest they repeat silently to reduce pressure.',
     ],
     correctAnswer: 'A',
-    explanation: 'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
+    explanation:
+        'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3774,7 +4048,8 @@ final List<Question> englevel7aQuestions = [
       'D. Ensure students repeat without errors daily.',
     ],
     correctAnswer: 'A',
-    explanation: 'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
+    explanation:
+        'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3786,7 +4061,8 @@ final List<Question> englevel7aQuestions = [
       'D. It ensures students memorize word order.',
     ],
     correctAnswer: 'A',
-    explanation: 'A enhances pronunciation. B overstates speed, C minimizes teaching, D is incidental.',
+    explanation:
+        'A enhances pronunciation. B overstates speed, C minimizes teaching, D is incidental.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3798,7 +4074,8 @@ final List<Question> englevel7aQuestions = [
       'D. After recognizing all words in a set.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures readiness. B lacks progression, C is premature, D skips repeating.',
+    explanation:
+        'A ensures readiness. B lacks progression, C is premature, D skips repeating.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3810,7 +4087,8 @@ final List<Question> englevel7aQuestions = [
       'D. Ensure mastery of vocabulary lists.',
     ],
     correctAnswer: 'A',
-    explanation: 'A targets recall. B is writing focused, C is unrelated, D is broader.',
+    explanation:
+        'A targets recall. B is writing focused, C is unrelated, D is broader.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3822,7 +4100,8 @@ final List<Question> englevel7aQuestions = [
       'D. None of the above.',
     ],
     correctAnswer: 'D',
-    explanation: 'D applies; immediate correction is needed, not self correction or easing.',
+    explanation:
+        'D applies; immediate correction is needed, not self correction or easing.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3834,11 +4113,13 @@ final List<Question> englevel7aQuestions = [
       'D. Reduces the need for instructor guidance.',
     ],
     correctAnswer: 'A',
-    explanation: 'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
+    explanation:
+        'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'According to Level 7A, how should instructors introduce repeating words?',
+    text:
+        'According to Level 7A, how should instructors introduce repeating words?',
     options: [
       'A. Start with 150 words, then add more with guidance.',
       'B. Begin with 100 words, reducing if needed.',
@@ -3846,11 +4127,13 @@ final List<Question> englevel7aQuestions = [
       'D. Repeat silently, showing words later.',
     ],
     correctAnswer: 'A',
-    explanation: 'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
+    explanation:
+        'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'What does the manual suggest for students struggling with repetition?',
+    text:
+        'What does the manual suggest for students struggling with repetition?',
     options: [
       'A. Repeat with them to guide the process.',
       'B. Let them observe peers before retrying.',
@@ -3858,7 +4141,8 @@ final List<Question> englevel7aQuestions = [
       'D. Skip to writing exercises.',
     ],
     correctAnswer: 'A',
-    explanation: 'A aligns with guidance. B delays, C lacks support, D shifts focus.',
+    explanation:
+        'A aligns with guidance. B delays, C lacks support, D shifts focus.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3870,7 +4154,8 @@ final List<Question> englevel7aQuestions = [
       'D. Allow self correction without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
+    explanation:
+        'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
@@ -3882,11 +4167,13 @@ final List<Question> englevel7aQuestions = [
       'D. Prepare for immediate expression use.',
     ],
     correctAnswer: 'A',
-    explanation: 'A reflects the goal. B is memorization, C skips support, D is unrelated.',
+    explanation:
+        'A reflects the goal. B is memorization, C skips support, D is unrelated.',
     level: QuestionLevel.EngLevel7a,
   ),
   Question(
-    text: 'According to the manual, when can students repeat 100 words smoothly?',
+    text:
+        'According to the manual, when can students repeat 100 words smoothly?',
     options: [
       'A. After mastering repetition of the 10sheet set.',
       'B. When they finish all the sheets quickly.',
@@ -3894,14 +4181,16 @@ final List<Question> englevel7aQuestions = [
       'D. After observing peers repeat successfully.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
+    explanation:
+        'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
     level: QuestionLevel.EngLevel7a,
   ),
 ];
 
 final List<Question> englevel6aQuestions = [
   Question(
-    text: 'A student struggles to write familiar phrases accurately. What would you do?',
+    text:
+        'A student struggles to write familiar phrases accurately. What would you do?',
     options: [
       'A. Write the phrases with them, guiding their hand.',
       'B. Show the phrases and ask them to try again.',
@@ -3909,11 +4198,13 @@ final List<Question> englevel6aQuestions = [
       'D. Let them attempt silently without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A provides direct support with guidance. B is passive, C shifts to modeling, D lacks practice.',
+    explanation:
+        'A provides direct support with guidance. B is passive, C shifts to modeling, D lacks practice.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student misspells words while writing phrases. How should you respond?',
+    text:
+        'A student misspells words while writing phrases. How should you respond?',
     options: [
       'A. Write the phrases correctly, asking them to copy.',
       'B. Point out errors and guide their spelling.',
@@ -3921,11 +4212,13 @@ final List<Question> englevel6aQuestions = [
       'D. Let them continue and review later.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with immediate guidance. B is verbal only, C delays, D avoids correction.',
+    explanation:
+        'A corrects with immediate guidance. B is verbal only, C delays, D avoids correction.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student finishes writing quickly but with sloppy handwriting. What would you do?',
+    text:
+        'A student finishes writing quickly but with sloppy handwriting. What would you do?',
     options: [
       'A. Review their writing, guiding proper form.',
       'B. Praise their speed and ask for neatness.',
@@ -3933,11 +4226,13 @@ final List<Question> englevel6aQuestions = [
       'D. Observe and let them self correct next time.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses form directly. B reinforces speed, C is preparatory, D lacks support.',
+    explanation:
+        'A addresses form directly. B reinforces speed, C is preparatory, D lacks support.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student refuses to write in a group setting. What’s your best action?',
+    text:
+        'A student refuses to write in a group setting. What’s your best action?',
     options: [
       'A. Allow silent writing and check their work.',
       'B. Pair them with a peer to write together.',
@@ -3945,11 +4240,13 @@ final List<Question> englevel6aQuestions = [
       'D. Move to a one on one session for practice.',
     ],
     correctAnswer: 'C',
-    explanation: 'C encourages participation gently. A avoids group practice, B adds pressure, D overadjusts.',
+    explanation:
+        'C encourages participation gently. A avoids group practice, B adds pressure, D overadjusts.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student struggles with writing a 10sheet set, mixing word order. What should you do?',
+    text:
+        'A student struggles with writing a 10sheet set, mixing word order. What should you do?',
     options: [
       'A. Write the set with them, correcting order.',
       'B. Show a sentence chart and guide their writing.',
@@ -3957,11 +4254,13 @@ final List<Question> englevel6aQuestions = [
       'D. Give simpler phrases to build confidence.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
+    explanation:
+        'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student hesitates writing vocabulary on a worksheet. What would you do?',
+    text:
+        'A student hesitates writing vocabulary on a worksheet. What would you do?',
     options: [
       'A. Write the words with them, guiding spelling.',
       'B. Provide a word list for them to study first.',
@@ -3969,11 +4268,13 @@ final List<Question> englevel6aQuestions = [
       'D. Let them write again without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
+    explanation:
+        'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student stops at sentence 5 while writing 10 sentences. What’s your approach?',
+    text:
+        'A student stops at sentence 5 while writing 10 sentences. What’s your approach?',
     options: [
       'A. Write all 10 with them, emphasizing 510.',
       'B. Encourage them past 5 with your guidance.',
@@ -3981,11 +4282,13 @@ final List<Question> englevel6aQuestions = [
       'D. Assign a task stopping at 5 to build skill.',
     ],
     correctAnswer: 'B',
-    explanation: 'B builds on their limit with support. A overdirects, C relies on tools, D limits progress.',
+    explanation:
+        'B builds on their limit with support. A overdirects, C relies on tools, D limits progress.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'Parent Says: “My child writes the same phrases daily. Is this needed?”',
+    text:
+        'Parent Says: “My child writes the same phrases daily. Is this needed?”',
     options: [
       'A. Explain that repetition builds writing accuracy and skill.',
       'B. Note that daily practice ensures neat phrase formation.',
@@ -3993,7 +4296,8 @@ final List<Question> englevel6aQuestions = [
       'D. Suggest that consistent writing prepares them for sentences.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ties repetition to accuracy. B is vague, C lacks detail, D shifts focus to sentences.',
+    explanation:
+        'A ties repetition to accuracy. B is vague, C lacks detail, D shifts focus to sentences.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4005,7 +4309,8 @@ final List<Question> englevel6aQuestions = [
       'D. Assure them writing practice strengthens early English.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses focus and fluency. B misses engagement, C is partial, D is too broad.',
+    explanation:
+        'A addresses focus and fluency. B misses engagement, C is partial, D is too broad.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4017,7 +4322,8 @@ final List<Question> englevel6aQuestions = [
       'D. Assure them sentences solidify phrase foundations.',
     ],
     correctAnswer: 'B',
-    explanation: 'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
+    explanation:
+        'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4029,7 +4335,8 @@ final List<Question> englevel6aQuestions = [
       'D. Advise focusing on slow writing with support.',
     ],
     correctAnswer: 'C',
-    explanation: 'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
+    explanation:
+        'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4041,7 +4348,8 @@ final List<Question> englevel6aQuestions = [
       'D. Suggest that verbal writing strengthens habits.',
     ],
     correctAnswer: 'A',
-    explanation: 'A links to verbal skills. B is secondary, C is vague, D is repetitive.',
+    explanation:
+        'A links to verbal skills. B is secondary, C is vague, D is repetitive.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4053,11 +4361,13 @@ final List<Question> englevel6aQuestions = [
       'D. Propose reducing the session length slightly.',
     ],
     correctAnswer: 'A',
-    explanation: 'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
+    explanation:
+        'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student writes phrases inaccurately due to spelling issues. What’s the best first step?',
+    text:
+        'A student writes phrases inaccurately due to spelling issues. What’s the best first step?',
     options: [
       'A. Write the phrases with them, guiding spelling.',
       'B. Demonstrate correct writing before they retry.',
@@ -4065,7 +4375,8 @@ final List<Question> englevel6aQuestions = [
       'D. Provide a new phrase list with help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects spelling directly. B is preparatory, C lacks support, D delays focus.',
+    explanation:
+        'A corrects spelling directly. B is preparatory, C lacks support, D delays focus.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4077,11 +4388,13 @@ final List<Question> englevel6aQuestions = [
       'D. Show a sentence chart for them to study.',
     ],
     correctAnswer: 'B',
-    explanation: 'B combines support and practice. A is modeling only, C lacks aid, D is passive.',
+    explanation:
+        'B combines support and practice. A is modeling only, C lacks aid, D is passive.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student skips words while writing sentences. What should you do first?',
+    text:
+        'A student skips words while writing sentences. What should you do first?',
     options: [
       'A. Write the sentences with them, pointing to missed words.',
       'B. Let them retry and check their accuracy.',
@@ -4089,11 +4402,13 @@ final List<Question> englevel6aQuestions = [
       'D. Observe and offer hints if they struggle.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
+    explanation:
+        'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'A student struggles with writing vocabulary. What’s your best action?',
+    text:
+        'A student struggles with writing vocabulary. What’s your best action?',
     options: [
       'A. Write the words with them, guiding each one.',
       'B. Show a vocabulary list and guide their writing.',
@@ -4101,7 +4416,8 @@ final List<Question> englevel6aQuestions = [
       'D. Provide a new worksheet with word lines.',
     ],
     correctAnswer: 'A',
-    explanation: 'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
+    explanation:
+        'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4113,11 +4429,13 @@ final List<Question> englevel6aQuestions = [
       'D. Assign a new task to regain their interest.',
     ],
     correctAnswer: 'B',
-    explanation: 'B maintains engagement. A is distracting, C delays, D shifts focus.',
+    explanation:
+        'B maintains engagement. A is distracting, C delays, D shifts focus.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'Case Study: A 6 yea rold student writes phrases but stops, looking confused. What’s the best way to help them progress?',
+    text:
+        'Case Study: A 6 yea rold student writes phrases but stops, looking confused. What’s the best way to help them progress?',
     options: [
       'A. Write phrases to 5 with them, guiding their hand.',
       'B. Show the phrases and ask them to write alone.',
@@ -4125,11 +4443,13 @@ final List<Question> englevel6aQuestions = [
       'D. Provide a new sheet with phrases printed.',
     ],
     correctAnswer: 'C',
-    explanation: 'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
+    explanation:
+        'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'Case Study: A student writes 15 sentences correctly but stumbles at 610. How should you support their learning?',
+    text:
+        'Case Study: A student writes 15 sentences correctly but stumbles at 610. How should you support their learning?',
     options: [
       'A. Write 610 with them, guiding each sentence.',
       'B. Point to 610 while they write alone.',
@@ -4137,11 +4457,13 @@ final List<Question> englevel6aQuestions = [
       'D. Let them try again without immediate help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
+    explanation:
+        'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'Case Study: A student reverses letter order in sentences often. What’s your first step to correct this?',
+    text:
+        'Case Study: A student reverses letter order in sentences often. What’s your first step to correct this?',
     options: [
       'A. Write the sentences with them, correcting order.',
       'B. Show a letter chart and ask them to rewrite.',
@@ -4149,11 +4471,13 @@ final List<Question> englevel6aQuestions = [
       'D. Assign a new task focusing on sentence writing.',
     ],
     correctAnswer: 'A',
-    explanation: 'A corrects with realtime guidance. B is passive, C is for tracing, D delays focus.',
+    explanation:
+        'A corrects with realtime guidance. B is passive, C is for tracing, D delays focus.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'Case Study: A student hesitates during phrase writing, looking at peers. What should you do to build confidence?',
+    text:
+        'Case Study: A student hesitates during phrase writing, looking at peers. What should you do to build confidence?',
     options: [
       'A. Write with them, offering praise.',
       'B. Encourage them to watch peers, then try.',
@@ -4161,7 +4485,8 @@ final List<Question> englevel6aQuestions = [
       'D. Suggest they write silently to reduce pressure.',
     ],
     correctAnswer: 'A',
-    explanation: 'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
+    explanation:
+        'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4173,7 +4498,8 @@ final List<Question> englevel6aQuestions = [
       'D. Ensure students write without errors daily.',
     ],
     correctAnswer: 'A',
-    explanation: 'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
+    explanation:
+        'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4185,7 +4511,8 @@ final List<Question> englevel6aQuestions = [
       'D. It ensures students memorize sentence order.',
     ],
     correctAnswer: 'A',
-    explanation: 'A enhances form. B overstates speed, C minimizes teaching, D is incidental.',
+    explanation:
+        'A enhances form. B overstates speed, C minimizes teaching, D is incidental.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4197,7 +4524,8 @@ final List<Question> englevel6aQuestions = [
       'D. After recognizing all words in a set.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures readiness. B lacks progression, C is premature, D skips writing.',
+    explanation:
+        'A ensures readiness. B lacks progression, C is premature, D skips writing.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4209,7 +4537,8 @@ final List<Question> englevel6aQuestions = [
       'D. Ensure mastery of vocabulary lists.',
     ],
     correctAnswer: 'A',
-    explanation: 'A targets writing. B is reading focused, C is unrelated, D is broader.',
+    explanation:
+        'A targets writing. B is reading focused, C is unrelated, D is broader.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4221,7 +4550,8 @@ final List<Question> englevel6aQuestions = [
       'D. None of the above.',
     ],
     correctAnswer: 'D',
-    explanation: 'D applies; immediate guidance is needed, not self correction or easing.',
+    explanation:
+        'D applies; immediate guidance is needed, not self correction or easing.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4233,11 +4563,13 @@ final List<Question> englevel6aQuestions = [
       'D. Reduces the need for instructor guidance.',
     ],
     correctAnswer: 'A',
-    explanation: 'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
+    explanation:
+        'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'According to Level 6A, how should instructors introduce writing phrases?',
+    text:
+        'According to Level 6A, how should instructors introduce writing phrases?',
     options: [
       'A. Start with 15 phrases, then add more with guidance.',
       'B. Begin with 10 phrases, reducing if needed.',
@@ -4245,11 +4577,13 @@ final List<Question> englevel6aQuestions = [
       'D. Write silently, showing phrases later.',
     ],
     correctAnswer: 'A',
-    explanation: 'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
+    explanation:
+        'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'What does the manual suggest for students struggling with sentence writing?',
+    text:
+        'What does the manual suggest for students struggling with sentence writing?',
     options: [
       'A. Write with them to guide the process.',
       'B. Let them observe peers before retrying.',
@@ -4257,7 +4591,8 @@ final List<Question> englevel6aQuestions = [
       'D. Skip to reading exercises.',
     ],
     correctAnswer: 'A',
-    explanation: 'A aligns with guidance. B delays, C lacks support, D shifts focus.',
+    explanation:
+        'A aligns with guidance. B delays, C lacks support, D shifts focus.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4269,7 +4604,8 @@ final List<Question> englevel6aQuestions = [
       'D. Allow self correction without help.',
     ],
     correctAnswer: 'A',
-    explanation: 'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
+    explanation:
+        'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
@@ -4281,11 +4617,13 @@ final List<Question> englevel6aQuestions = [
       'D. Prepare for immediate phrase use.',
     ],
     correctAnswer: 'A',
-    explanation: 'A reflects the goal. B is memorization, C skips support, D is unrelated.',
+    explanation:
+        'A reflects the goal. B is memorization, C skips support, D is unrelated.',
     level: QuestionLevel.EngLevel6a,
   ),
   Question(
-    text: 'According to the manual, when can students write 10 sentences smoothly?',
+    text:
+        'According to the manual, when can students write 10 sentences smoothly?',
     options: [
       'A. After mastering writing the 10sheet set accurately.',
       'B. When they finish all sheets quickly.',
@@ -4293,7 +4631,1809 @@ final List<Question> englevel6aQuestions = [
       'D. After observing peers write successfully.',
     ],
     correctAnswer: 'A',
-    explanation: 'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
+    explanation:
+        'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
     level: QuestionLevel.EngLevel6a,
+  ),
+];
+
+final List<Question> englevel5aQuestions = [
+  Question(
+    text: 'A student struggles to trace letters accurately. What would you do?',
+    options: [
+      'A. Guide their hand while tracing each letter.',
+      'B. Show the letter pattern and ask them to try again.',
+      'C. Demonstrate tracing, then have them follow.',
+      'D. Let them attempt without assistance.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A provides direct support. B is passive, C shifts to modeling, D lacks guidance.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student mispronounces words while reading sentences. How should you respond?',
+    options: [
+      'A. Read the sentences correctly, asking them to echo.',
+      'B. Point out errors and guide their pronunciation.',
+      'C. Correct mistakes after they finish.',
+      'D. Let them continue and review later.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with immediate guidance. B is verbal only, C delays, D avoids correction.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student finishes reading quickly but skips words. What would you do?',
+    options: [
+      'A. Review their reading, guiding missed words.',
+      'B. Praise their speed and ask for accuracy.',
+      'C. Assign a new sentence exercise with focus.',
+      'D. Observe and let them self correct next time.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses skips directly. B reinforces speed, C is preparatory, D lacks support.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student refuses to read aloud in a group setting. What’s your best action?',
+    options: [
+      'A. Allow silent reading and check their understanding.',
+      'B. Pair them with a peer to read together.',
+      'C. Model reading aloud, inviting them to join.',
+      'D. Move to a one on one session for practice.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C encourages participation gently. A avoids group practice, B adds pressure, D overadjusts.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student struggles with recognizing sounds in sentences, mixing them up. What should you do?',
+    options: [
+      'A. Read the sentences with them, clarifying sounds.',
+      'B. Show a sound chart and guide their reading.',
+      'C. Ask them to retry without assistance.',
+      'D. Give simpler words to build confidence.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student hesitates reading sentences on a worksheet. What would you do?',
+    options: [
+      'A. Read the sentences with them, guiding pronunciation.',
+      'B. Provide a sentence list for them to study first.',
+      'C. Demonstrate reading, asking them to copy.',
+      'D. Let them read again without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student stops at sentence 5 while reading 10 sentences. What’s your approach?',
+    options: [
+      'A. Read all 10 with them, emphasizing 510.',
+      'B. Encourage them past 5 with your guidance.',
+      'C. Show a sentence list and ask them to continue.',
+      'D. Assign a task stopping at 5 to build skill.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B builds on their limit with support. A overdirects, C relies on tools, D limits progress.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'Parent Says: “My child traces letters daily. Is this necessary?”',
+    options: [
+      'A. Explain that repetition builds tracing accuracy and skill.',
+      'B. Note that daily practice ensures neat letter formation.',
+      'C. Assure them repetition strengthens writing habits over time.',
+      'D. Suggest that consistent tracing prepares them for reading.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ties repetition to accuracy. B is vague, C lacks detail, D shifts focus to reading.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'Parent Says: “My child finds reading sentences boring.”',
+    options: [
+      'A. Highlight that reading builds focus and sentence recognition.',
+      'B. Explain that repetition improves reading and confidence.',
+      'C. Note that sentence practice develops accuracy and skills.',
+      'D. Assure them reading practice strengthens early English.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses focus and recognition. B misses engagement, C is partial, D is too broad.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'Parent Says: “My child knows words. Why read sentences?”',
+    options: [
+      'A. Clarify that sentences build a stronger reading base.',
+      'B. Explain that reading sentences ensures full early mastery.',
+      'C. Note that progressing to sentences develops confidence.',
+      'D. Assure them sentences solidify word foundations.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'Parent Says: “My child struggles with sentence reading.”',
+    options: [
+      'A. Suggest practicing reading with guidance at home.',
+      'B. Recommend using worksheets to improve reading skills.',
+      'C. Offer to model reading during sessions.',
+      'D. Advise focusing on slow reading with support.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'Parent Says: “Why does my child read aloud so much?”',
+    options: [
+      'A. Explain that reading aloud builds verbal language skills.',
+      'B. Note that speaking enhances memory and fluency.',
+      'C. Assure them reading aloud reinforces word recall.',
+      'D. Suggest that verbal reading strengthens habits.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A links to verbal skills. B is secondary, C is vague, D is repetitive.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'Parent Says: “My child misreads when tired.”',
+    options: [
+      'A. Recommend a break before resuming with guidance.',
+      'B. Suggest continuing with fewer sentences to finish.',
+      'C. Advise observing and correcting later.',
+      'D. Propose reducing the session length slightly.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student traces letters inaccurately due to hand control issues. What’s the best first step?',
+    options: [
+      'A. Guide their hand while tracing each letter.',
+      'B. Demonstrate proper tracing before they retry.',
+      'C. Ask them to trace without assistance.',
+      'D. Provide a new tracing exercise with help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects control directly. B is preparatory, C lacks support, D delays focus.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'A student hesitates reading short sentences. What’s your priority?',
+    options: [
+      'A. Model reading slowly, asking them to follow.',
+      'B. Read with them, guiding pronunciation.',
+      'C. Encourage them to read with minimal help.',
+      'D. Show a sentence chart for them to study.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B combines support and practice. A is modeling only, C lacks aid, D is passive.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student skips words while reading sentences. What should you do first?',
+    options: [
+      'A. Read the sentences with them, pointing to missed words.',
+      'B. Let them retry and check their accuracy.',
+      'C. Assign simpler words to rebuild.',
+      'D. Observe and offer hints if they struggle.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'A student struggles with recognizing sounds in words. What’s your best action?',
+    options: [
+      'A. Read the words with them, clarifying sounds.',
+      'B. Show a sound chart and guide their reading.',
+      'C. Ask them to read without assistance.',
+      'D. Provide a new worksheet with sound examples.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'A student loses focus reading a 10sheet set. What’s your priority?',
+    options: [
+      'A. Redirect with a short reading game and praise.',
+      'B. Continue reading with them, keeping focus.',
+      'C. Suggest a break before resuming the task.',
+      'D. Assign a new task to regain their interest.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B maintains engagement. A is distracting, C delays, D shifts focus.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'Case Study: A 5 year old student traces letters but stops, looking confused. What’s the best way to help them progress?',
+    options: [
+      'A. Trace to 10 letters with them, guiding their hand.',
+      'B. Show the letters and ask them to trace alone.',
+      'C. Guide their tracing to 10 with support.',
+      'D. Provide a new sheet with letters printed.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'Case Study: A student reads 15 sentences correctly but stumbles at 610. How should you support their learning?',
+    options: [
+      'A. Read 610 with them, guiding pronunciation.',
+      'B. Point to 610 while they read alone.',
+      'C. Show a sentence list and guide their reading.',
+      'D. Let them try again without immediate help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'Case Study: A student mispronounces sounds in sentences often. What’s your first step to correct this?',
+    options: [
+      'A. Read the sentences with them, clarifying sounds.',
+      'B. Show a sound chart and ask them to reread.',
+      'C. Guide their pronunciation for each sound.',
+      'D. Assign a new task focusing on sound recognition.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with real time guidance. B is passive, C is general, D delays focus.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'Case Study: A student hesitates during sentence reading, looking at peers. What should you do to build confidence?',
+    options: [
+      'A. Read with them, offering praise.',
+      'B. Encourage them to watch peers, then try.',
+      'C. Demonstrate reading, asking them to follow.',
+      'D. Suggest they read silently to reduce pressure.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'What is the main goal of reading in Level 5A?',
+    options: [
+      'A. Build fluency in reading short sentences.',
+      'B. Teach students to recognize letters quickly.',
+      'C. Help students memorize sentence structures.',
+      'D. Ensure students read without errors daily.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'Why does Kumon emphasize guidance during reading?',
+    options: [
+      'A. It helps students understand correct pronunciation.',
+      'B. It speeds up reading practice.',
+      'C. It reduces the need for verbal instructions.',
+      'D. It ensures students memorize word order.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A enhances pronunciation. B overstates speed, C minimizes teaching, D is incidental.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'When should a student move from tracing to reading?',
+    options: [
+      'A. After consistent accuracy with tracing.',
+      'B. When they can trace without help.',
+      'C. Once they master reading fully.',
+      'D. After recognizing all sounds.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures readiness. B lacks progression, C is premature, D skips reading.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'What is the purpose of sound recognition in early levels?',
+    options: [
+      'A. Develop auditory skills for reading sentences.',
+      'B. Teach students to write sounds correctly.',
+      'C. Help students count letters quickly.',
+      'D. Ensure mastery of vocabulary lists.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A targets auditory skills. B is writing focused, C is unrelated, D is broader.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'How should instructors handle a student skipping words?',
+    options: [
+      'A. Read with them, pointing to missed words.',
+      'B. Let them self correct on the next attempt.',
+      'C. Assign easier sentences to rebuild skills.',
+      'D. None of the above.',
+    ],
+    correctAnswer: 'D',
+    explanation:
+        'D applies; immediate correction is needed, not self correction or easing.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'What role does repetition play in Level 5A?',
+    options: [
+      'A. Reinforces reading accuracy and confidence.',
+      'B. Helps students finish worksheets faster.',
+      'C. Ensures they memorize sentences quickly.',
+      'D. Reduces the need for instructor guidance.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'According to Level 5A, how should instructors introduce reading sentences?',
+    options: [
+      'A. Start with 15 sentences, then add more with guidance.',
+      'B. Begin with 10 sentences, reducing if needed.',
+      'C. Teach all sentences at once with a chart.',
+      'D. Read silently, showing sentences later.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'What does the manual suggest for students struggling with reading?',
+    options: [
+      'A. Read with them to guide pronunciation.',
+      'B. Let them observe peers before retrying.',
+      'C. Provide a new sheet without assistance.',
+      'D. Skip to writing exercises.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A aligns with guidance. B delays, C lacks support, D shifts focus.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'How should instructors use the 10sheet structure?',
+    options: [
+      'A. Guide reading with support for the full set.',
+      'B. Teach students to guess sentences quickly.',
+      'C. Focus on tracing after reading.',
+      'D. Allow self correction without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: 'What is the aim of the sound recognition exercise per the manual?',
+    options: [
+      'A. Build initial reading skills with support.',
+      'B. Ensure students memorize all sounds.',
+      'C. Teach fast reading without guidance.',
+      'D. Prepare for immediate sentence writing.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A reflects the goal. B is memorization, C skips support, D is unrelated.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        'According to the manual, when can students read 10 sentences smoothly?',
+    options: [
+      'A. After mastering reading the 10sheet set accurately.',
+      'B. When they finish all sheets quickly.',
+      'C. If they recognize sounds without help.',
+      'D. After observing peers read successfully.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
+    level: QuestionLevel.EngLevel5a,
+  ),
+];
+
+final List<Question> englevel4aQuestions = [
+  Question(
+    text:
+        'A student struggles to recognize letters (e.g., confusing "b" and "d"). What would you do?',
+    options: [
+      'A. Point to the letters and guide their recognition.',
+      'B. Show the letters and ask them to identify again.',
+      'C. Trace the letters with them, explaining the shapes.',
+      'D. Model the letter sounds and have them repeat.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A provides direct support for recognition. B focuses on retrying, C emphasizes tracing, D shifts to sounds—all relevant to letter recognition support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student makes errors while identifying basic vocabulary (e.g., pointing to "dog" when asked for "cat"). How should you respond?',
+    options: [
+      'A. Correct the error and show the right picture.',
+      'B. Model the correct identification and ask them to repeat.',
+      'C. Point to the picture and guide their identification.',
+      'D. Explain the word meaning and retry together.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with immediate guidance. B focuses on modeling, C emphasizes pointing, D shifts to explanation—all relevant to vocabulary support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student finishes a letter recognition exercise quickly but with errors. What would you do?',
+    options: [
+      'A. Review their work and guide them to correct answers.',
+      'B. Let them retry the exercise with closer guidance.',
+      'C. Show the correct letters and have them redo it.',
+      'D. Provide a similar exercise with support to practice.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses errors directly. B focuses on retrying, C emphasizes correction, D shifts to a new exercise—all relevant to letter recognition correction.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student avoids participating in a group phonics activity. What’s your best action?',
+    options: [
+      'A. Encourage them to join with gentle prompting.',
+      'B. Model a phonics sound and invite them to try.',
+      'C. Let them listen and participate privately later.',
+      'D. Pair them with a peer to sound out together.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A encourages participation. B focuses on modeling, C adjusts to private participation, D involves a peer—all relevant to group engagement.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student struggles with forming simple words (e.g., "bat" from given letters). What should you do?',
+    options: [
+      'A. Form the word with them, guiding each letter.',
+      'B. Show the correct word and ask them to copy it.',
+      'C. Model forming the word and have them repeat.',
+      'D. Provide letter cards and guide their arrangement.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with guidance. B focuses on copying, C emphasizes modeling, D uses tools—all relevant to word formation support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student hesitates to identify letter sounds during practice (e.g., "m" as /m/). What would you do?',
+    options: [
+      'A. Sound out the letter with them, guiding the sound.',
+      'B. Model the letter sound and ask them to repeat.',
+      'C. Show a picture starting with the sound and guide them.',
+      'D. Explain the letter sound and retry together.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct support. B shifts to modeling, C uses pictures, D focuses on explanation—all relevant to letter sound support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student stops at letter 5 in a 10-letter recognition set. What’s your approach?',
+    options: [
+      'A. Guide them through letters 5-10 with support.',
+      'B. Model identifying letters 5-10 and have them follow.',
+      'C. Break the set into smaller parts with guidance.',
+      'D. Identify letters 5-10 together, focusing on errors.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A builds on progress with support. B focuses on modeling, C adjusts structure, D emphasizes errors—all relevant to letter recognition progress.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'Parent Says: “My child practices the same letters daily. Is this necessary?”',
+    options: [
+      'A. Explain that repetition improves letter recognition.',
+      'B. Note that repetition helps with letter sound fluency.',
+      'C. Assure them repetition builds confidence in letters.',
+      'D. Clarify that repetition ensures mastery of the alphabet.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ties repetition to recognition. B focuses on sounds, C emphasizes confidence, D targets mastery—all relevant to letter practice.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'Parent Says: “My child finds phonics boring.”',
+    options: [
+      'A. Explain that phonics builds early reading skills.',
+      'B. Note that phonics helps with sounding out words.',
+      'C. Highlight that phonics improves word recognition.',
+      'D. Assure them phonics enhances literacy confidence.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A connects phonics to reading skills. B focuses on sounding out, C emphasizes recognition, D highlights confidence—all relevant to phonics’ purpose.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'Parent Says: “My child knows some letters. Why practice all of them?”',
+    options: [
+      'A. Explain that practicing all letters ensures full recognition.',
+      'B. Note that letter practice builds a strong foundation.',
+      'C. Assure them it improves overall letter sound skills.',
+      'D. Clarify that it prepares them for word formation.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A emphasizes full recognition. B focuses on foundation, C highlights sounds, D looks ahead—all relevant to letter practice’s role.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'Parent Says: “My child struggles with letter sounds.”',
+    options: [
+      'A. Offer to practice letter sounds with examples in sessions.',
+      'B. Suggest practicing letter sounds with support at home.',
+      'C. Recommend focusing on letter sounds with guidance.',
+      'D. Advise using letter sounds in words with assistance.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A provides direct support in sessions. B involves home practice, C focuses on guidance, D emphasizes word use—all relevant to letter sound support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'Parent Says: “Why does my child say letter sounds so much?”',
+    options: [
+      'A. Explain that saying sounds builds phonics skills.',
+      'B. Note that it helps with early word recognition.',
+      'C. Assure them it improves letter sound fluency.',
+      'D. Clarify that it prepares them for reading words.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A links to phonics skills. B focuses on recognition, C emphasizes fluency, D looks ahead—all relevant to letter sound practice.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'Parent Says: “My child makes mistakes when tired.”',
+    options: [
+      'A. Recommend a break before resuming with guidance.',
+      'B. Suggest reducing the number of exercises when tired.',
+      'C. Advise finishing the session and reviewing later.',
+      'D. Propose focusing on shorter tasks with support.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses fatigue effectively. B lowers expectations, C delays help, D adjusts tasks—all relevant to managing fatigue.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student identifies letters incorrectly (e.g., "p" as "q"). What’s the best first step?',
+    options: [
+      'A. Correct the letter and explain the difference.',
+      'B. Show the correct letter and have them repeat.',
+      'C. Point to the letter and guide their identification.',
+      'D. Trace the letter with them to show the shape.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with an explanation. B focuses on repetition, C emphasizes pointing, D uses tracing—all relevant to letter identification correction.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student hesitates sounding out a simple word (e.g., "hat"). What’s your priority?',
+    options: [
+      'A. Sound out the word with them, guiding each letter.',
+      'B. Break the word into sounds with support.',
+      'C. Model the sounds and ask them to repeat.',
+      'D. Explain the phonics rule and retry together.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A combines support and practice. B adjusts the approach, C shifts to modeling, D focuses on explanation—all relevant to phonics support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student skips letters while identifying a sequence (e.g., "a, b, d"). What should you do first?',
+    options: [
+      'A. Identify the sequence with them, pointing to skipped letters.',
+      'B. Let them retry and check for skipped letters.',
+      'C. Provide hints while they redo the sequence.',
+      'D. Model the sequence with emphasis on all letters.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures immediate correction. B delays help, C offers hints, D focuses on modeling—all relevant to letter sequence accuracy.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student struggles with recognizing basic vocabulary pictures (e.g., "sun"). What’s your best action?',
+    options: [
+      'A. Point to the picture and guide their identification.',
+      'B. Show the correct picture and explain the word.',
+      'C. Model identifying the picture and have them repeat.',
+      'D. Provide a similar picture with support to identify.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct guidance. B focuses on explanation, C emphasizes modeling, D shifts to a new picture—all relevant to vocabulary support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'A student loses focus during a 10-letter identification set. What’s your priority?',
+    options: [
+      'A. Continue identifying with them to maintain focus.',
+      'B. Suggest a break before resuming with guidance.',
+      'C. Identify the set together to re-engage them.',
+      'D. Break the set into smaller parts with support.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A maintains engagement. B delays, C focuses on identifying, D adjusts structure—all relevant to focus management.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'Case Study: A 5-year-old student identifies letters but stops, looking confused. What’s the best way to help them progress?',
+    options: [
+      'A. Guide their identification to the end with support.',
+      'B. Identify the rest of the letters with them, guiding each one.',
+      'C. Break the set into smaller parts with guidance.',
+      'D. Model identifying the letters and have them follow.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A builds on their skill with support. B is more hands-on, C adjusts structure, D focuses on modeling—all relevant to letter identification support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'Case Study: A student identifies 1-5 letters correctly but struggles with 6-10. How should you support their learning?',
+    options: [
+      'A. Guide them through letters 6-10 with support.',
+      'B. Identify letters 6-10 together, focusing on errors.',
+      'C. Model identifying 6-10 and ask them to follow.',
+      'D. Provide hints for 6-10 and let them retry.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct support. B focuses on errors, C shifts to modeling, D provides hints—all relevant to letter identification progress.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'Case Study: A student makes frequent errors in phonics sounds (e.g., "b" as /d/). What’s your first step to correct this?',
+    options: [
+      'A. Correct the sound and explain the phonics rule.',
+      'B. Provide examples of the sound to practice.',
+      'C. Model the correct sound and have them repeat.',
+      'D. Let them retry with guidance on the sound.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with real-time guidance. B focuses on examples, C emphasizes modeling, D involves retrying—all relevant to phonics correction.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'Case Study: A student hesitates during a group letter sound activity, looking at peers. What should you do to build confidence?',
+    options: [
+      'A. Guide them through a sound with encouragement.',
+      'B. Model a sound and ask them to try next.',
+      'C. Let them share privately after the group activity.',
+      'D. Pair them with a peer to sound out together.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A boosts confidence with support. B focuses on modeling, C adjusts to private sharing, D involves a peer—all relevant to group participation.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'What is the main goal of letter practice in Level 4A?',
+    options: [
+      'A. Build fluency in letter recognition.',
+      'B. Improve accuracy in identifying letters.',
+      'C. Enhance confidence in letter naming.',
+      'D. Develop skills in letter sound recognition.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A focuses on fluency. B emphasizes accuracy, C highlights confidence, D targets sounds—all relevant to letter practice goals.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'Why does Kumon emphasize guidance during phonics exercises?',
+    options: [
+      'A. It helps students understand letter sounds.',
+      'B. It improves their accuracy in sounding out words.',
+      'C. It builds confidence in phonics skills.',
+      'D. It ensures they apply phonics in word formation.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A enhances phonics understanding. B focuses on accuracy, C emphasizes confidence, D ties to word formation—all relevant to phonics guidance.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'When should a student move from letter recognition to phonics sounds?',
+    options: [
+      'A. After consistent accuracy with letter recognition.',
+      'B. When they can identify letters with minimal help.',
+      'C. After mastering letter shapes and names.',
+      'D. Once they recognize most letters correctly.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures readiness. B focuses on independence, C adds a prerequisite, D is less strict—all relevant to progression.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'What is the purpose of the 10-letter structure in Level 4A?',
+    options: [
+      'A. Build fluency in letter recognition and sounds.',
+      'B. Improve accuracy in letter identification.',
+      'C. Enhance confidence in letter naming.',
+      'D. Develop skills in early word formation.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A targets fluency. B focuses on accuracy, C emphasizes confidence, D looks ahead—all relevant to the structure’s purpose.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'How should instructors handle a student skipping letters in a sequence?',
+    options: [
+      'A. Identify the sequence with them, pointing to skipped letters.',
+      'B. Let them retry with guidance on each letter.',
+      'C. Provide examples of sequences to practice.',
+      'D. None of the above.',
+    ],
+    correctAnswer: 'D',
+    explanation:
+        'D applies; immediate correction is needed. A, B, and C are all relevant approaches to letter sequence correction.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'What role does repetition play in Level 4A?',
+    options: [
+      'A. Reinforces fluency in letter recognition and sounds.',
+      'B. Builds accuracy in identifying letters.',
+      'C. Improves confidence in letter naming.',
+      'D. Enhances skills in early phonics practice.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A builds fluency. B focuses on accuracy, C emphasizes confidence, D targets phonics—all relevant to repetition’s role.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'According to Level 4A, how should instructors introduce letter sounds?',
+    options: [
+      'A. Start with a few letters, then add more with guidance.',
+      'B. Sound out all letters with them, guiding each one.',
+      'C. Break the sounds into groups for gradual practice.',
+      'D. Model sounding the letters and have them follow.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A follows the manual’s progression. B is hands-on, C adjusts structure, D focuses on modeling—all relevant to introducing letter sounds.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'What does the manual suggest for students struggling with letter recognition?',
+    options: [
+      'A. Guide them through the letters with support.',
+      'B. Identify the letters together, focusing on errors.',
+      'C. Provide hints for the letters to encourage them.',
+      'D. Model identifying the letters for them to follow.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A aligns with guidance. B focuses on errors, C offers hints, D shifts to modeling—all relevant to letter recognition support.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'How should instructors use the 10-letter structure?',
+    options: [
+      'A. Guide identification with support for the full set.',
+      'B. Break the set into smaller parts with guidance.',
+      'C. Identify the set together to improve fluency.',
+      'D. Model identifying the set and have them practice.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A matches the manual. B adjusts structure, C focuses on fluency, D emphasizes modeling—all relevant to the structure’s use.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text: 'What is the aim of the phonics exercise per the manual?',
+    options: [
+      'A. Build understanding of letter sounds with support.',
+      'B. Improve accuracy in sounding out letters.',
+      'C. Enhance confidence in phonics skills.',
+      'D. Develop skills in forming simple words.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A reflects the goal. B focuses on accuracy, C emphasizes confidence, D looks ahead—all relevant to phonics exercises.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+  Question(
+    text:
+        'According to the manual, when can students complete 10 letter sounds smoothly?',
+    options: [
+      'A. After mastering the 10-letter set with accuracy.',
+      'B. When they can sound out letters with minimal help.',
+      'C. After sounding most letters correctly with guidance.',
+      'D. Once they recognize all letter sounds.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures mastery. B focuses on independence, C ties to guidance, D emphasizes recognition—all relevant to phonics progress.',
+    level: QuestionLevel.EngLevel4a,
+  ),
+];
+
+final List<Question> englevel3aQuestions = [
+  Question(
+    text:
+        'A student struggles to read sentences with polysyllabic words. What would you do?',
+    options: [
+      'A. Read the sentences with them, guiding pronunciation.',
+      'B. Show the words and ask them to try again.',
+      'C. Demonstrate reading, then have them follow.',
+      'D. Let them attempt without assistance.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A provides direct support. B is passive, C shifts to modeling, D lacks guidance.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student misspells words while copying sentences. How should you respond?',
+    options: [
+      'A. Copy the sentences correctly, asking them to follow.',
+      'B. Point out errors and guide their spelling.',
+      'C. Correct mistakes after they finish.',
+      'D. Let them continue and review later.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with immediate guidance. B is verbal-only, C delays, D avoids correction.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student finishes copying quickly but with sloppy handwriting. What would you do?',
+    options: [
+      'A. Review their copying, guiding proper form.',
+      'B. Praise their speed and ask for neatness.',
+      'C. Assign a new sentence exercise with focus.',
+      'D. Observe and let them self-correct next time.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses form directly. B reinforces speed, C is preparatory, D lacks support.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student refuses to copy sentences in a group setting. What’s your best action?',
+    options: [
+      'A. Allow silent copying and check their work.',
+      'B. Pair them with a peer to copy together.',
+      'C. Model copying aloud, inviting them to join.',
+      'D. Move to a one-on-one session for practice.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C encourages participation gently. A avoids group practice, B adds pressure, D over-adjusts.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student struggles with spelling patterns, mixing letters. What should you do?',
+    options: [
+      'A. Copy the patterns with them, correcting errors.',
+      'B. Show a spelling chart and guide their writing.',
+      'C. Ask them to retry without assistance.',
+      'D. Give simpler words to build confidence.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student hesitates taking the test on a worksheet. What would you do?',
+    options: [
+      'A. Read the test with them, guiding responses.',
+      'B. Provide a sample test for them to study first.',
+      'C. Demonstrate the test, asking them to copy.',
+      'D. Let them attempt again without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student stops at sentence 5 while copying 10 sentences. What’s your approach?',
+    options: [
+      'A. Copy all 10 with them, emphasizing 5-10.',
+      'B. Encourage them past 5 with your guidance.',
+      'C. Show a sentence list and ask them to continue.',
+      'D. Assign a task stopping at 5 to build skill.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B builds on their limit with support. A over-directs, C relies on tools, D limits progress.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'Parent Says: “My child copies the same sentences daily. Is this needed?”',
+    options: [
+      'A. Explain that repetition builds copying accuracy and skill.',
+      'B. Note that daily practice ensures neat sentence formation.',
+      'C. Assure them repetition strengthens writing habits over time.',
+      'D. Suggest that consistent copying prepares them for reading.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ties repetition to accuracy. B is vague, C lacks detail, D shifts focus to reading.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child finds spelling patterns boring.”',
+    options: [
+      'A. Highlight that spelling builds focus and word recognition.',
+      'B. Explain that repetition improves spelling and confidence.',
+      'C. Note that pattern practice develops accuracy and skills.',
+      'D. Assure them spelling practice strengthens early English.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses focus and recognition. B misses engagement, C is partial, D is too broad.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child knows words. Why copy sentences?”',
+    options: [
+      'A. Clarify that sentences build a stronger writing base.',
+      'B. Explain that copying sentences ensures full early mastery.',
+      'C. Note that progressing to sentences develops confidence.',
+      'D. Assure them sentences solidify word foundations.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child struggles with sentence copying.”',
+    options: [
+      'A. Suggest practicing copying with guidance at home.',
+      'B. Recommend using worksheets to improve copying skills.',
+      'C. Offer to model copying during sessions.',
+      'D. Advise focusing on slow copying with support.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'Parent Says: “Why does my child copy aloud so much?”',
+    options: [
+      'A. Explain that copying aloud builds verbal language skills.',
+      'B. Note that speaking enhances memory and fluency.',
+      'C. Assure them copying aloud reinforces word recall.',
+      'D. Suggest that verbal copying strengthens habits.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A links to verbal skills. B is secondary, C is vague, D is repetitive.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'Parent Says: “My child writes sloppily when tired.”',
+    options: [
+      'A. Recommend a break before resuming with guidance.',
+      'B. Suggest continuing with fewer sentences to finish.',
+      'C. Advise observing and correcting later.',
+      'D. Propose reducing the session length slightly.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student spells patterns inaccurately due to sound issues. What’s the best first step?',
+    options: [
+      'A. Copy the patterns with them, clarifying sounds.',
+      'B. Demonstrate correct spelling before they retry.',
+      'C. Ask them to spell without assistance.',
+      'D. Provide a new pattern list with help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects sounds directly. B is preparatory, C lacks support, D delays focus.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student hesitates reading sentences with polysyllabic words. What’s your priority?',
+    options: [
+      'A. Model reading slowly, asking them to follow.',
+      'B. Read with them, guiding pronunciation.',
+      'C. Encourage them to read with minimal help.',
+      'D. Show a sentence chart for them to study.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B combines support and practice. A is modeling-only, C lacks aid, D is passive.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'A student skips words while copying sentences. What should you do first?',
+    options: [
+      'A. Copy the sentences with them, pointing to missed words.',
+      'B. Let them retry and check their accuracy.',
+      'C. Assign simpler words to rebuild.',
+      'D. Observe and offer hints if they struggle.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'A student struggles with taking the test. What’s your best action?',
+    options: [
+      'A. Read the test with them, guiding responses.',
+      'B. Show a sample test and guide their answers.',
+      'C. Ask them to retry without assistance.',
+      'D. Provide a new worksheet with test questions.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'A student loses focus copying a 10-sheet set. What’s your priority?',
+    options: [
+      'A. Redirect with a short copying game and praise.',
+      'B. Continue copying with them, keeping focus.',
+      'C. Suggest a break before resuming the task.',
+      'D. Assign a new task to regain their interest.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B maintains engagement. A is distracting, C delays, D shifts focus.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'Case Study: A 5-year-old student reads polysyllabic words but stops, looking confused. What’s the best way to help them progress?',
+    options: [
+      'A. Read words to 5 with them, guiding pronunciation.',
+      'B. Show the words and ask them to read alone.',
+      'C. Guide their reading to 5 with support.',
+      'D. Provide a new sheet with words printed.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'Case Study: A student copies 1-5 sentences correctly but stumbles at 6-10. How should you support their learning?',
+    options: [
+      'A. Copy 6-10 with them, guiding each sentence.',
+      'B. Point to 6-10 while they copy alone.',
+      'C. Show a sentence list and guide their copying.',
+      'D. Let them try again without immediate help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'Case Study: A student misspells polysyllabic words in sentences often. What’s your first step to correct this?',
+    options: [
+      'A. Copy the sentences with them, correcting spelling.',
+      'B. Show a spelling chart and ask them to rewrite.',
+      'C. Guide their hand for correct spelling.',
+      'D. Assign a new task focusing on word spelling.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with real-time guidance. B is passive, C is for tracing, D delays focus.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'Case Study: A student hesitates during sentence copying, looking at peers. What should you do to build confidence?',
+    options: [
+      'A. Copy with them, offering praise.',
+      'B. Encourage them to watch peers, then try.',
+      'C. Demonstrate copying, asking them to follow.',
+      'D. Suggest they copy silently to reduce pressure.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'What is the main goal of reading in Level 3A?',
+    options: [
+      'A. Build fluency in reading sentences with polysyllabic words.',
+      'B. Teach students to recognize words quickly.',
+      'C. Help students memorize sentence structures.',
+      'D. Ensure students read without errors daily.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'Why does Kumon emphasize guidance during copying?',
+    options: [
+      'A. It helps students form sentences correctly.',
+      'B. It speeds up copying practice.',
+      'C. It reduces the need for verbal instructions.',
+      'D. It ensures students memorize word order.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A enhances form. B overstates speed, C minimizes teaching, D is incidental.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'When should a student move from spelling to copying?',
+    options: [
+      'A. After consistent accuracy with spelling patterns.',
+      'B. When they can spell without help.',
+      'C. Once they master copying fully.',
+      'D. After recognizing all polysyllabic words.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures readiness. B lacks progression, C is premature, D skips copying.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'What is the purpose of the 10-sheet structure in early levels?',
+    options: [
+      'A. Develop writing skills for sentence copying.',
+      'B. Teach students to read sentences correctly.',
+      'C. Help students count words quickly.',
+      'D. Ensure mastery of vocabulary lists.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A targets writing skills. B is reading-focused, C is unrelated, D is broader.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'How should instructors handle a student skipping words?',
+    options: [
+      'A. Copy with them, pointing to missed words.',
+      'B. Let them self-correct on the next attempt.',
+      'C. Assign easier sentences to rebuild skills.',
+      'D. None of the above.',
+    ],
+    correctAnswer: 'D',
+    explanation:
+        'D applies; immediate correction is needed, not self-correction or easing.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'What role does repetition play in Level 3A?',
+    options: [
+      'A. Reinforces copying accuracy and confidence.',
+      'B. Helps students finish worksheets faster.',
+      'C. Ensures they memorize sentences quickly.',
+      'D. Reduces the need for instructor guidance.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'According to Level 3A, how should instructors introduce reading sentences?',
+    options: [
+      'A. Start with 1-5 sentences, then add more with guidance.',
+      'B. Begin with 10 sentences, reducing if needed.',
+      'C. Teach all sentences at once with a chart.',
+      'D. Read silently, showing sentences later.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'What does the manual suggest for students struggling with copying?',
+    options: [
+      'A. Copy with them to guide the process.',
+      'B. Let them observe peers before retrying.',
+      'C. Provide a new sheet without assistance.',
+      'D. Skip to reading exercises.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A aligns with guidance. B delays, C lacks support, D shifts focus.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'How should instructors use the 10-sheet structure?',
+    options: [
+      'A. Guide copying with support for the full set.',
+      'B. Teach students to guess sentences quickly.',
+      'C. Focus on spelling after copying.',
+      'D. Allow self-correction without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text: 'What is the aim of the spelling pattern exercise per the manual?',
+    options: [
+      'A. Build initial writing skills with support.',
+      'B. Ensure students memorize all patterns.',
+      'C. Teach fast copying without guidance.',
+      'D. Prepare for immediate sentence reading.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A reflects the goal. B is memorization, C skips support, D is unrelated.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+  Question(
+    text:
+        'According to the manual, when can students copy 10 sentences smoothly?',
+    options: [
+      'A. After mastering copying the 10-sheet set accurately.',
+      'B. When they finish all the sheets quickly.',
+      'C. If they recognize polysyllabic words without help.',
+      'D. After observing peers copy successfully.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
+    level: QuestionLevel.EngLevel3a,
+  ),
+];
+
+final List<Question> englevel2aQuestions = [
+  Question(
+    text:
+        'A student struggles to comprehend word puzzle passages. What would you do?',
+    options: [
+      'A. Read the passage with them, explaining key words.',
+      'B. Show the puzzle and ask them to try again.',
+      'C. Demonstrate reading, then have them follow.',
+      'D. Let them attempt without assistance.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A provides direct support. B is passive, C shifts to modeling, D lacks guidance.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student mispronounces words while reading aloud. How should you respond?',
+    options: [
+      'A. Read the words correctly, asking them to echo.',
+      'B. Point out errors and guide their pronunciation.',
+      'C. Correct mistakes after they finish.',
+      'D. Let them continue and review later.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with immediate guidance. B is verbal-only, C delays, D avoids correction.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student finishes reading quickly but lacks comprehension. What would you do?',
+    options: [
+      'A. Review the passage with them, explaining meaning.',
+      'B. Praise their speed and ask for understanding.',
+      'C. Assign a new passage with focus on meaning.',
+      'D. Observe and let them self-correct next time.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses comprehension directly. B reinforces speed, C is preparatory, D lacks support.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student refuses to read aloud in a group setting. What’s your best action?',
+    options: [
+      'A. Allow silent reading and check their understanding.',
+      'B. Pair them with a peer to read together.',
+      'C. Model reading aloud, inviting them to join.',
+      'D. Move to a one-on-one session for practice.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C encourages participation gently. A avoids group practice, B adds pressure, D over-adjusts.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student struggles with identifying nouns in passages, mixing them up. What should you do?',
+    options: [
+      'A. Read the passage with them, highlighting nouns.',
+      'B. Show a noun list and guide their reading.',
+      'C. Ask them to retry without assistance.',
+      'D. Give simpler sentences to build confidence.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student hesitates reading oral passages on a worksheet. What would you do?',
+    options: [
+      'A. Read the passage with them, guiding fluency.',
+      'B. Provide a sample passage for them to study first.',
+      'C. Demonstrate reading, asking them to copy.',
+      'D. Let them read again without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student stops at passage 5 while reading 10 passages. What’s your approach?',
+    options: [
+      'A. Read all 10 with them, emphasizing 5-10.',
+      'B. Encourage them past 5 with your guidance.',
+      'C. Show a passage list and ask them to continue.',
+      'D. Assign a task stopping at 5 to build skill.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B builds on their limit with support. A over-directs, C relies on tools, D limits progress.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'Parent Says: “My child reads the same passages daily. Is this necessary?”',
+    options: [
+      'A. Explain that repetition builds reading fluency and comprehension.',
+      'B. Note that daily practice ensures neat passage recognition.',
+      'C. Assure them repetition strengthens reading habits over time.',
+      'D. Suggest that consistent reading prepares them for writing.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ties repetition to fluency and comprehension. B is vague, C lacks detail, D shifts focus to writing.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'Parent Says: “My child finds oral reading boring.”',
+    options: [
+      'A. Highlight that oral reading builds focus and fluency.',
+      'B. Explain that repetition improves reading and confidence.',
+      'C. Note that passage practice develops accuracy and skills.',
+      'D. Assure them oral reading strengthens early English.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses focus and fluency. B misses engagement, C is partial, D is too broad.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'Parent Says: “My child knows words. Why read passages?”',
+    options: [
+      'A. Clarify that passages build a stronger reading base.',
+      'B. Explain that reading passages ensures full early mastery.',
+      'C. Note that progressing to passages develops confidence.',
+      'D. Assure them passages solidify word foundations.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'Parent Says: “My child struggles with passage comprehension.”',
+    options: [
+      'A. Suggest practicing reading with guidance at home.',
+      'B. Recommend using worksheets to improve comprehension skills.',
+      'C. Offer to model reading during sessions.',
+      'D. Advise focusing on slow reading with support.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'Parent Says: “Why does my child read aloud so much?”',
+    options: [
+      'A. Explain that reading aloud builds verbal fluency and comprehension.',
+      'B. Note that speaking enhances memory and accuracy.',
+      'C. Assure them reading aloud reinforces word recall.',
+      'D. Suggest that verbal reading strengthens habits.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A links to fluency and comprehension. B is secondary, C is vague, D is repetitive.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'Parent Says: “My child misreads when tired.”',
+    options: [
+      'A. Recommend a break before resuming with guidance.',
+      'B. Suggest continuing with fewer passages to finish.',
+      'C. Advise observing and correcting later.',
+      'D. Propose reducing the session length slightly.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student identifies nouns inaccurately due to comprehension issues. What’s the best first step?',
+    options: [
+      'A. Read the passage with them, highlighting nouns.',
+      'B. Demonstrate correct identification before they retry.',
+      'C. Ask them to identify without assistance.',
+      'D. Provide a new noun list with help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects comprehension directly. B is preparatory, C lacks support, D delays focus.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student hesitates reading aloud within one minute. What’s your priority?',
+    options: [
+      'A. Model reading slowly, asking them to follow.',
+      'B. Read with them, guiding pace and fluency.',
+      'C. Encourage them to read with minimal help.',
+      'D. Show a passage chart for them to study.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B combines support and practice. A is modeling-only, C lacks aid, D is passive.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student skips words while reading passages. What should you do first?',
+    options: [
+      'A. Read the passage with them, pointing to missed words.',
+      'B. Let them retry and check their accuracy.',
+      'C. Assign simpler puzzles to rebuild.',
+      'D. Observe and offer hints if they struggle.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'A student struggles with oral reading fluency. What’s your best action?',
+    options: [
+      'A. Read the passage with them, guiding fluency.',
+      'B. Show a fluency guide and guide their reading.',
+      'C. Ask them to read without assistance.',
+      'D. Provide a new worksheet with fluency exercises.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'A student loses focus reading a 10-sheet set. What’s your priority?',
+    options: [
+      'A. Redirect with a short reading game and praise.',
+      'B. Continue reading with them, keeping focus.',
+      'C. Suggest a break before resuming the task.',
+      'D. Assign a new task to regain their interest.',
+    ],
+    correctAnswer: 'B',
+    explanation:
+        'B maintains engagement. A is distracting, C delays, D shifts focus.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'Case Study: A 5-year-old student comprehends word puzzles but stops, looking confused. What’s the best way to help them progress?',
+    options: [
+      'A. Read puzzles to 5 with them, explaining words.',
+      'B. Show the puzzles and ask them to read alone.',
+      'C. Guide their reading to 5 with support.',
+      'D. Provide a new sheet with puzzles printed.',
+    ],
+    correctAnswer: 'C',
+    explanation:
+        'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'Case Study: A student reads 1-5 passages correctly but stumbles at 6-10. How should you support their learning?',
+    options: [
+      'A. Read 6-10 with them, guiding pronunciation.',
+      'B. Point to 6-10 while they read alone.',
+      'C. Show a passage list and guide their reading.',
+      'D. Let them try again without immediate help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'Case Study: A student misidentifies verbs in passages often. What’s your first step to correct this?',
+    options: [
+      'A. Read the passage with them, highlighting verbs.',
+      'B. Show a verb chart and ask them to reread.',
+      'C. Guide their identification for each verb.',
+      'D. Assign a new task focusing on verb recognition.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A corrects with real-time guidance. B is passive, C is general, D delays focus.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'Case Study: A student hesitates during oral reading, looking at peers. What should you do to build confidence?',
+    options: [
+      'A. Read with them, offering praise.',
+      'B. Encourage them to watch peers, then try.',
+      'C. Demonstrate reading, asking them to follow.',
+      'D. Suggest they read silently to reduce pressure.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'What is the main goal of reading in Level 2A?',
+    options: [
+      'A. Build fluency and comprehension in reading passages.',
+      'B. Teach students to recognize words quickly.',
+      'C. Help students memorize passage structures.',
+      'D. Ensure students read without errors daily.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A focuses on fluency and comprehension. B is secondary, C is memorization, D is unrealistic.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'Why does Kumon emphasize guidance during oral reading?',
+    options: [
+      'A. It helps students improve fluency and understanding.',
+      'B. It speeds up reading practice.',
+      'C. It reduces the need for verbal instructions.',
+      'D. It ensures students memorize word order.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A enhances fluency and understanding. B overstates speed, C minimizes teaching, D is incidental.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'When should a student move from word puzzles to passages?',
+    options: [
+      'A. After consistent accuracy with word puzzles.',
+      'B. When they can solve puzzles without help.',
+      'C. Once they master passages fully.',
+      'D. After recognizing all parts of speech.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures readiness. B lacks progression, C is premature, D skips reading.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'What is the purpose of the 10-sheet structure in early levels?',
+    options: [
+      'A. Develop reading fluency and comprehension skills.',
+      'B. Teach students to write sentences correctly.',
+      'C. Help students count words quickly.',
+      'D. Ensure mastery of vocabulary lists.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A targets fluency and comprehension. B is writing-focused, C is unrelated, D is broader.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'How should instructors handle a student skipping words?',
+    options: [
+      'A. Read with them, pointing to missed words.',
+      'B. Let them self-correct on the next attempt.',
+      'C. Assign easier puzzles to rebuild skills.',
+      'D. None of the above.',
+    ],
+    correctAnswer: 'D',
+    explanation:
+        'D applies; immediate correction is needed, not self-correction or easing.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'What role does repetition play in Level 2A?',
+    options: [
+      'A. Reinforces reading fluency and confidence.',
+      'B. Helps students finish worksheets faster.',
+      'C. Ensures they memorize passages quickly.',
+      'D. Reduces the need for instructor guidance.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'According to Level 2A, how should instructors introduce reading passages?',
+    options: [
+      'A. Start with 1-5 passages, then add more with guidance.',
+      'B. Begin with 10 passages, reducing if needed.',
+      'C. Teach all passages at once with a chart.',
+      'D. Read silently, showing passages later.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'What does the manual suggest for students struggling with reading?',
+    options: [
+      'A. Read with them to guide fluency and comprehension.',
+      'B. Let them observe peers before retrying.',
+      'C. Provide a new sheet without assistance.',
+      'D. Skip to writing exercises.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A aligns with guidance. B delays, C lacks support, D shifts focus.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'How should instructors use the 10-sheet structure?',
+    options: [
+      'A. Guide reading with support for the full set.',
+      'B. Teach students to guess passages quickly.',
+      'C. Focus on writing after reading.',
+      'D. Allow self-correction without help.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text: 'What is the aim of the oral reading exercise per the manual?',
+    options: [
+      'A. Build initial fluency and comprehension skills with support.',
+      'B. Ensure students memorize all passages.',
+      'C. Teach fast reading without guidance.',
+      'D. Prepare for immediate passage writing.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A reflects the goal. B is memorization, C skips support, D is unrelated.',
+    level: QuestionLevel.EngLevel2a,
+  ),
+  Question(
+    text:
+        'According to the manual, when can students read 10 passages smoothly?',
+    options: [
+      'A. After mastering reading the 10-sheet set fluently.',
+      'B. When they finish all sheets quickly.',
+      'C. If they recognize parts of speech without help.',
+      'D. After observing peers read successfully.',
+    ],
+    correctAnswer: 'A',
+    explanation:
+        'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
+    level: QuestionLevel.EngLevel2a,
   ),
 ];

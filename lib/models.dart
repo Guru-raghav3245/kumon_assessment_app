@@ -1,4 +1,18 @@
-enum QuestionLevel { level6a, level5a, level4a, level3a, level2a, levelA, levelB, levelC, EngLevel7a, EngLevel6a}
+enum QuestionLevel { 
+  level6a, 
+  level5a, 
+  level4a, 
+  level3a, 
+  level2a, 
+  levelA, 
+  levelB, 
+  levelC, 
+  EngLevel7a, 
+  EngLevel6a, 
+  EngLevel5a, 
+  EngLevel4a, 
+  EngLevel3a, 
+  EngLevel2a}
 
 class Question {
   final String text;
