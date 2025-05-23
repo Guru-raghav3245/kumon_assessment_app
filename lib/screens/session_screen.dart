@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/screens/session_summary_screen.dart';
 import 'package:kumon_assessment_app/question_bank.dart';
+import 'package:kumon_assessment_app/models.dart';
 
 class SessionScreen extends ConsumerStatefulWidget {
   const SessionScreen({super.key});
@@ -20,7 +21,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   @override
   void initState() {
     super.initState();
-    _startTime = DateTime.now(); 
+    _startTime = DateTime.now();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -42,12 +43,24 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     _animationController.forward();
   }
 
+  String _getSubject(QuestionLevel level) {
+    return level.toString().contains('Eng') ? 'English' : 'Math';
+  }
+
+  String _getFormattedLevel(QuestionLevel level) {
+    final levelStr = level.toString();
+    return levelStr
+        .replaceFirst('QuestionLevel.', '')
+        .replaceFirst('EngLevel', '')
+        .replaceFirst('level', '');
+  }
+
   @override
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionProvider);
     final questionNotifier = ref.read(questionProvider.notifier);
-    final totalQuestions =
-        levels.fold(0, (sum, level) => sum + (level['questionsPerSession'] as int));
+    final totalQuestions = levels.fold(
+        0, (sum, level) => sum + (level['questionsPerSession'] as int));
 
     if (questionState.dailyQuestions.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -65,7 +78,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question ${questionState.currentQuestionIndex + 1}/$totalQuestions'),
+        title: Text(
+            'Question ${questionState.currentQuestionIndex + 1}/$totalQuestions'),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.blue,
@@ -89,9 +103,15 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Level: ${currentQuestion.level.toString().split('.').last.replaceFirst('level', '')}',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: Colors.blue,
+                          '${_getSubject(currentQuestion.level)}: ${_getFormattedLevel(currentQuestion.level)}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(
+                                color:
+                                    _getSubject(currentQuestion.level) == 'Math'
+                                        ? Colors.blue
+                                        : Colors.red,
                                 fontWeight: FontWeight.bold,
                               ),
                         ),
@@ -101,16 +121,22 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 16),
-                        ...currentQuestion.options.map((option) => RadioListTile<String>(
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              title: Text(option, style: Theme.of(context).textTheme.bodyMedium),
-                              value: option[0],
-                              groupValue: questionState.selectedAnswer,
-                              onChanged: questionState.showExplanation
-                                  ? null
-                                  : (value) => questionNotifier.selectAnswer(value!),
-                              activeColor: Colors.blue,
-                            )),
+                        ...currentQuestion.options
+                            .map((option) => RadioListTile<String>(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  title: Text(option,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium),
+                                  value: option[0],
+                                  groupValue: questionState.selectedAnswer,
+                                  onChanged: questionState.showExplanation
+                                      ? null
+                                      : (value) =>
+                                          questionNotifier.selectAnswer(value!),
+                                  activeColor: Colors.blue,
+                                )),
                       ],
                     ),
                   ),
@@ -134,8 +160,13 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                             questionState.isAnswerCorrect!
                                 ? 'Correct!'
                                 : 'Incorrect. Correct answer: ${currentQuestion.correctAnswer}',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  color: questionState.isAnswerCorrect! ? Colors.green : Colors.red,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  color: questionState.isAnswerCorrect!
+                                      ? Colors.green
+                                      : Colors.red,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),
@@ -152,8 +183,10 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   onPressed: () async {
-                    if (questionState.currentQuestionIndex + 1 >= totalQuestions) {
-                      final duration = DateTime.now().difference(_startTime).inSeconds;
+                    if (questionState.currentQuestionIndex + 1 >=
+                        totalQuestions) {
+                      final duration =
+                          DateTime.now().difference(_startTime).inSeconds;
                       await questionNotifier.saveSession(duration: duration);
                       Navigator.pushReplacement(
                         context,
@@ -169,9 +202,13 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                     }
                   },
                   icon: const Icon(Icons.arrow_forward),
-                  label: Text(questionState.currentQuestionIndex + 1 < totalQuestions ? 'Next' : 'Finish'),
+                  label: Text(
+                      questionState.currentQuestionIndex + 1 < totalQuestions
+                          ? 'Next'
+                          : 'Finish'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -183,7 +220,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                   icon: const Icon(Icons.check),
                   label: const Text('Submit'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
