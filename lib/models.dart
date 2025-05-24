@@ -15,6 +15,7 @@ enum QuestionLevel {
   EngLevel2a,
   EngLevelA1,
   EngLevelA2,
+  Comp1,
 }
 
 class Question {
