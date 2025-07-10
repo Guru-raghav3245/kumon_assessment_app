@@ -43,7 +43,11 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   }
 
   String _getSubject(QuestionLevel level) {
-    return level.toString().contains('Eng') ? 'English' : 'Math';
+    final levelStr = level.toString();
+    if (levelStr.contains('Comp')) {
+      return ''; // Empty for Comp levels
+    }
+    return levelStr.contains('Eng') ? 'English' : 'Math';
   }
 
   String _getFormattedLevel(QuestionLevel level) {
@@ -66,6 +70,10 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
     final currentQuestion =
         questionState.dailyQuestions[questionState.currentQuestionIndex];
+    final subject = _getSubject(currentQuestion.level);
+    final levelText = subject.isEmpty
+        ? _getFormattedLevel(currentQuestion.level)
+        : '$subject: ${_getFormattedLevel(currentQuestion.level)}';
 
     ref.listen<QuestionState>(questionProvider, (prev, next) {
       if (prev?.currentQuestionIndex != next.currentQuestionIndex ||
@@ -101,17 +109,16 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${_getSubject(currentQuestion.level)}: ${_getFormattedLevel(currentQuestion.level)}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(
-                                color:
-                                    _getSubject(currentQuestion.level) == 'Math'
-                                        ? Colors.blue
-                                        : Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          levelText,
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: subject.isEmpty
+                                        ? Colors.white
+                                        : (subject == 'Math'
+                                            ? Colors.blue
+                                            : Colors.red),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                         const SizedBox(height: 8),
                         Text(
