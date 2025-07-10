@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/screens/session_review_screen.dart';
-import 'package:kumon_assessment_app/question_bank.dart';
 import 'package:kumon_assessment_app/models.dart';
 
 class SessionScreen extends ConsumerStatefulWidget {
