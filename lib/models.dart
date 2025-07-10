@@ -59,11 +59,6 @@ final levels = [
     'questionsPerSession': 1,
   },
   {
-    'level': QuestionLevel.Comp4,
-    'questions': comp4Questions,
-    'questionsPerSession': 1,
-  },
-  {
     'level': QuestionLevel.Comp5,
     'questions': comp5Questions,
     'questionsPerSession': 1,
@@ -194,8 +189,6 @@ final levels = [
     'questionsPerSession': 1,
   },
 ];
-
-
 class Question {
   final String text;
   final List<String> options;

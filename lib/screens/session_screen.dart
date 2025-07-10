@@ -58,8 +58,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionProvider);
     final questionNotifier = ref.read(questionProvider.notifier);
-    final totalQuestions = levels.fold(
-        0, (sum, level) => sum + (level['questionsPerSession'] as int));
+    const totalQuestions = 2; // Fixed to 2 questions per session
 
     if (questionState.dailyQuestions.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -192,7 +191,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                         MaterialPageRoute(
                           builder: (_) => SessionReviewScreen(
                             session: Session(
-                              name: 's${questionState.pastSessions.length + 1} ${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}',
+                              name:
+                                  's${questionState.pastSessions.length + 1} ${DateTime.now().day.toString().padLeft(2, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().year}',
                               results: questionState.sessionResults,
                               duration: duration,
                             ),

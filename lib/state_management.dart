@@ -85,16 +85,23 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final random = Random();
     final selectedQuestions = <Question>[];
 
-    random.nextInt(100);
+    // Step 1: Randomly select two levels
+    final shuffledLevels = List.from(levels)..shuffle(random);
+    final selectedLevels = shuffledLevels.take(2).toList();
 
-    for (var level in levels) {
-      final questions =
-          List<Question>.from(level['questions'] as List<Question>)
-            ..shuffle(random);
-      final questionsPerSession = level['questionsPerSession'] as int;
-      selectedQuestions.addAll(questions.take(questionsPerSession));
+    // Step 2: For each selected level, pick one question with a single correct answer
+    for (var level in selectedLevels) {
+      final questions = (level['questions'] as List<Question>)
+          .where((q) => !q.correctAnswer.contains(
+              ',')) // Filter out questions with multiple correct answers
+          .toList()
+        ..shuffle(random);
+      if (questions.isNotEmpty) {
+        selectedQuestions.add(questions.first); // Take one question
+      }
     }
 
+    // Step 3: Sort questions by level index for consistent ordering
     selectedQuestions.sort((a, b) => a.level.index.compareTo(b.level.index));
 
     return selectedQuestions;
@@ -173,8 +180,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   void nextQuestion() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final totalQuestions = levels.fold(
-          0, (sum, level) => sum + (level['questionsPerSession'] as int));
+      final totalQuestions = 2; // Fixed to 2 questions per session
       if (state.currentQuestionIndex + 1 < totalQuestions) {
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,
