@@ -42,7 +42,7 @@ enum QuestionLevel {
   EngLevelH1,
   Comp1,
   Comp2,
-  Comp3,  
+  Comp3,
   Comp4,
   Comp5,
   Comp6,
@@ -233,6 +233,31 @@ final levels = [
   {
     'level': QuestionLevel.EngLevelE2,
     'questions': englevelE2Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelF1,
+    'questions': englevelF1Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelF2,
+    'questions': englevelF2Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelG1,
+    'questions': englevelG1Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelG2,
+    'questions': englevelG2Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelH1,
+    'questions': englevelH1Questions,
     'questionsPerSession': 1,
   },
 ];

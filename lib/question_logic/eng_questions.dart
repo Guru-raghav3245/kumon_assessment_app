@@ -8549,7 +8549,7 @@ final List<Question> englevelG1Questions = [
   ),
 ];
 
-final List<Question> engLevelG2Questions = [
+final List<Question> englevelG2Questions = [
   Question(
     text: 'A student struggles with interpreting author intent (G2-21 to G2-30) and hesitates. What would you do?',
     options: [
@@ -8972,7 +8972,7 @@ final List<Question> engLevelG2Questions = [
   ),
 ];
 
-final List<Question> engLevelH1Questions = [
+final List<Question> englevelH1Questions = [
   Question(
     text: 'A student struggles with understanding narrative perspective (H1-21 to H1-30) and hesitates. What would you do?',
     options: [
