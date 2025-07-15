@@ -62,7 +62,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionProvider);
     final questionNotifier = ref.read(questionProvider.notifier);
-    const totalQuestions = 2; // Fixed to 2 questions per session
+    const totalQuestions = 2; 
 
     if (questionState.dailyQuestions.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
