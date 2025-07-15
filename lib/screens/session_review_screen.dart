@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kumon_assessment_app/models.dart';
+import 'package:kumon_assessment_app/question_logic/models.dart';
 
 class SessionReviewScreen extends StatelessWidget {
   final Session session;

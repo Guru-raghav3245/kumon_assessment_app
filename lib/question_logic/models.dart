@@ -1,4 +1,6 @@
-import 'package:kumon_assessment_app/question_bank.dart';
+import 'package:kumon_assessment_app/question_logic/eng_questions.dart';
+import 'package:kumon_assessment_app/question_logic/comp_questions.dart';
+import 'package:kumon_assessment_app/question_logic/math_questions.dart';
 
 enum QuestionLevel {
   level6a,
@@ -219,11 +221,22 @@ final levels = [
     'questionsPerSession': 1,
   },
   {
-    'level': QuestionLevel.EngLevelC2,
-    'questions': englevelC2Questions,
+    'level': QuestionLevel.EngLevelD1,
+    'questions': englevelD1Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelE1,
+    'questions': englevelE1Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelE2,
+    'questions': englevelE2Questions,
     'questionsPerSession': 1,
   },
 ];
+
 class Question {
   final String text;
   final List<String> options;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
-import 'package:kumon_assessment_app/models.dart';
+import 'package:kumon_assessment_app/question_logic/models.dart';
 import 'package:kumon_assessment_app/screens/session_review_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 

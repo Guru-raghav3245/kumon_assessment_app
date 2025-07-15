@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 import 'dart:convert';
-import 'package:kumon_assessment_app/models.dart';
+import 'package:kumon_assessment_app/question_logic/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class QuestionState {
