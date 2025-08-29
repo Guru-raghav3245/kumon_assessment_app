@@ -290,6 +290,36 @@ final levels = [
     'questions': englevelH1Questions,
     'questionsPerSession': 1,
   },
+  {
+    'level': QuestionLevel.EngLevelH2,
+    'questions': englevelH2Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelI1,
+    'questions': englevelI1Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelI2,
+    'questions': englevelI2Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelJ,
+    'questions': englevelJQuestions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelK,
+    'questions': englevelKQuestions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.EngLevelL,
+    'questions': englevelLQuestions,
+    'questionsPerSession': 1,
+  },
 ];
 
 class Question {
