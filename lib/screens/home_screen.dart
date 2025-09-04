@@ -15,24 +15,33 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Timer? _cooldownTimer;
+  int _millisecondsRemaining = 0;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        final questionState = ref.read(questionProvider);
-        if (questionState.isCooldownActive && questionState.cooldownEnd != null) {
-          final now = DateTime.now().millisecondsSinceEpoch;
-          if (now >= questionState.cooldownEnd!) {
-            ref.read(questionProvider.notifier).clearCooldown();
-            timer.cancel();
-          }
-          setState(() {});
-        } else {
+      _startCooldownTimer();
+    });
+  }
+
+  void _startCooldownTimer() {
+    _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final questionState = ref.read(questionProvider);
+      if (questionState.isCooldownActive && questionState.cooldownEnd != null) {
+        final now = DateTime.now().millisecondsSinceEpoch;
+        _millisecondsRemaining = questionState.cooldownEnd! - now;
+
+        if (_millisecondsRemaining <= 0) {
+          ref.read(questionProvider.notifier).clearCooldown();
+          _millisecondsRemaining = 0;
           timer.cancel();
         }
-      });
+        setState(() {});
+      } else {
+        _millisecondsRemaining = 0;
+        timer.cancel();
+      }
     });
   }
 
@@ -42,42 +51,104 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.dispose();
   }
 
-  Widget _buildCooldownTimer(int secondsRemaining) {
-    const totalCooldown = 20;
-    final progress = secondsRemaining / totalCooldown;
+  String _formatDuration(int milliseconds) {
+    if (milliseconds <= 0) return '00:00:00';
+
+    final duration = Duration(milliseconds: milliseconds);
+    final hours = duration.inHours.remainder(24).toString().padLeft(2, '0');
+    final minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+
+    return '$hours:$minutes:$seconds';
+  }
+
+  Widget _buildCooldownTimer(int millisecondsRemaining) {
+    const totalCooldown = 20 * 60 * 60 * 1000; // 20 hours in milliseconds
+    final progress = 1.0 - (millisecondsRemaining / totalCooldown);
 
     return Column(
       children: [
-        const SizedBox(height: 20),
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            SizedBox(
-              width: 80,
-              height: 80,
-              child: CircularProgressIndicator(
-                value: progress,
-                strokeWidth: 8,
-                backgroundColor: Colors.grey.shade300,
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-              ),
-            ),
-            Text(
-              '$secondsRemaining',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 24),
+        // Status text
         Text(
-          'Wait to start new session',
+          'Next session available in:',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.blue.shade700,
+                color: Colors.blue.shade800,
                 fontWeight: FontWeight.w600,
               ),
+        ),
+        const SizedBox(height: 20),
+        // Timer circle with text
+        Container(
+          width: 140,
+          height: 140,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.blue.shade300,
+              width: 8,
+            ),
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Progress indicator
+              SizedBox(
+                width: 140,
+                height: 140,
+                child: CircularProgressIndicator(
+                  value: progress,
+                  strokeWidth: 8,
+                  backgroundColor: Colors.grey.shade200,
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              ),
+              // Timer text
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _formatDuration(millisecondsRemaining),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'RobotoMono',
+                          fontSize: 18,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'HH:MM:SS',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey.shade600,
+                          fontSize: 10,
+                        ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        // Skip button
+        ElevatedButton.icon(
+          onPressed: () {
+            // Skip the cooldown for testing
+            ref.read(questionProvider.notifier).clearCooldown();
+            _millisecondsRemaining = 0;
+            setState(() {});
+          },
+          icon: const Icon(Icons.skip_next, size: 18),
+          label: const Text('Skip Cooldown'),
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            backgroundColor: Colors.orange,
+            foregroundColor: Colors.white,
+          ),
         ),
       ],
     );
@@ -86,11 +157,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionProvider);
-    final now = DateTime.now().millisecondsSinceEpoch;
-    final secondsRemaining = questionState.isCooldownActive &&
-            questionState.cooldownEnd != null
-        ? ((questionState.cooldownEnd! - now) / 1000).ceil()
-        : 0;
+    final isCooldownActive =
+        questionState.isCooldownActive && _millisecondsRemaining > 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -120,7 +188,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SessionHistoryScreen()),
+                  MaterialPageRoute(
+                      builder: (_) => const SessionHistoryScreen()),
                 );
               },
             ),
@@ -144,44 +213,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Card(
             elevation: 4,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(24.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Start Session Button
                   ElevatedButton.icon(
-                    onPressed: questionState.isCooldownActive &&
-                            secondsRemaining > 0
+                    onPressed: isCooldownActive
                         ? null
                         : () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (_) => const SessionScreen()),
                             ),
-                    icon: const Icon(Icons.play_arrow, color: Colors.white),
-                    label: const Text('Start Session'),
+                    icon: const Icon(Icons.play_arrow, size: 24),
+                    label: const Text(
+                      'Start Session',
+                      style: TextStyle(fontSize: 16),
+                    ),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 12),
+                          horizontal: 32, vertical: 16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
                     ),
                   ),
-                  if (questionState.isCooldownActive && secondsRemaining > 0)
-                    _buildCooldownTimer(secondsRemaining)
+
+                  // Cooldown Timer or Ready Message
+                  if (isCooldownActive)
+                    _buildCooldownTimer(_millisecondsRemaining)
                   else
                     Column(
                       children: [
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 24),
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.green.shade600,
+                          size: 48,
+                        ),
+                        const SizedBox(height: 12),
                         Text(
                           'Ready to start!',
                           style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
                                     color: Colors.green.shade700,
                                     fontWeight: FontWeight.w600,
                                   ),

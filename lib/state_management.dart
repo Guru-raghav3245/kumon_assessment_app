@@ -228,7 +228,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
           jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
       final now = DateTime.now().millisecondsSinceEpoch;
-      final cooldownDuration = 20 * 1000;
+      final cooldownDuration = 20 * 60 * 60 * 1000;
       final newCooldownEnd = now + cooldownDuration;
       await prefs.setInt('cooldownEnd', newCooldownEnd);
 
