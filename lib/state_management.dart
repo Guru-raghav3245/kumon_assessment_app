@@ -85,23 +85,32 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final random = Random();
     final selectedQuestions = <Question>[];
 
-    // Step 1: Randomly select two levels
-    final shuffledLevels = List.from(levels)..shuffle(random);
-    final selectedLevels = shuffledLevels.take(2).toList();
+    // Get one question from each subject
+    final mathQuestions = mathLevels
+        .expand((level) => (level['questions'] as List<Question>))
+        .where((q) => !q.correctAnswer.contains(','))
+        .toList();
+    final engQuestions = engLevels
+        .expand((level) => (level['questions'] as List<Question>))
+        .where((q) => !q.correctAnswer.contains(','))
+        .toList();
+    final compQuestions = compLevels
+        .expand((level) => (level['questions'] as List<Question>))
+        .where((q) => !q.correctAnswer.contains(','))
+        .toList();
 
-    // Step 2: For each selected level, pick one question with a single correct answer
-    for (var level in selectedLevels) {
-      final questions = (level['questions'] as List<Question>)
-          .where((q) => !q.correctAnswer.contains(
-              ',')) // Filter out questions with multiple correct answers
-          .toList()
-        ..shuffle(random);
-      if (questions.isNotEmpty) {
-        selectedQuestions.add(questions.first); // Take one question
-      }
+    // Select one random question from each subject
+    if (mathQuestions.isNotEmpty) {
+      selectedQuestions.add(mathQuestions[random.nextInt(mathQuestions.length)]);
+    }
+    if (engQuestions.isNotEmpty) {
+      selectedQuestions.add(engQuestions[random.nextInt(engQuestions.length)]);
+    }
+    if (compQuestions.isNotEmpty) {
+      selectedQuestions.add(compQuestions[random.nextInt(compQuestions.length)]);
     }
 
-    // Step 3: Sort questions by level index for consistent ordering
+    // Sort questions by level index for consistent ordering
     selectedQuestions.sort((a, b) => a.level.index.compareTo(b.level.index));
 
     return selectedQuestions;
@@ -180,7 +189,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   void nextQuestion() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final totalQuestions = 2; // Fixed to 2 questions per session
+      const totalQuestions = 3; // Changed from 2 to 3
       if (state.currentQuestionIndex + 1 < totalQuestions) {
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,

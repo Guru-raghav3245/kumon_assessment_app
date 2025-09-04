@@ -45,7 +45,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   String _getSubject(QuestionLevel level) {
     final levelStr = level.toString();
     if (levelStr.contains('Comp')) {
-      return ''; // Empty for Comp levels
+      return 'Competency';
     }
     return levelStr.contains('Eng') ? 'English' : 'Math';
   }
@@ -62,7 +62,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionProvider);
     final questionNotifier = ref.read(questionProvider.notifier);
-    const totalQuestions = 2; 
+    const totalQuestions = 3; // Changed from 2 to 3
 
     if (questionState.dailyQuestions.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -112,8 +112,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                           levelText,
                           style:
                               Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: subject.isEmpty
-                                        ? Colors.white
+                                    color: subject == 'Competency'
+                                        ? Colors.purple
                                         : (subject == 'Math'
                                             ? Colors.blue
                                             : Colors.red),

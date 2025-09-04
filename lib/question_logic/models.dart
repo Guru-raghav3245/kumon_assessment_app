@@ -59,42 +59,8 @@ enum QuestionLevel {
   Comp7,
 }
 
-final levels = [
-  {
-    'level': QuestionLevel.Comp1,
-    'questions': comp1Questions,
-    'questionsPerSession': 1,
-  },
-  {
-    'level': QuestionLevel.Comp2,
-    'questions': comp2Questions,
-    'questionsPerSession': 1,
-  },
-  {
-    'level': QuestionLevel.Comp3,
-    'questions': comp3Questions,
-    'questionsPerSession': 1,
-  },
-  {
-    'level': QuestionLevel.Comp4,
-    'questions': comp4Questions,
-    'questionsPerSession': 1,
-  },
-  {
-    'level': QuestionLevel.Comp5,
-    'questions': comp5Questions,
-    'questionsPerSession': 1,
-  },
-  {
-    'level': QuestionLevel.Comp6,
-    'questions': comp6Questions,
-    'questionsPerSession': 1,
-  },
-  {
-    'level': QuestionLevel.Comp7,
-    'questions': comp7Questions,
-    'questionsPerSession': 1,
-  },
+// Separate levels by subject
+final mathLevels = [
   {
     'level': QuestionLevel.level6a,
     'questions': mathlevel6aQuestions,
@@ -195,6 +161,9 @@ final levels = [
     'questions': mathlevelOQuestions,
     'questionsPerSession': 1,
   },
+];
+
+final engLevels = [
   {
     'level': QuestionLevel.EngLevel7a,
     'questions': englevel7aQuestions,
@@ -321,6 +290,47 @@ final levels = [
     'questionsPerSession': 1,
   },
 ];
+
+final compLevels = [
+  {
+    'level': QuestionLevel.Comp1,
+    'questions': comp1Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.Comp2,
+    'questions': comp2Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.Comp3,
+    'questions': comp3Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.Comp4,
+    'questions': comp4Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.Comp5,
+    'questions': comp5Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.Comp6,
+    'questions': comp6Questions,
+    'questionsPerSession': 1,
+  },
+  {
+    'level': QuestionLevel.Comp7,
+    'questions': comp7Questions,
+    'questionsPerSession': 1,
+  },
+];
+
+// Keep the original levels list for backward compatibility
+final levels = [...mathLevels, ...engLevels, ...compLevels];
 
 class Question {
   final String text;
