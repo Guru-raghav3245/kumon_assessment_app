@@ -193,6 +193,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                       final duration =
                           DateTime.now().difference(_startTime).inSeconds;
                       await questionNotifier.saveSession(duration: duration);
+                      // Replace the Navigator.pushReplacement call with:
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

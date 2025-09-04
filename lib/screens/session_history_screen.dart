@@ -21,7 +21,7 @@ class SessionHistoryScreen extends ConsumerWidget {
       ..sort((a, b) => b.name.compareTo(a.name));
 
     final graphSessions = sessions.reversed.toList();
-    
+
     List<FlSpot> getAccuracySpots() {
       final maxSessions = 10;
       final recentSessions = graphSessions.length > maxSessions
@@ -60,7 +60,8 @@ class SessionHistoryScreen extends ConsumerWidget {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Clear All Sessions'),
-          content: const Text('Are you sure you want to delete all sessions? This action cannot be undone.'),
+          content: const Text(
+              'Are you sure you want to delete all sessions? This action cannot be undone.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -71,7 +72,8 @@ class SessionHistoryScreen extends ConsumerWidget {
                 ref.read(questionProvider.notifier).deleteAllSessions();
                 Navigator.pop(context);
               },
-              child: const Text('Delete All', style: TextStyle(color: Colors.red)),
+              child:
+                  const Text('Delete All', style: TextStyle(color: Colors.red)),
             ),
           ],
         ),
@@ -187,7 +189,12 @@ class SessionHistoryScreen extends ConsumerWidget {
                                         final index = value.toInt();
                                         if (index >= graphSessions.length) {
                                           return const SizedBox();
-                                        }                                        final sessionNumber = graphSessions[index].name.split(' ')[0].substring(1);
+                                        }
+                                        final sessionNumber =
+                                            graphSessions[index]
+                                                .name
+                                                .split(' ')[0]
+                                                .substring(1);
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 8.0),
@@ -279,7 +286,11 @@ class SessionHistoryScreen extends ConsumerWidget {
                                         touchedSpots.map((spot) {
                                       final isAccuracy = spot.barIndex == 0;
                                       // Extract session number for tooltip
-                                      final sessionNumber = graphSessions[spot.x.toInt()].name.split(' ')[0].substring(1);
+                                      final sessionNumber =
+                                          graphSessions[spot.x.toInt()]
+                                              .name
+                                              .split(' ')[0]
+                                              .substring(1);
                                       return LineTooltipItem(
                                         isAccuracy
                                             ? 'Session $sessionNumber\n${spot.y.toStringAsFixed(1)}%'
@@ -317,54 +328,61 @@ class SessionHistoryScreen extends ConsumerWidget {
                     ),
                     margin: const EdgeInsets.symmetric(vertical: 4.0),
                     child: ListTile(
-                      leading: const Icon(Icons.book, color: Colors.blue),
-                      title: Text(
-                        session.name,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      subtitle: Text(
-                        'Time: ${_formatDuration(session.duration)}',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Delete Session'),
-                                  content: Text('Are you sure you want to delete ${session.name}?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        deleteSession(session);
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Delete', style: TextStyle(color: Colors.red)),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            tooltip: 'Delete Session',
-                          ),
-                          const Icon(Icons.arrow_forward_ios, size: 16),
-                        ],
-                      ),
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => SessionReviewScreen(session: session),
+                        leading: const Icon(Icons.book, color: Colors.blue),
+                        title: Text(
+                          session.name,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
-                      ),
-                    ),
+                        subtitle: Text(
+                          'Time: ${_formatDuration(session.duration)}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Delete Session'),
+                                    content: Text(
+                                        'Are you sure you want to delete ${session.name}?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          deleteSession(session);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Delete',
+                                            style:
+                                                TextStyle(color: Colors.red)),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              tooltip: 'Delete Session',
+                            ),
+                            const Icon(Icons.arrow_forward_ios, size: 16),
+                          ],
+                        ),
+                        onTap:
+                            () => // When tapping on a session in history, use:
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => SessionReviewScreen(
+                                      session: session,
+                                      isNewSession: false,
+                                    ),
+                                  ),
+                                )),
                   );
                 },
               ),

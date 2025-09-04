@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/screens/home_screen.dart';
-import 'package:kumon_assessment_app/screens/session_summary_screen.dart';
+import 'package:kumon_assessment_app/screens/session_review_screen.dart';
 import 'package:kumon_assessment_app/theme_provider.dart';
+import 'package:kumon_assessment_app/question_logic/models.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -58,12 +59,15 @@ class MyApp extends ConsumerWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),
-        '/summary': (context) {
+        '/review': (context) {
           final args = ModalRoute.of(context)!.settings.arguments
               as Map<String, dynamic>;
-          final results = args['results'] as List<Map<String, String>>;
-          final duration = args['duration'] as int;
-          return SessionSummaryScreen(results: results, duration: duration);
+          final session = args['session'] as Session;
+          final isNewSession = args['isNewSession'] as bool? ?? false;
+          return SessionReviewScreen(
+            session: session,
+            isNewSession: isNewSession,
+          );
         },
       },
     );
