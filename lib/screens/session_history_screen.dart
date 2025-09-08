@@ -19,10 +19,10 @@ class SessionHistoryScreen extends ConsumerWidget {
     return '${minutes}m ${remainingSeconds}s';
   }
 
-  // Function to generate PDF document
+// Function to generate PDF document with detailed questions
   Future<pw.Document> _generatePdf(List<Session> sessions) async {
     final pdf = pw.Document();
-    
+
     // Add a page to the PDF
     pdf.addPage(
       pw.MultiPage(
@@ -33,40 +33,43 @@ class SessionHistoryScreen extends ConsumerWidget {
             pw.Header(
               level: 0,
               child: pw.Text('Kumon Assessment Session History',
-                  style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+                  style: pw.TextStyle(
+                      fontSize: 24, fontWeight: pw.FontWeight.bold)),
             ),
             pw.SizedBox(height: 20),
-            
+
             // Summary statistics
             pw.Text('Summary Statistics',
-                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+                style:
+                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
             pw.SizedBox(height: 10),
-            
+
             // Calculate overall statistics
             _buildSummaryStatistics(sessions),
             pw.SizedBox(height: 20),
-            
-            // Session details
-            pw.Text('Session Details',
-                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+
+            // Session details with questions
+            pw.Text('Session Details with Questions',
+                style:
+                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
             pw.SizedBox(height: 10),
-            
-            // Session list
-            ..._buildSessionDetails(sessions),
+
+            // Session list with questions
+            ..._buildSessionDetailsWithQuestions(sessions),
           ];
         },
       ),
     );
-    
+
     return pdf;
   }
 
-  // Build summary statistics for PDF
+// Build summary statistics for PDF
   pw.Widget _buildSummaryStatistics(List<Session> sessions) {
     int totalQuestions = 0;
     int correctAnswers = 0;
     int totalDuration = 0;
-    
+
     for (var session in sessions) {
       totalQuestions += session.results.length;
       correctAnswers += session.results
@@ -74,11 +77,10 @@ class SessionHistoryScreen extends ConsumerWidget {
           .length;
       totalDuration += session.duration;
     }
-    
-    final overallAccuracy = totalQuestions > 0 
-        ? (correctAnswers / totalQuestions * 100) 
-        : 0.0;
-    
+
+    final overallAccuracy =
+        totalQuestions > 0 ? (correctAnswers / totalQuestions * 100) : 0.0;
+
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
@@ -91,35 +93,107 @@ class SessionHistoryScreen extends ConsumerWidget {
     );
   }
 
-  // Build session details for PDF
-  List<pw.Widget> _buildSessionDetails(List<Session> sessions) {
+// Build session details with questions for PDF
+  List<pw.Widget> _buildSessionDetailsWithQuestions(List<Session> sessions) {
     List<pw.Widget> widgets = [];
-    
+
     for (var session in sessions) {
       final correctCount = session.results
           .where((r) => r['userAnswer'] == r['correctAnswer'])
           .length;
       final total = session.results.length;
       final accuracy = total > 0 ? (correctCount / total * 100) : 0.0;
-      
+
       widgets.addAll([
+        // Session header
         pw.Container(
-          margin: const pw.EdgeInsets.only(bottom: 10),
+          margin: const pw.EdgeInsets.only(bottom: 10, top: 15),
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              pw.Text('${session.name} - ${_formatDuration(session.duration)}',
-                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+              pw.Text('${session.name}',
+                  style: pw.TextStyle(
+                      fontSize: 16, fontWeight: pw.FontWeight.bold)),
+              pw.Text('Duration: ${_formatDuration(session.duration)}'),
               pw.Text('Accuracy: ${accuracy.toStringAsFixed(1)}%'),
-              pw.Text('Correct: $correctCount/$total'),
+              pw.Text('Score: $correctCount/$total'),
             ],
           ),
         ),
-        pw.Divider(),
+
+        // Questions for this session
+        ..._buildSessionQuestions(session),
+
+        pw.Divider(thickness: 2),
+        pw.SizedBox(height: 10),
       ]);
     }
-    
+
     return widgets;
+  }
+
+// Build questions for a specific session
+  List<pw.Widget> _buildSessionQuestions(Session session) {
+    List<pw.Widget> questionWidgets = [];
+
+    for (var i = 0; i < session.results.length; i++) {
+      final result = session.results[i];
+      final questionNumber = i + 1;
+      final isCorrect = result['userAnswer'] == result['correctAnswer'];
+
+      questionWidgets.addAll([
+        pw.Container(
+          margin: const pw.EdgeInsets.only(bottom: 8, left: 10),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              // Question header with result indicator
+              pw.Row(
+                children: [
+                  pw.Text('Q$questionNumber: ',
+                      style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                  isCorrect
+                      ? pw.Text('Correct',
+                          style: pw.TextStyle(
+                              color: PdfColors.green,
+                              fontWeight: pw.FontWeight.bold))
+                      : pw.Text('Incorrect',
+                          style: pw.TextStyle(
+                              color: PdfColors.red,
+                              fontWeight: pw.FontWeight.bold)),
+                ],
+              ),
+
+              // Question text
+              pw.Text('Question: ${result['question'] ?? 'Unknown'}',
+                  style: pw.TextStyle(fontSize: 12)),
+
+              // Level information
+              pw.Text('Level: ${result['level'] ?? 'Unknown'}',
+                  style: pw.TextStyle(fontSize: 10, color: PdfColors.grey)),
+
+              // User answer
+              pw.Text('Your Answer: ${result['userAnswer'] ?? 'Not answered'}',
+                  style: pw.TextStyle(
+                    fontSize: 11,
+                    color: isCorrect ? PdfColors.green : PdfColors.red,
+                  )),
+
+              // Correct answer (only show if incorrect)
+              if (!isCorrect)
+                pw.Text(
+                    'Correct Answer: ${result['correctAnswer'] ?? 'Unknown'}',
+                    style: pw.TextStyle(fontSize: 11, color: PdfColors.green)),
+
+              pw.SizedBox(height: 4),
+              pw.Divider(thickness: 0.5, color: PdfColors.grey300),
+            ],
+          ),
+        ),
+      ]);
+    }
+
+    return questionWidgets;
   }
 
   // Function to share PDF
@@ -127,14 +201,14 @@ class SessionHistoryScreen extends ConsumerWidget {
     try {
       // Generate PDF
       final pdf = await _generatePdf(sessions);
-      
+
       // Get temporary directory
       final directory = await getTemporaryDirectory();
       final file = File('${directory.path}/session_history.pdf');
-      
+
       // Save PDF to file
       await file.writeAsBytes(await pdf.save());
-      
+
       // Share the file
       await Share.shareXFiles(
         [XFile(file.path)],
