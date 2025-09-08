@@ -38,12 +38,8 @@ class AnalyticsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Streak Counter
-            _buildStreakCard(streak),
-            const SizedBox(height: 16),
-            
-            // Summary Stats
-            _buildSummaryCards(analytics),
+            // Top section with streak and summary cards
+            _buildTopSection(streak, analytics),
             const SizedBox(height: 16),
             
             // Weekly/Monthly Progress Charts
@@ -58,98 +54,119 @@ class AnalyticsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildStreakCard(int streak) {
-    return Card(
-      elevation: 4,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Text(
-              'Current Streak',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '$streak days',
-              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.blue),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Consecutive days with completed sessions',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSummaryCards(AnalyticsData analytics) {
-    return Row(
+  Widget _buildTopSection(int streak, AnalyticsData analytics) {
+    return Column(
       children: [
-        Expanded(
+        // Streak Card - centered and with consistent height
+        SizedBox(
+          width: double.infinity,
           child: Card(
             elevation: 4,
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Total Sessions',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    'Current Streak',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   Text(
-                    '${analytics.totalSessions}',
-                    style: const TextStyle(fontSize: 20, color: Colors.blue),
+                    '$streak days',
+                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.blue),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Consecutive days with completed sessions',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ],
               ),
             ),
           ),
         ),
-        Expanded(
-          child: Card(
-            elevation: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  const Text(
-                    'Avg. Accuracy',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+        const SizedBox(height: 16),
+        
+        // Summary Cards in a row with equal height
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Total Sessions',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          '${analytics.totalSessions}',
+                          style: const TextStyle(fontSize: 20, color: Colors.blue, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${analytics.averageAccuracy.toStringAsFixed(1)}%',
-                    style: const TextStyle(fontSize: 20, color: Colors.green),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Card(
-            elevation: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  const Text(
-                    'Avg. Time',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Avg. Accuracy',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          '${analytics.averageAccuracy.toStringAsFixed(1)}%',
+                          style: const TextStyle(fontSize: 20, color: Colors.green, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _formatDuration(analytics.averageTime),
-                    style: const TextStyle(fontSize: 16, color: Colors.orange),
-                  ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Avg. Time',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          _formatDuration(analytics.averageTime),
+                          style: const TextStyle(fontSize: 16, color: Colors.orange, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
