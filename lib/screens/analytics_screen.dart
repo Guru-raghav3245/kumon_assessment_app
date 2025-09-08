@@ -47,7 +47,7 @@ class AnalyticsScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             
             // Weekly/Monthly Progress Charts
-            _buildProgressCharts(analytics),
+            _buildProgressCharts(analytics, context),
             const SizedBox(height: 16),
             
             // Subject Performance
@@ -156,7 +156,11 @@ class AnalyticsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildProgressCharts(AnalyticsData analytics) {
+  Widget _buildProgressCharts(AnalyticsData analytics, BuildContext context) {
+    // Ensure we have at least 4 weeks of data for display
+    final displayWeeks = analytics.weeklyAccuracy.length;
+    final maxWeeks = displayWeeks > 0 ? displayWeeks : 4;
+    
     return Card(
       elevation: 4,
       child: Padding(
@@ -170,7 +174,7 @@ class AnalyticsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             SizedBox(
-              height: 200,
+              height: 250, // Increased height to accommodate labels
               child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceAround,
@@ -180,13 +184,18 @@ class AnalyticsScreen extends ConsumerWidget {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
+                        reservedSize: 30, // Increased reserved space for bottom labels
                         getTitlesWidget: (value, meta) {
-                          if (value.toInt() >= analytics.weeklyAccuracy.length) {
+                          if (value.toInt() >= maxWeeks) {
                             return const Text('');
                           }
                           return Padding(
                             padding: const EdgeInsets.only(top: 8.0),
-                            child: Text('Week ${value.toInt() + 1}'),
+                            child: Text(
+                              'W${value.toInt() + 1}',
+                              style: const TextStyle(fontSize: 10), // Smaller font for week labels
+                              overflow: TextOverflow.visible,
+                            ),
                           );
                         },
                       ),
@@ -194,32 +203,82 @@ class AnalyticsScreen extends ConsumerWidget {
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
+                        reservedSize: 40, // Increased reserved space for left labels
+                        interval: 20, // Show labels at 20% intervals
                         getTitlesWidget: (value, meta) {
-                          return Text('${value.toInt()}%');
+                          // Only show whole numbers and ensure they fit
+                          if (value % 20 == 0) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Text(
+                                '${value.toInt()}%',
+                                style: const TextStyle(fontSize: 10),
+                                textAlign: TextAlign.right,
+                              ),
+                            );
+                          }
+                          return const Text('');
                         },
                       ),
                     ),
-                    rightTitles: const AxisTitles(),
-                    topTitles: const AxisTitles(),
+                    rightTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    topTitles: const AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
                   ),
-                  gridData: FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  barGroups: analytics.weeklyAccuracy.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final accuracy = entry.value;
+                  gridData: FlGridData(
+                    show: true,
+                    drawHorizontalLine: true,
+                    drawVerticalLine: false,
+                    getDrawingHorizontalLine: (value) => FlLine(
+                      color: Colors.grey.withOpacity(0.2),
+                      strokeWidth: 1,
+                    ),
+                  ),
+                  borderData: FlBorderData(
+                    show: true,
+                    border: Border.all(
+                      color: Colors.grey.withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  barGroups: List.generate(maxWeeks, (index) {
+                    final accuracy = index < analytics.weeklyAccuracy.length 
+                        ? analytics.weeklyAccuracy[index] 
+                        : 0.0;
                     return BarChartGroupData(
                       x: index,
                       barRods: [
                         BarChartRodData(
                           toY: accuracy,
                           color: Colors.blue,
-                          width: 16,
+                          width: 20, // Slightly wider bars for better visibility
+                          borderRadius: BorderRadius.circular(4),
                         ),
                       ],
                     );
-                  }).toList(),
+                  }),
                 ),
               ),
+            ),
+            const SizedBox(height: 8),
+            // Add a legend for the chart
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 12,
+                  height: 12,
+                  color: Colors.blue,
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'Weekly Accuracy (%)',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
             ),
           ],
         ),
@@ -342,7 +401,7 @@ class AnalyticsScreen extends ConsumerWidget {
       }
     }
     
-    // Calculate weekly accuracy
+    // Calculate weekly accuracy for the last 4 weeks
     for (int i = currentWeek - 4; i <= currentWeek; i++) {
       if (sessionsByWeek.containsKey(i)) {
         final weekSessions = sessionsByWeek[i]!;
