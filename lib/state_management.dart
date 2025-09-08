@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:kumon_assessment_app/question_logic/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kumon_assessment_app/screens/analytics_screen.dart';
 
 class QuestionState {
   final List<Question> dailyQuestions;
@@ -327,3 +328,59 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     }
   }
 }
+
+// Add this provider
+final analyticsProvider = FutureProvider<AnalyticsData>((ref) async {
+  final questionState = ref.watch(questionProvider);
+  final sessions = questionState.pastSessions;
+  
+  // Calculate analytics data
+  int totalSessions = sessions.length;
+  int totalQuestions = 0;
+  int correctAnswers = 0;
+  int totalTime = 0;
+  
+  final subjectPerformance = <String, List<int>>{};
+  
+  for (var session in sessions) {
+    totalQuestions += session.results.length;
+    totalTime += session.duration;
+    
+    for (var result in session.results) {
+      if (result['userAnswer'] == result['correctAnswer']) {
+        correctAnswers++;
+      }
+      
+      // Track subject performance
+      final level = result['level'] ?? '';
+      final subject = level.contains('Eng') ? 'English' : 
+                     level.contains('Comp') ? 'Competency' : 'Math';
+      
+      subjectPerformance.putIfAbsent(subject, () => [0, 0]);
+      subjectPerformance[subject]![1]++; // Total questions
+      
+      if (result['userAnswer'] == result['correctAnswer']) {
+        subjectPerformance[subject]![0]++; // Correct answers
+      }
+    }
+  }
+  
+  // Calculate subject performance percentages
+  final subjectAccuracy = <String, double>{};
+  for (var entry in subjectPerformance.entries) {
+    final correct = entry.value[0];
+    final total = entry.value[1];
+    subjectAccuracy[entry.key] = total > 0 ? (correct / total * 100) : 0.0;
+  }
+  
+  return AnalyticsData(
+    totalSessions: totalSessions,
+    totalQuestions: totalQuestions,
+    correctAnswers: correctAnswers,
+    totalTime: totalTime,
+    averageAccuracy: totalQuestions > 0 ? (correctAnswers / totalQuestions * 100) : 0.0,
+    averageTime: totalSessions > 0 ? (totalTime / totalSessions).round() : 0,
+    subjectPerformance: subjectAccuracy,
+    weeklyAccuracy: [], // This would need more complex date handling
+  );
+});
