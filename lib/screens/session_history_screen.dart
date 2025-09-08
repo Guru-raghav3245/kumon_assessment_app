@@ -4,6 +4,11 @@ import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/question_logic/models.dart';
 import 'package:kumon_assessment_app/screens/session_review_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/pdf.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:share_plus/share_plus.dart';
 
 class SessionHistoryScreen extends ConsumerWidget {
   const SessionHistoryScreen({super.key});
@@ -12,6 +17,133 @@ class SessionHistoryScreen extends ConsumerWidget {
     final minutes = seconds ~/ 60;
     final remainingSeconds = seconds % 60;
     return '${minutes}m ${remainingSeconds}s';
+  }
+
+  // Function to generate PDF document
+  Future<pw.Document> _generatePdf(List<Session> sessions) async {
+    final pdf = pw.Document();
+    
+    // Add a page to the PDF
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            // Header
+            pw.Header(
+              level: 0,
+              child: pw.Text('Kumon Assessment Session History',
+                  style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
+            ),
+            pw.SizedBox(height: 20),
+            
+            // Summary statistics
+            pw.Text('Summary Statistics',
+                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 10),
+            
+            // Calculate overall statistics
+            _buildSummaryStatistics(sessions),
+            pw.SizedBox(height: 20),
+            
+            // Session details
+            pw.Text('Session Details',
+                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 10),
+            
+            // Session list
+            ..._buildSessionDetails(sessions),
+          ];
+        },
+      ),
+    );
+    
+    return pdf;
+  }
+
+  // Build summary statistics for PDF
+  pw.Widget _buildSummaryStatistics(List<Session> sessions) {
+    int totalQuestions = 0;
+    int correctAnswers = 0;
+    int totalDuration = 0;
+    
+    for (var session in sessions) {
+      totalQuestions += session.results.length;
+      correctAnswers += session.results
+          .where((r) => r['userAnswer'] == r['correctAnswer'])
+          .length;
+      totalDuration += session.duration;
+    }
+    
+    final overallAccuracy = totalQuestions > 0 
+        ? (correctAnswers / totalQuestions * 100) 
+        : 0.0;
+    
+    return pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        pw.Text('Total Sessions: ${sessions.length}'),
+        pw.Text('Total Questions: $totalQuestions'),
+        pw.Text('Correct Answers: $correctAnswers'),
+        pw.Text('Overall Accuracy: ${overallAccuracy.toStringAsFixed(1)}%'),
+        pw.Text('Total Time: ${_formatDuration(totalDuration)}'),
+      ],
+    );
+  }
+
+  // Build session details for PDF
+  List<pw.Widget> _buildSessionDetails(List<Session> sessions) {
+    List<pw.Widget> widgets = [];
+    
+    for (var session in sessions) {
+      final correctCount = session.results
+          .where((r) => r['userAnswer'] == r['correctAnswer'])
+          .length;
+      final total = session.results.length;
+      final accuracy = total > 0 ? (correctCount / total * 100) : 0.0;
+      
+      widgets.addAll([
+        pw.Container(
+          margin: const pw.EdgeInsets.only(bottom: 10),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text('${session.name} - ${_formatDuration(session.duration)}',
+                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+              pw.Text('Accuracy: ${accuracy.toStringAsFixed(1)}%'),
+              pw.Text('Correct: $correctCount/$total'),
+            ],
+          ),
+        ),
+        pw.Divider(),
+      ]);
+    }
+    
+    return widgets;
+  }
+
+  // Function to share PDF
+  Future<void> _sharePdf(List<Session> sessions) async {
+    try {
+      // Generate PDF
+      final pdf = await _generatePdf(sessions);
+      
+      // Get temporary directory
+      final directory = await getTemporaryDirectory();
+      final file = File('${directory.path}/session_history.pdf');
+      
+      // Save PDF to file
+      await file.writeAsBytes(await pdf.save());
+      
+      // Share the file
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        text: 'My Kumon Assessment Session History',
+        subject: 'Kumon Assessment Results',
+      );
+    } catch (e) {
+      print('Error sharing PDF: $e');
+    }
   }
 
   @override
@@ -88,6 +220,11 @@ class SessionHistoryScreen extends ConsumerWidget {
         backgroundColor: Colors.blue,
         actions: sessions.isNotEmpty
             ? [
+                IconButton(
+                  icon: const Icon(Icons.share),
+                  onPressed: () => _sharePdf(sessions),
+                  tooltip: 'Share Session History',
+                ),
                 IconButton(
                   icon: const Icon(Icons.delete_forever),
                   onPressed: deleteAllSessions,
