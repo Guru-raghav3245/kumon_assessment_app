@@ -27,29 +27,60 @@ class ProfessionalAnalyticsScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      body: analytics.hasSufficientData
+          ? _buildAnalyticsContent(analytics)
+          : _buildNoDataState(),
+    );
+  }
+
+  Widget _buildAnalyticsContent(ProfessionalAnalytics analytics) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Benchmark Overview
+          _buildBenchmarkCard(analytics.benchmarkMetrics),
+          const SizedBox(height: 16),
+          
+          // Subject Mastery
+          _buildSubjectMasteryCard(analytics.subjectMastery),
+          const SizedBox(height: 16),
+          
+          // Response Time Analysis
+          _buildResponseTimeCard(analytics.responseTimeBySubject),
+          const SizedBox(height: 16),
+          
+          // Competency Gap Analysis
+          _buildCompetencyGapCard(analytics.competencyGaps),
+          const SizedBox(height: 16),
+          
+          // Error Patterns
+          _buildErrorPatternsCard(analytics.errorPatterns),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNoDataState() {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.all(32.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Benchmark Overview
-            _buildBenchmarkCard(analytics.benchmarkMetrics),
-            const SizedBox(height: 16),
-            
-            // Subject Mastery
-            _buildSubjectMasteryCard(analytics.subjectMastery),
-            const SizedBox(height: 16),
-            
-            // Response Time Analysis
-            _buildResponseTimeCard(analytics.responseTimeBySubject),
-            const SizedBox(height: 16),
-            
-            // Competency Gap Analysis
-            _buildCompetencyGapCard(analytics.competencyGaps),
-            const SizedBox(height: 16),
-            
-            // Error Patterns
-            _buildErrorPatternsCard(analytics.errorPatterns),
+            Icon(Icons.analytics_outlined, size: 64, color: Colors.grey),
+            SizedBox(height: 16),
+            Text(
+              'No session data available yet',
+              style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Complete a few sessions to see your analytics',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey),
+            ),
           ],
         ),
       ),
@@ -69,22 +100,45 @@ class ProfessionalAnalyticsScreen extends ConsumerWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildBenchmarkItem('Your Avg', '${metrics.personalAverage.toStringAsFixed(1)}%', Colors.blue),
-                _buildBenchmarkItem('Peer Avg', '${metrics.peerAverage.toStringAsFixed(1)}%', Colors.green),
-                _buildBenchmarkItem('Institutional', '${metrics.institutionalAverage.toStringAsFixed(1)}%', Colors.orange),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Center(
-              child: Chip(
-                label: Text('Top ${metrics.percentileRank}% Percentile'),
-                backgroundColor: Colors.blue,
-                labelStyle: const TextStyle(color: Colors.white),
+            
+            if (!metrics.benchmarksAvailable)
+              const Column(
+                children: [
+                  Icon(Icons.info_outline, color: Colors.blue, size: 32),
+                  SizedBox(height: 8),
+                  Text(
+                    'Benchmarks unavailable',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Focus on your personal progress',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
+              )
+            else
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildBenchmarkItem('Your Avg', '${metrics.personalAverage.toStringAsFixed(1)}%', Colors.blue),
+                  _buildBenchmarkItem('Peer Avg', '${metrics.peerAverage!.toStringAsFixed(1)}%', Colors.green),
+                  _buildBenchmarkItem('Institutional', '${metrics.institutionalAverage!.toStringAsFixed(1)}%', Colors.orange),
+                ],
               ),
-            ),
+            
+            if (metrics.benchmarksAvailable && metrics.percentileRank != null) ...[
+              const SizedBox(height: 16),
+              Center(
+                child: Chip(
+                  label: Text('Top ${metrics.percentileRank}% Percentile'),
+                  backgroundColor: Colors.blue,
+                  labelStyle: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -162,7 +216,9 @@ class ProfessionalAnalyticsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildResponseTimeCard(Map<String, int> responseTimes) {
+  Widget _buildResponseTimeCard(Map<String, double> responseTimes) {
+    const idealTime = 45; // seconds per question
+    
     return Card(
       elevation: 4,
       child: Padding(
@@ -177,6 +233,9 @@ class ProfessionalAnalyticsScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             Column(
               children: responseTimes.entries.map((entry) {
+                final hasData = entry.value > 0;
+                final isSlow = entry.value > idealTime;
+                
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6.0),
                   child: Row(
@@ -187,13 +246,28 @@ class ProfessionalAnalyticsScreen extends ConsumerWidget {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Text(
-                        '${entry.value} seconds',
-                        style: TextStyle(
-                          color: entry.value > 50 ? Colors.orange : Colors.green,
-                          fontWeight: FontWeight.bold,
+                      if (!hasData)
+                        const Text(
+                          'N/A',
+                          style: TextStyle(color: Colors.grey),
+                        )
+                      else
+                        Row(
+                          children: [
+                            Text(
+                              '${entry.value.toStringAsFixed(1)}s',
+                              style: TextStyle(
+                                color: isSlow ? Colors.orange : Colors.green,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            if (isSlow)
+                              const Padding(
+                                padding: EdgeInsets.only(left: 4.0),
+                                child: Icon(Icons.warning, color: Colors.orange, size: 16),
+                              ),
+                          ],
                         ),
-                      ),
                     ],
                   ),
                 );
@@ -201,7 +275,7 @@ class ProfessionalAnalyticsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Ideal: < 45 seconds per question',
+              'Ideal: < $idealTime seconds per question',
               style: TextStyle(fontSize: 12, color: Colors.grey, fontStyle: FontStyle.italic),
             ),
           ],

@@ -224,7 +224,7 @@ Generated: ${DateTime.now().toString().split(' ')[0]}
 OVERALL PERFORMANCE:
 - Average Mastery: ${analytics.benchmarkMetrics.personalAverage.toStringAsFixed(1)}%
 - Peer Comparison: Top ${analytics.benchmarkMetrics.percentileRank}%
-- Institutional Benchmark: ${analytics.benchmarkMetrics.institutionalAverage.toStringAsFixed(1)}%
+- Institutional Benchmark: ${analytics.benchmarkMetrics.institutionalAverage!.toStringAsFixed(1)}%
 
 SUBJECT MASTERY:
 ${analytics.subjectMastery.entries.map((e) => '- ${e.key}: ${e.value.toStringAsFixed(1)}%').join('\n')}

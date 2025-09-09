@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/screens/session_review_screen.dart';
 import 'package:kumon_assessment_app/question_logic/models.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class SessionScreen extends ConsumerStatefulWidget {
   const SessionScreen({super.key});
@@ -15,12 +17,17 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
-  late DateTime _startTime;
+  late DateTime _sessionStartTime;
+  late List<DateTime> _questionStartTimes;
+  late List<int> _questionDurations;
 
   @override
   void initState() {
     super.initState();
-    _startTime = DateTime.now();
+    _sessionStartTime = DateTime.now();
+    _questionStartTimes = [DateTime.now()];
+    _questionDurations = List.filled(3, 0); // Initialize for 3 questions
+    
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -37,12 +44,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     super.dispose();
   }
 
-  void _animateQuestionChange() {
-    _animationController.reset();
-    _animationController.forward();
-  }
-
-  String _getSubject(QuestionLevel level) {
+  // Add the missing _getSubjectFromLevel method
+  String _getSubjectFromLevel(QuestionLevel level) {
     final levelStr = level.toString();
     if (levelStr.contains('Comp')) {
       return 'Competency';
@@ -50,6 +53,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     return levelStr.contains('Eng') ? 'English' : 'Math';
   }
 
+  // Add the missing _getFormattedLevel method
   String _getFormattedLevel(QuestionLevel level) {
     final levelStr = level.toString();
     return levelStr
@@ -58,11 +62,143 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
         .replaceFirst('level', '');
   }
 
+  void _animateQuestionChange() {
+    _animationController.reset();
+    _animationController.forward();
+  }
+
+  // Add the missing _resetQuestions method
+  Future<void> _resetQuestions() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('sessionResults');
+    await prefs.setInt('currentQuestionIndex', 0);
+  }
+
+  // Modify the submitAnswer method to track question duration
+  void submitAnswer() async {
+    try {
+      final questionState = ref.read(questionProvider);
+      final currentQuestionIndex = questionState.currentQuestionIndex;
+      
+      // Record question duration
+      final questionEndTime = DateTime.now();
+      final duration = questionEndTime.difference(_questionStartTimes[currentQuestionIndex]).inSeconds;
+      _questionDurations[currentQuestionIndex] = duration;
+      
+      final currentQuestion = questionState.dailyQuestions[questionState.currentQuestionIndex];
+      final isCorrect = questionState.selectedAnswer == currentQuestion.correctAnswer;
+      final result = {
+        'question': currentQuestion.text,
+        'userAnswer': questionState.selectedAnswer!,
+        'correctAnswer': currentQuestion.correctAnswer,
+        'level': currentQuestion.level.toString().split('.').last,
+        'duration': duration.toString(),
+      };
+      final updatedResults = [...questionState.sessionResults, result];
+
+      ref.read(questionProvider.notifier).state = QuestionState(
+        dailyQuestions: questionState.dailyQuestions,
+        currentQuestionIndex: questionState.currentQuestionIndex,
+        selectedAnswer: questionState.selectedAnswer,
+        isAnswerCorrect: isCorrect,
+        showExplanation: true,
+        sessionResults: updatedResults,
+        pastSessions: questionState.pastSessions,
+        isCooldownActive: questionState.isCooldownActive,
+        cooldownEnd: questionState.cooldownEnd,
+      );
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('sessionResults', jsonEncode(updatedResults));
+    } catch (e) {
+      print('Error submitting answer: $e');
+    }
+  }
+
+  // Modify the nextQuestion method to start timing for the next question
+  void nextQuestion() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      const totalQuestions = 3;
+      
+      final questionState = ref.read(questionProvider);
+      if (questionState.currentQuestionIndex + 1 < totalQuestions) {
+        // Start timing for the next question
+        _questionStartTimes.add(DateTime.now());
+        
+        ref.read(questionProvider.notifier).state = QuestionState(
+          dailyQuestions: questionState.dailyQuestions,
+          currentQuestionIndex: questionState.currentQuestionIndex + 1,
+          selectedAnswer: null,
+          isAnswerCorrect: null,
+          showExplanation: false,
+          sessionResults: questionState.sessionResults,
+          pastSessions: questionState.pastSessions,
+          isCooldownActive: questionState.isCooldownActive,
+          cooldownEnd: questionState.cooldownEnd,
+        );
+        await prefs.setInt('currentQuestionIndex', questionState.currentQuestionIndex + 1);
+      }
+    } catch (e) {
+      print('Error navigating to next question: $e');
+    }
+  }
+
+  // Modify the saveSession method to include question durations
+  Future<void> saveSession({int duration = 0}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final questionState = ref.read(questionProvider);
+      final sessionNumber = questionState.pastSessions.length + 1;
+      final today = DateTime.now();
+      final dateStr =
+          "${today.day.toString().padLeft(2, '0')}-${today.month.toString().padLeft(2, '0')}-${today.year}";
+      final sessionName = "s$sessionNumber $dateStr";
+
+      // Add question durations to results
+      final enhancedResults = questionState.sessionResults.asMap().entries.map((entry) {
+        final index = entry.key;
+        final result = Map<String, dynamic>.from(entry.value);
+        if (index < _questionDurations.length) {
+          result['duration'] = _questionDurations[index];
+        }
+        return result;
+      }).toList();
+
+      final newSession = Session(
+        name: sessionName,
+        results: enhancedResults,
+        duration: duration,
+      );
+      final updatedSessions = [...questionState.pastSessions, newSession];
+      await prefs.setString('pastSessions',
+          jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
+
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final cooldownDuration = 20 * 60 * 60 * 1000;
+      final newCooldownEnd = now + cooldownDuration;
+      await prefs.setInt('cooldownEnd', newCooldownEnd);
+
+      await _resetQuestions();
+
+      ref.read(questionProvider.notifier).state = QuestionState(
+        dailyQuestions: questionState.dailyQuestions,
+        currentQuestionIndex: 0,
+        sessionResults: [],
+        pastSessions: updatedSessions,
+        isCooldownActive: true,
+        cooldownEnd: newCooldownEnd,
+      );
+    } catch (e) {
+      print('Error saving session: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionProvider);
     final questionNotifier = ref.read(questionProvider.notifier);
-    const totalQuestions = 3; // Changed from 2 to 3
+    const totalQuestions = 3;
 
     if (questionState.dailyQuestions.isEmpty) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -70,7 +206,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
 
     final currentQuestion =
         questionState.dailyQuestions[questionState.currentQuestionIndex];
-    final subject = _getSubject(currentQuestion.level);
+    final subject = _getSubjectFromLevel(currentQuestion.level);
     final levelText = subject.isEmpty
         ? _getFormattedLevel(currentQuestion.level)
         : '$subject: ${_getFormattedLevel(currentQuestion.level)}';
@@ -191,9 +327,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                     if (questionState.currentQuestionIndex + 1 >=
                         totalQuestions) {
                       final duration =
-                          DateTime.now().difference(_startTime).inSeconds;
-                      await questionNotifier.saveSession(duration: duration);
-                      // Replace the Navigator.pushReplacement call with:
+                          DateTime.now().difference(_sessionStartTime).inSeconds;
+                      await saveSession(duration: duration);
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -209,7 +344,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                         ),
                       );
                     } else {
-                      questionNotifier.nextQuestion();
+                      nextQuestion();
                     }
                   },
                   icon: const Icon(Icons.arrow_forward),
@@ -227,7 +362,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                 ),
               ] else if (questionState.selectedAnswer != null) ...[
                 ElevatedButton.icon(
-                  onPressed: questionNotifier.submitAnswer,
+                  onPressed: submitAnswer,
                   icon: const Icon(Icons.check),
                   label: const Text('Submit'),
                   style: ElevatedButton.styleFrom(

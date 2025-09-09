@@ -358,24 +358,31 @@ class Question {
   }
 }
 
+// Update the Session model to include question durations
 class Session {
   final String name;
-  final List<Map<String, String>> results;
+  final List<Map<String, dynamic>> results; // Changed to dynamic to include duration
   final int duration;
 
-  Session({required this.name, required this.results, required this.duration});
+  Session({
+    required this.name,
+    required this.results,
+    required this.duration,
+  });
 
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'results': results,
-        'duration': duration,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'results': results,
+      'duration': duration,
+    };
+  }
 
-  factory Session.fromJson(Map<String, dynamic> json) => Session(
-        name: json['name'] as String,
-        results: (json['results'] as List<dynamic>)
-            .map((r) => Map<String, String>.from(r as Map))
-            .toList(),
-        duration: json['duration'] as int? ?? 0,
-      );
+  factory Session.fromJson(Map<String, dynamic> json) {
+    return Session(
+      name: json['name'],
+      results: List<Map<String, dynamic>>.from(json['results']),
+      duration: json['duration'],
+    );
+  }
 }
