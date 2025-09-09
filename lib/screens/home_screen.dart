@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kumon_assessment_app/screens/professional_anaytics_screen.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/screens/session_screen.dart';
 import 'package:kumon_assessment_app/screens/session_history_screen.dart';
@@ -194,7 +195,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 );
               },
             ),
-            // Add to the Drawer's ListView children:
             ListTile(
               leading: const Icon(Icons.analytics),
               title: const Text('Progress Analytics'),
@@ -203,6 +203,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const AnalyticsScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.analytics),
+              title: const Text('Professional Analytics'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProfessionalAnalyticsScreen()),
                 );
               },
             ),
