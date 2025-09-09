@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:kumon_assessment_app/question_logic/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kumon_assessment_app/screens/analytics_screen.dart';
 
 class QuestionState {
   final List<Question> dailyQuestions;
@@ -29,8 +28,7 @@ class QuestionState {
   });
 }
 
-final questionProvider =
-    StateNotifierProvider<QuestionNotifier, QuestionState>((ref) {
+final questionProvider = StateNotifierProvider<QuestionNotifier, QuestionState>((ref) {
   return QuestionNotifier();
 });
 
@@ -56,15 +54,14 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         }
       } catch (e) {
         print('Error decoding pastSessions: $e');
+        _showError('Failed to load past sessions');
       }
 
-      bool isCooldownActive =
-          savedCooldownEnd != null && now < savedCooldownEnd;
+      bool isCooldownActive = savedCooldownEnd != null && now < savedCooldownEnd;
       int? cooldownEnd = isCooldownActive ? savedCooldownEnd : null;
 
       final newQuestions = _getRandomQuestions();
-      await prefs.setStringList(
-          'dailyQuestions', newQuestions.map((q) => q.text).toList());
+      await prefs.setStringList('dailyQuestions', newQuestions.map((q) => q.text).toList());
       await prefs.setInt('currentQuestionIndex', 0);
 
       state = QuestionState(
@@ -75,10 +72,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error loading state: $e');
-      state = QuestionState(
-        dailyQuestions: _getRandomQuestions(),
-        pastSessions: [],
-      );
+      _showError('Failed to initialize app state');
+      state = QuestionState(dailyQuestions: _getRandomQuestions(), pastSessions: []);
     }
   }
 
@@ -86,7 +81,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final random = Random();
     final selectedQuestions = <Question>[];
 
-    // Get one question from each subject
     final mathQuestions = mathLevels
         .expand((level) => (level['questions'] as List<Question>))
         .where((q) => !q.correctAnswer.contains(','))
@@ -100,7 +94,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         .where((q) => !q.correctAnswer.contains(','))
         .toList();
 
-    // Select one random question from each subject
     if (mathQuestions.isNotEmpty) {
       selectedQuestions.add(mathQuestions[random.nextInt(mathQuestions.length)]);
     }
@@ -111,9 +104,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       selectedQuestions.add(compQuestions[random.nextInt(compQuestions.length)]);
     }
 
-    // Sort questions by level index for consistent ordering
     selectedQuestions.sort((a, b) => a.level.index.compareTo(b.level.index));
-
     return selectedQuestions;
   }
 
@@ -122,8 +113,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       final newQuestions = _getRandomQuestions();
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt('lastReset', DateTime.now().millisecondsSinceEpoch);
-      await prefs.setStringList(
-          'dailyQuestions', newQuestions.map((q) => q.text).toList());
+      await prefs.setStringList('dailyQuestions', newQuestions.map((q) => q.text).toList());
       await prefs.setInt('currentQuestionIndex', 0);
       await prefs.setString('sessionResults', '[]');
 
@@ -135,10 +125,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error resetting questions: $e');
-      state = QuestionState(
-        dailyQuestions: _getRandomQuestions(),
-        pastSessions: state.pastSessions,
-      );
+      _showError('Failed to reset questions');
+      state = QuestionState(dailyQuestions: _getRandomQuestions(), pastSessions: state.pastSessions);
     }
   }
 
@@ -184,13 +172,14 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       await prefs.setString('sessionResults', jsonEncode(updatedResults));
     } catch (e) {
       print('Error submitting answer: $e');
+      _showError('Failed to submit answer');
     }
   }
 
   void nextQuestion() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      const totalQuestions = 3; // Changed from 2 to 3
+      const totalQuestions = 3;
       if (state.currentQuestionIndex + 1 < totalQuestions) {
         state = QuestionState(
           dailyQuestions: state.dailyQuestions,
@@ -207,6 +196,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       }
     } catch (e) {
       print('Error navigating to next question: $e');
+      _showError('Failed to navigate to next question');
     }
   }
 
@@ -225,8 +215,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         duration: duration,
       );
       final updatedSessions = [...state.pastSessions, newSession];
-      await prefs.setString('pastSessions',
-          jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
+      await prefs.setString('pastSessions', jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
       final now = DateTime.now().millisecondsSinceEpoch;
       final cooldownDuration = 20 * 60 * 60 * 1000;
@@ -245,6 +234,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error saving session: $e');
+      _showError('Failed to save session');
     }
   }
 
@@ -265,22 +255,20 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error clearing cooldown: $e');
+      _showError('Failed to clear cooldown');
     }
   }
 
   Future<void> deleteSession(Session session) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final updatedSessions =
-          state.pastSessions.where((s) => s != session).toList();
-      await prefs.setString('pastSessions',
-          jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
+      final updatedSessions = state.pastSessions.where((s) => s != session).toList();
+      await prefs.setString('pastSessions', jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
-      // Reassign session numbers to maintain sequential order
       final reindexedSessions = updatedSessions.asMap().entries.map((entry) {
         final index = entry.key + 1;
         final s = entry.value;
-        final dateStr = s.name.split(' ')[1]; // Extract date part
+        final dateStr = s.name.split(' ')[1];
         return Session(
           name: 's$index $dateStr',
           results: s.results,
@@ -300,10 +288,10 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         cooldownEnd: state.cooldownEnd,
       );
 
-      await prefs.setString('pastSessions',
-          jsonEncode(reindexedSessions.map((s) => s.toJson()).toList()));
+      await prefs.setString('pastSessions', jsonEncode(reindexedSessions.map((s) => s.toJson()).toList()));
     } catch (e) {
       print('Error deleting session: $e');
+      _showError('Failed to delete session');
     }
   }
 
@@ -325,62 +313,12 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error deleting all sessions: $e');
+      _showError('Failed to delete all sessions');
     }
+  }
+
+  void _showError(String message) {
+    // Placeholder for error handling in UI
+    print('UI Error: $message');
   }
 }
-
-// Add this provider
-final analyticsProvider = FutureProvider<AnalyticsData>((ref) async {
-  final questionState = ref.watch(questionProvider);
-  final sessions = questionState.pastSessions;
-  
-  // Calculate analytics data
-  int totalSessions = sessions.length;
-  int totalQuestions = 0;
-  int correctAnswers = 0;
-  int totalTime = 0;
-  
-  final subjectPerformance = <String, List<int>>{};
-  
-  for (var session in sessions) {
-    totalQuestions += session.results.length;
-    totalTime += session.duration;
-    
-    for (var result in session.results) {
-      if (result['userAnswer'] == result['correctAnswer']) {
-        correctAnswers++;
-      }
-      
-      // Track subject performance
-      final level = result['level'] ?? '';
-      final subject = level.contains('Eng') ? 'English' : 
-                     level.contains('Comp') ? 'Competency' : 'Math';
-      
-      subjectPerformance.putIfAbsent(subject, () => [0, 0]);
-      subjectPerformance[subject]![1]++; // Total questions
-      
-      if (result['userAnswer'] == result['correctAnswer']) {
-        subjectPerformance[subject]![0]++; // Correct answers
-      }
-    }
-  }
-  
-  // Calculate subject performance percentages
-  final subjectAccuracy = <String, double>{};
-  for (var entry in subjectPerformance.entries) {
-    final correct = entry.value[0];
-    final total = entry.value[1];
-    subjectAccuracy[entry.key] = total > 0 ? (correct / total * 100) : 0.0;
-  }
-  
-  return AnalyticsData(
-    totalSessions: totalSessions,
-    totalQuestions: totalQuestions,
-    correctAnswers: correctAnswers,
-    totalTime: totalTime,
-    averageAccuracy: totalQuestions > 0 ? (correctAnswers / totalQuestions * 100) : 0.0,
-    averageTime: totalSessions > 0 ? (totalTime / totalSessions).round() : 0,
-    subjectPerformance: subjectAccuracy,
-    weeklyAccuracy: [], // This would need more complex date handling
-  );
-});
