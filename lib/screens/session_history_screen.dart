@@ -319,12 +319,21 @@ class SessionHistoryScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Performance Trend',
+              'Performance Trends',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
             ),
             const SizedBox(height: 12),
+            
+            // Accuracy Graph
+            Text(
+              'Accuracy Trend',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 8),
             Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
@@ -374,28 +383,8 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       },
                                     ),
                                   ),
-                                  rightTitles: AxisTitles(
-                                    sideTitles: SideTitles(
-                                      showTitles: true,
-                                      reservedSize: 48,
-                                      interval: 60,
-                                      getTitlesWidget: (value, meta) {
-                                        if (value % 60 != 0) {
-                                          return const SizedBox();
-                                        }
-                                        return Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            '${value.toInt()}s',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall
-                                                ?.copyWith(fontSize: 12),
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                  rightTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
                                   ),
                                   bottomTitles: AxisTitles(
                                     sideTitles: SideTitles(
@@ -474,6 +463,142 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       color: Colors.blue.withOpacity(0.1),
                                     ),
                                   ),
+                                ],
+                                lineTouchData: LineTouchData(
+                                  enabled: true,
+                                  touchTooltipData: LineTouchTooltipData(
+                                    getTooltipItems: (touchedSpots) =>
+                                        touchedSpots.map((spot) {
+                                      // Extract session number for tooltip
+                                      final sessionNumber =
+                                          graphSessions[spot.x.toInt()]
+                                              .name
+                                              .split(' ')[0]
+                                              .substring(1);
+                                      return LineTooltipItem(
+                                        'Session $sessionNumber\n${spot.y.toStringAsFixed(1)}%',
+                                        Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(color: Colors.white),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            
+            // Time Graph
+            Text(
+              'Time Trend',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 8),
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: 200,
+                  width: double.infinity,
+                  child: sessions.isEmpty
+                      ? const Center(child: Text('No sessions yet'))
+                      : sessions.length == 1
+                          ? const Center(
+                              child: Text('Need at least 2 sessions for trend'))
+                          : LineChart(
+                              LineChartData(
+                                gridData: FlGridData(
+                                  show: true,
+                                  drawVerticalLine: false,
+                                  getDrawingHorizontalLine: (value) => FlLine(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      strokeWidth: 1),
+                                ),
+                                titlesData: FlTitlesData(
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      reservedSize: 48,
+                                      interval: 60,
+                                      getTitlesWidget: (value, meta) {
+                                        if (value % 60 != 0) {
+                                          return const SizedBox();
+                                        }
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 8.0),
+                                          child: Text(
+                                            '${value.toInt()}s',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(fontSize: 12),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  rightTitles: const AxisTitles(
+                                    sideTitles: SideTitles(showTitles: false),
+                                  ),
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      reservedSize: 30,
+                                      interval: 1,
+                                      getTitlesWidget: (value, meta) {
+                                        final index = value.toInt();
+                                        if (index >= graphSessions.length) {
+                                          return const SizedBox();
+                                        }
+                                        final sessionNumber =
+                                            graphSessions[index]
+                                                .name
+                                                .split(' ')[0]
+                                                .substring(1);
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: Text(
+                                            'S$sessionNumber',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(fontSize: 12),
+                                          )
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  topTitles: const AxisTitles(
+                                      sideTitles:
+                                          SideTitles(showTitles: false)),
+                                ),
+                                borderData: FlBorderData(
+                                  show: true,
+                                  border: Border.all(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      width: 1),
+                                ),
+                                minX: 0,
+                                maxX: (graphSessions.length > 10
+                                        ? 9
+                                        : graphSessions.length - 1)
+                                    .toDouble(),
+                                minY: 0,
+                                maxY: _calculateMaxYForTime(graphSessions),
+                                lineBarsData: [
                                   LineChartBarData(
                                     spots: getDurationSpots(),
                                     isCurved: false,
@@ -501,7 +626,6 @@ class SessionHistoryScreen extends ConsumerWidget {
                                   touchTooltipData: LineTouchTooltipData(
                                     getTooltipItems: (touchedSpots) =>
                                         touchedSpots.map((spot) {
-                                      final isAccuracy = spot.barIndex == 0;
                                       // Extract session number for tooltip
                                       final sessionNumber =
                                           graphSessions[spot.x.toInt()]
@@ -509,9 +633,7 @@ class SessionHistoryScreen extends ConsumerWidget {
                                               .split(' ')[0]
                                               .substring(1);
                                       return LineTooltipItem(
-                                        isAccuracy
-                                            ? 'Session $sessionNumber\n${spot.y.toStringAsFixed(1)}%'
-                                            : 'Session $sessionNumber\n${spot.y.toInt()}s',
+                                        'Session $sessionNumber\n${spot.y.toInt()}s',
                                         Theme.of(context)
                                             .textTheme
                                             .bodySmall!
@@ -526,6 +648,7 @@ class SessionHistoryScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
+            
             Text(
               'Past Sessions',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -608,5 +731,17 @@ class SessionHistoryScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  // Helper function to calculate appropriate max Y value for time graph
+  double _calculateMaxYForTime(List<Session> sessions) {
+    if (sessions.isEmpty) return 100;
+    
+    final maxDuration = sessions
+        .map((session) => session.duration)
+        .reduce((value, element) => value > element ? value : element);
+    
+    // Round up to the nearest 60 seconds for better graph scaling
+    return (maxDuration / 60).ceil() * 60.0;
   }
 }
