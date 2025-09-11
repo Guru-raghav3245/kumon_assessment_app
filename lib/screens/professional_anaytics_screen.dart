@@ -1,8 +1,16 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/question_logic/models.dart';
 import 'dart:math' as math;
+import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/pdf.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:share_plus/share_plus.dart';
+import 'package:csv/csv.dart';
 
 class ProfessionalAnalyticsScreen extends ConsumerStatefulWidget {
   const ProfessionalAnalyticsScreen({super.key});
@@ -107,7 +115,7 @@ class _ProfessionalAnalyticsScreenState
     if (level.toLowerCase().contains('eng')) return 'English';
     if (level.toLowerCase().contains('math') ||
         level.toLowerCase().contains('level')) {
-      return 'Math'; // Updated to include 'Math' for levels
+      return 'Math';
     }
     return 'Unknown';
   }
@@ -135,7 +143,6 @@ class _ProfessionalAnalyticsScreenState
   Map<String, int> _calculateDateBasedStreaks(List<Session> sessions) {
     if (sessions.isEmpty) return {'current': 0, 'best': 0};
 
-    // Sort sessions by date in ascending order
     final sortedSessions = List<Session>.from(sessions)
       ..sort((a, b) => _extractDateFromSessionName(a.name)
           .compareTo(_extractDateFromSessionName(b.name)));
@@ -158,13 +165,12 @@ class _ProfessionalAnalyticsScreenState
       previousDate = currentDate;
     }
 
-    // Check if the current streak extends to today (02:43 PM IST, September 11, 2025)
     final latestSessionDate = _extractDateFromSessionName(sortedSessions.last.name);
     final today = DateTime.now();
     if (latestSessionDate.year == today.year &&
         latestSessionDate.month == today.month &&
         latestSessionDate.day == today.day) {
-      currentStreak++; // Increment if session was today
+      currentStreak++;
     }
 
     return {'current': currentStreak, 'best': bestStreak};
@@ -176,7 +182,6 @@ class _ProfessionalAnalyticsScreenState
 
     for (var session in sessions) {
       for (var result in session.results) {
-        // Handle different possible types for duration
         dynamic durationValue = result['duration'];
         int duration = 0;
 
@@ -228,7 +233,6 @@ class _ProfessionalAnalyticsScreenState
         levelStats[level] ??= {'correct': 0, 'total': 0};
         levelStats[level]!['total'] = levelStats[level]!['total']! + 1;
 
-        // Safe type conversion for answer comparison
         String userAnswer = result['userAnswer']?.toString() ?? '';
         String correctAnswer = result['correctAnswer']?.toString() ?? '';
 
@@ -251,7 +255,6 @@ class _ProfessionalAnalyticsScreenState
       }
     }
 
-    // Sort levels in the order: Competency, Math, English, then alphabetically within each subject
     List<String> orderedLevels = levelStats.keys.toList();
     orderedLevels.sort((a, b) {
       List<String> priorityOrder = ['Competency', 'Math', 'English'];
@@ -266,7 +269,7 @@ class _ProfessionalAnalyticsScreenState
       } else if (bIndex != -1) {
         return 1;
       }
-      return a.compareTo(b); // Alphabetical order for non-matching levels
+      return a.compareTo(b);
     });
 
     return {
@@ -277,25 +280,141 @@ class _ProfessionalAnalyticsScreenState
     };
   }
 
+  Future<void> _generateAnalyticsPdf(List<Session> sessions) async {
+    final pdf = pw.Document();
+    final analytics = _calculateAnalytics(sessions);
+
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.Header(
+              level: 0,
+              child: pw.Text('Professional Analytics Report',
+                  style: pw.TextStyle(
+                      fontSize: 24, fontWeight: pw.FontWeight.bold)),
+            ),
+            pw.SizedBox(height: 20),
+
+            pw.Text('Summary Statistics',
+                style:
+                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 10),
+            pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text('Total Sessions: ${analytics['totalSessions']}'),
+                pw.Text('Average Score: ${analytics['averageScore'].toStringAsFixed(1)}%'),
+                pw.Text('Total Questions: ${analytics['totalQuestions']}'),
+                pw.Text('Correct Answers: ${analytics['correctAnswers']}'),
+                pw.Text('Average Duration: ${_formatDuration(analytics['averageDuration'].toInt())}'),
+                pw.Text('Current Streak: ${analytics['streakInfo']['current']} days'),
+                pw.Text('Best Streak: ${analytics['streakInfo']['best']} days'),
+              ],
+            ),
+            pw.SizedBox(height: 20),
+
+            pw.Text('Subject Performance',
+                style:
+                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 10),
+            ...analytics['subjectPerformance'].entries.map((entry) {
+              final subject = entry.key;
+              final stats = entry.value;
+              final accuracy = stats['total'] > 0
+                  ? (stats['correct'] / stats['total'] * 100)
+                  : 0.0;
+              return pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text('$subject: ${accuracy.toStringAsFixed(1)}% (${stats['correct']}/${stats['total']})'),
+                ],
+              );
+            }).toList(),
+          ];
+        },
+      ),
+    );
+
+    final directory = await getTemporaryDirectory();
+    final file = File('${directory.path}/professional_analytics.pdf');
+    await file.writeAsBytes(await pdf.save());
+
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: 'Professional Analytics Report',
+      subject: 'Kumon Analytics Results',
+    );
+  }
+
+  String _formatDuration(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes}m ${remainingSeconds}s';
+  }
+
+  Future<void> _generateAnalyticsCsv(List<Session> sessions) async {
+    final analytics = _calculateAnalytics(sessions);
+    final csvData = <List<dynamic>>[];
+
+    // Headers
+    csvData.add([
+      'Metric',
+      'Value'
+    ]);
+
+    // Summary Statistics
+    csvData.add(['Total Sessions', analytics['totalSessions']]);
+    csvData.add(['Average Score (%)', analytics['averageScore'].toStringAsFixed(1)]);
+    csvData.add(['Total Questions', analytics['totalQuestions']]);
+    csvData.add(['Correct Answers', analytics['correctAnswers']]);
+    csvData.add(['Average Duration (s)', analytics['averageDuration']]);
+    csvData.add(['Current Streak (days)', analytics['streakInfo']['current']]);
+    csvData.add(['Best Streak (days)', analytics['streakInfo']['best']]);
+
+    // Subject Performance
+    csvData.add(['']);
+    csvData.add(['Subject Performance']);
+    for (var entry in analytics['subjectPerformance'].entries) {
+      final subject = entry.key;
+      final stats = entry.value;
+      final accuracy = stats['total'] > 0
+          ? (stats['correct'] / stats['total'] * 100)
+          : 0.0;
+      csvData.add(['$subject Accuracy (%)', accuracy.toStringAsFixed(1)]);
+      csvData.add(['$subject Correct', stats['correct']]);
+      csvData.add(['$subject Total', stats['total']]);
+    }
+
+    // Convert to CSV string
+    final csvString = const ListToCsvConverter().convert(csvData);
+
+    // Save to file
+    final directory = await getTemporaryDirectory();
+    final file = File('${directory.path}/professional_analytics.csv');
+    await file.writeAsString(csvString);
+
+    // Share the file
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: 'Professional Analytics Report',
+      subject: 'Kumon Analytics Results',
+    );
+  }
+
   Widget _buildOverviewTab(Map<String, dynamic> analytics) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Key Metrics Cards
           _buildMetricsGrid(analytics),
           const SizedBox(height: 24),
-
-          // Performance Chart
           _buildPerformanceChart(analytics),
           const SizedBox(height: 24),
-
-          // Subject Performance
           _buildSubjectPerformance(analytics),
           const SizedBox(height: 24),
-
-          // Quick Insights
           _buildQuickInsights(analytics),
         ],
       ),
@@ -507,7 +626,7 @@ class _ProfessionalAnalyticsScreenState
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: Colors.black87, // Changed to dark background for readability
+      color: Colors.black87,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -690,6 +809,43 @@ class _ProfessionalAnalyticsScreenState
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.blue,
+        actions: sessions.isNotEmpty
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.share),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Export Analytics'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.picture_as_pdf),
+                              title: const Text('Export as PDF'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                _generateAnalyticsPdf(sessions);
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.table_chart),
+                              title: const Text('Export as CSV'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                _generateAnalyticsCsv(sessions);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  tooltip: 'Export Analytics',
+                ),
+              ]
+            : null,
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
@@ -772,7 +928,6 @@ class _LineChartPainter extends CustomPainter {
       ..color = Colors.grey.shade300
       ..strokeWidth = 1;
 
-    // Draw grid lines
     for (int i = 0; i <= 4; i++) {
       final y = size.height * i / 4;
       canvas.drawLine(
@@ -783,7 +938,6 @@ class _LineChartPainter extends CustomPainter {
     }
 
     if (sessions.length == 1) {
-      // Single point
       final point = Offset(
           size.width / 2, size.height * (1 - sessions[0]['score'] / 100));
       canvas.drawCircle(point, 6, pointPaint);
@@ -808,7 +962,6 @@ class _LineChartPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    // Draw points
     for (final point in points) {
       canvas.drawCircle(point, 4, pointPaint);
     }
@@ -823,7 +976,6 @@ Widget _buildProgressTab(BuildContext context, Map<String, dynamic> analytics) {
   List<String> orderedLevels = difficultyAnalysis['orderedLevels'] ?? [];
   Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'];
 
-  // Sort levels by custom order (Competency, Math, English) and alphabetically within
   List<String> customOrderedLevels = [];
   List<String> competencyLevels = [];
   List<String> mathLevels = [];
@@ -900,7 +1052,7 @@ Widget _buildProgressTab(BuildContext context, Map<String, dynamic> analytics) {
               ],
             ),
           );
-        }).toList(),
+        }),
       ],
     ),
   );
@@ -926,7 +1078,7 @@ Widget _buildRecommendationsTab(
               elevation: 4,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
-              color: Colors.grey[850], // Dark background for better readability
+              color: Colors.grey[850],
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -987,7 +1139,6 @@ List<Map<String, dynamic>> _generateRecommendations(
     Map<String, dynamic> analytics) {
   List<Map<String, dynamic>> recommendations = [];
 
-  // Accuracy-based recommendations
   if (analytics['averageScore'] < 70) {
     recommendations.add({
       'title': 'Focus on Accuracy',
@@ -1019,7 +1170,6 @@ List<Map<String, dynamic>> _generateRecommendations(
     });
   }
 
-  // Time-based recommendations
   Map<String, dynamic> timeAnalysis =
       Map<String, dynamic>.from(analytics['timeAnalysis']);
   int avgTime = timeAnalysis['average'] ?? 0;
@@ -1054,7 +1204,6 @@ List<Map<String, dynamic>> _generateRecommendations(
     });
   }
 
-  // Subject-specific recommendations
   Map<String, Map<String, int>> subjectPerf =
       Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
 
@@ -1108,7 +1257,6 @@ List<Map<String, dynamic>> _generateRecommendations(
     });
   }
 
-  // Streak and consistency recommendations
   int currentStreak = analytics['streakInfo']['current'];
   if (currentStreak == 0) {
     recommendations.add({
@@ -1139,7 +1287,6 @@ List<Map<String, dynamic>> _generateRecommendations(
     });
   }
 
-  // General study recommendations
   recommendations.add({
     'title': 'Study Strategy Optimization',
     'description': 'Enhance your learning approach for better results.',
