@@ -313,7 +313,7 @@ class SessionHistoryScreen extends ConsumerWidget {
               ]
             : null,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -656,8 +656,16 @@ class SessionHistoryScreen extends ConsumerWidget {
                   ),
             ),
             const SizedBox(height: 8),
-            Expanded(
+            
+            // Session List - Removed Expanded and used a fixed height container
+            Container(
+              constraints: BoxConstraints(
+                minHeight: 200, // Minimum height
+                maxHeight: MediaQuery.of(context).size.height * 0.5, // Maximum height
+              ),
               child: ListView.builder(
+                shrinkWrap: true, // Important for nested ListView
+                physics: const ClampingScrollPhysics(), // Prevent nested scrolling issues
                 itemCount: sessions.length,
                 itemBuilder: (context, index) {
                   final session = sessions[index];
