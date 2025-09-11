@@ -19,7 +19,7 @@ class SessionHistoryScreen extends ConsumerWidget {
     return '${minutes}m ${remainingSeconds}s';
   }
 
-// Function to generate PDF document with detailed questions
+  // Function to generate PDF document with detailed questions
   Future<pw.Document> _generatePdf(List<Session> sessions) async {
     final pdf = pw.Document();
 
@@ -64,7 +64,7 @@ class SessionHistoryScreen extends ConsumerWidget {
     return pdf;
   }
 
-// Build summary statistics for PDF
+  // Build summary statistics for PDF
   pw.Widget _buildSummaryStatistics(List<Session> sessions) {
     int totalQuestions = 0;
     int correctAnswers = 0;
@@ -93,7 +93,7 @@ class SessionHistoryScreen extends ConsumerWidget {
     );
   }
 
-// Build session details with questions for PDF
+  // Build session details with questions for PDF
   List<pw.Widget> _buildSessionDetailsWithQuestions(List<Session> sessions) {
     List<pw.Widget> widgets = [];
 
@@ -132,7 +132,7 @@ class SessionHistoryScreen extends ConsumerWidget {
     return widgets;
   }
 
-// Build questions for a specific session
+  // Build questions for a specific session
   List<pw.Widget> _buildSessionQuestions(Session session) {
     List<pw.Widget> questionWidgets = [];
 
@@ -223,8 +223,14 @@ class SessionHistoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final questionState = ref.watch(questionProvider);
+    
+    // Sort sessions by session number using natural sort (highest first)
     final sessions = List<Session>.from(questionState.pastSessions)
-      ..sort((a, b) => b.name.compareTo(a.name));
+      ..sort((a, b) {
+        final aNum = int.parse(a.name.replaceAll('s', '').split(' ')[0]);
+        final bNum = int.parse(b.name.replaceAll('s', '').split(' ')[0]);
+        return bNum.compareTo(aNum); // For descending order (newest first)
+      });
 
     final graphSessions = sessions.reversed.toList();
 
