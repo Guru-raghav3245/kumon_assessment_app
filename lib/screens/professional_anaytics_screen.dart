@@ -80,8 +80,8 @@ class _ProfessionalAnalyticsScreenState
       });
     }
 
-    // Calculate streaks
-    Map<String, int> streakInfo = _calculateStreaks(sessionData);
+    // Calculate streaks based on dates
+    Map<String, int> streakInfo = _calculateDateBasedStreaks(sessions);
 
     // Calculate time analysis
     Map<String, dynamic> timeAnalysis = _analyzeResponseTimes(sessions);
@@ -106,8 +106,9 @@ class _ProfessionalAnalyticsScreenState
     if (level.toLowerCase().contains('comp')) return 'Competency';
     if (level.toLowerCase().contains('eng')) return 'English';
     if (level.toLowerCase().contains('math') ||
-        level.toLowerCase().contains('level'))
+        level.toLowerCase().contains('level')) {
       return 'Math'; // Updated to include 'Math' for levels
+    }
     return 'Unknown';
   }
 
@@ -131,32 +132,39 @@ class _ProfessionalAnalyticsScreenState
     return DateTime.now();
   }
 
-  Map<String, int> _calculateStreaks(List<Map<String, dynamic>> sessionData) {
-    if (sessionData.isEmpty) return {'current': 0, 'best': 0};
+  Map<String, int> _calculateDateBasedStreaks(List<Session> sessions) {
+    if (sessions.isEmpty) return {'current': 0, 'best': 0};
 
-    sessionData.sort((a, b) => a['date'].compareTo(b['date']));
+    // Sort sessions by date in ascending order
+    final sortedSessions = List<Session>.from(sessions)
+      ..sort((a, b) => _extractDateFromSessionName(a.name)
+          .compareTo(_extractDateFromSessionName(b.name)));
 
-    int currentStreak = 0;
-    int bestStreak = 0;
-    int tempStreak = 0;
+    int currentStreak = 1;
+    int bestStreak = 1;
+    DateTime? previousDate = _extractDateFromSessionName(sortedSessions[0].name);
 
-    for (var session in sessionData) {
-      if (session['score'] >= 66.67) {
-        // At least 2/3 correct
-        tempStreak++;
-        bestStreak = math.max(bestStreak, tempStreak);
-      } else {
-        tempStreak = 0;
+    for (int i = 1; i < sortedSessions.length; i++) {
+      final currentDate = _extractDateFromSessionName(sortedSessions[i].name);
+      final difference = currentDate.difference(previousDate!).inDays;
+
+      if (difference == 1) {
+        currentStreak++;
+        bestStreak = currentStreak > bestStreak ? currentStreak : bestStreak;
+      } else if (difference > 1) {
+        currentStreak = 1;
       }
+
+      previousDate = currentDate;
     }
 
-    // Calculate current streak from the end
-    for (int i = sessionData.length - 1; i >= 0; i--) {
-      if (sessionData[i]['score'] >= 66.67) {
-        currentStreak++;
-      } else {
-        break;
-      }
+    // Check if the current streak extends to today (02:43 PM IST, September 11, 2025)
+    final latestSessionDate = _extractDateFromSessionName(sortedSessions.last.name);
+    final today = DateTime.now();
+    if (latestSessionDate.year == today.year &&
+        latestSessionDate.month == today.month &&
+        latestSessionDate.day == today.day) {
+      currentStreak++; // Increment if session was today
     }
 
     return {'current': currentStreak, 'best': bestStreak};
@@ -243,15 +251,22 @@ class _ProfessionalAnalyticsScreenState
       }
     }
 
-    // Sort levels in the order: Math, English, Competency
+    // Sort levels in the order: Competency, Math, English, then alphabetically within each subject
     List<String> orderedLevels = levelStats.keys.toList();
     orderedLevels.sort((a, b) {
-      List<String> priorityOrder = ['Math', 'English', 'Competency'];
+      List<String> priorityOrder = ['Competency', 'Math', 'English'];
       int aIndex = priorityOrder
           .indexWhere((s) => a.toLowerCase().contains(s.toLowerCase()));
       int bIndex = priorityOrder
           .indexWhere((s) => b.toLowerCase().contains(s.toLowerCase()));
-      return aIndex.compareTo(bIndex);
+      if (aIndex != -1 && bIndex != -1) {
+        return aIndex.compareTo(bIndex);
+      } else if (aIndex != -1) {
+        return -1;
+      } else if (bIndex != -1) {
+        return 1;
+      }
+      return a.compareTo(b); // Alphabetical order for non-matching levels
     });
 
     return {
@@ -808,6 +823,31 @@ Widget _buildProgressTab(BuildContext context, Map<String, dynamic> analytics) {
   List<String> orderedLevels = difficultyAnalysis['orderedLevels'] ?? [];
   Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'];
 
+  // Sort levels by custom order (Competency, Math, English) and alphabetically within
+  List<String> customOrderedLevels = [];
+  List<String> competencyLevels = [];
+  List<String> mathLevels = [];
+  List<String> englishLevels = [];
+  List<String> otherLevels = [];
+
+  for (String level in orderedLevels) {
+    if (level.toLowerCase().contains('comp')) {
+      competencyLevels.add(level);
+    } else if (level.toLowerCase().contains('math') || level.toLowerCase().contains('level')) mathLevels.add(level);
+    else if (level.toLowerCase().contains('eng')) englishLevels.add(level);
+    else otherLevels.add(level);
+  }
+
+  competencyLevels.sort();
+  mathLevels.sort();
+  englishLevels.sort();
+  otherLevels.sort();
+
+  customOrderedLevels.addAll(competencyLevels);
+  customOrderedLevels.addAll(mathLevels);
+  customOrderedLevels.addAll(englishLevels);
+  customOrderedLevels.addAll(otherLevels);
+
   return SingleChildScrollView(
     padding: const EdgeInsets.all(16),
     child: Column(
@@ -820,7 +860,7 @@ Widget _buildProgressTab(BuildContext context, Map<String, dynamic> analytics) {
               ),
         ),
         const SizedBox(height: 16),
-        ...orderedLevels.map((level) {
+        ...customOrderedLevels.map((level) {
           Map<String, int> stats =
               levelStats[level] ?? {'correct': 0, 'total': 0};
           double percentage = stats['total']! > 0

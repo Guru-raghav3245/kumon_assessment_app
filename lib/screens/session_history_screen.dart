@@ -220,6 +220,66 @@ class SessionHistoryScreen extends ConsumerWidget {
     }
   }
 
+  // Extract date from session name
+  DateTime _extractDateFromSessionName(String sessionName) {
+    try {
+      final parts = sessionName.split(' ');
+      if (parts.length >= 2) {
+        final datePart = parts[1];
+        final dateComponents = datePart.split('-');
+        if (dateComponents.length == 3) {
+          return DateTime(
+            int.parse(dateComponents[2]),
+            int.parse(dateComponents[1]),
+            int.parse(dateComponents[0]),
+          );
+        }
+      }
+    } catch (e) {
+      print('Error parsing date from session name: $e');
+    }
+    return DateTime.now();
+  }
+
+  // Calculate streak based on consecutive dates
+  Map<String, int> _calculateDateBasedStreaks(List<Session> sessions) {
+    if (sessions.isEmpty) return {'current': 0, 'best': 0};
+
+    // Sort sessions by date in ascending order
+    final sortedSessions = List<Session>.from(sessions)
+      ..sort((a, b) => _extractDateFromSessionName(a.name)
+          .compareTo(_extractDateFromSessionName(b.name)));
+
+    int currentStreak = 1;
+    int bestStreak = 1;
+    DateTime? previousDate = _extractDateFromSessionName(sortedSessions[0].name);
+
+    for (int i = 1; i < sortedSessions.length; i++) {
+      final currentDate = _extractDateFromSessionName(sortedSessions[i].name);
+      final difference = currentDate.difference(previousDate!).inDays;
+
+      if (difference == 1) {
+        currentStreak++;
+        bestStreak = currentStreak > bestStreak ? currentStreak : bestStreak;
+      } else if (difference > 1) {
+        currentStreak = 1;
+      }
+
+      previousDate = currentDate;
+    }
+
+    // Check if the current streak extends to today
+    final latestSessionDate = _extractDateFromSessionName(sortedSessions.last.name);
+    final today = DateTime.now();
+    if (latestSessionDate.year == today.year &&
+        latestSessionDate.month == today.month &&
+        latestSessionDate.day == today.day) {
+      currentStreak++; // Increment if session was today
+    }
+
+    return {'current': currentStreak, 'best': bestStreak};
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final questionState = ref.watch(questionProvider);
@@ -291,6 +351,9 @@ class SessionHistoryScreen extends ConsumerWidget {
         ),
       );
     }
+
+    // Calculate streak
+    final streakInfo = _calculateDateBasedStreaks(sessions);
 
     return Scaffold(
       appBar: AppBar(
@@ -609,11 +672,11 @@ class SessionHistoryScreen extends ConsumerWidget {
                                       getDotPainter:
                                           (spot, percent, barData, index) =>
                                               FlDotCirclePainter(
-                                        radius: 4,
-                                        color: Colors.orange,
-                                        strokeWidth: 2,
-                                        strokeColor: Colors.white,
-                                      ),
+                                                radius: 4,
+                                                color: Colors.orange,
+                                                strokeWidth: 2,
+                                                strokeColor: Colors.white,
+                                              ),
                                     ),
                                     belowBarData: BarAreaData(
                                       show: true,
