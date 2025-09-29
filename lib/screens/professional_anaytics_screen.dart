@@ -1,5 +1,3 @@
-// ignore_for_file: curly_braces_in_flow_control_structures
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
@@ -11,6 +9,9 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:share_plus/share_plus.dart';
 import 'package:csv/csv.dart';
+
+// Riverpod provider for user focus area
+final focusAreaProvider = StateProvider<String>((ref) => 'None');
 
 class ProfessionalAnalyticsScreen extends ConsumerStatefulWidget {
   const ProfessionalAnalyticsScreen({super.key});
@@ -24,6 +25,8 @@ class _ProfessionalAnalyticsScreenState
     extends ConsumerState<ProfessionalAnalyticsScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  ChartMetric selectedMetric = ChartMetric.accuracy;
+  ChartTimeframe selectedTimeframe = ChartTimeframe.allTime;
 
   @override
   void initState() {
@@ -84,6 +87,7 @@ class _ProfessionalAnalyticsScreenState
         'name': session.name,
         'score': sessionTotal > 0 ? (sessionCorrect / sessionTotal * 100) : 0,
         'duration': session.duration,
+        'totalQuestions': sessionTotal,
         'date': _extractDateFromSessionName(session.name),
       });
     }
@@ -134,10 +138,17 @@ class _ProfessionalAnalyticsScreenState
           );
         }
       }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid session date format: $sessionName')),
+      );
+      return DateTime.now();
     } catch (e) {
-      print('Error parsing date from session name: $e');
+      print('Error parsing date: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error parsing session date')),
+      );
+      return DateTime.now();
     }
-    return DateTime.now();
   }
 
   Map<String, int> _calculateDateBasedStreaks(List<Session> sessions) {
@@ -149,7 +160,8 @@ class _ProfessionalAnalyticsScreenState
 
     int currentStreak = 1;
     int bestStreak = 1;
-    DateTime? previousDate = _extractDateFromSessionName(sortedSessions[0].name);
+    DateTime? previousDate =
+        _extractDateFromSessionName(sortedSessions[0].name);
 
     for (int i = 1; i < sortedSessions.length; i++) {
       final currentDate = _extractDateFromSessionName(sortedSessions[i].name);
@@ -163,14 +175,6 @@ class _ProfessionalAnalyticsScreenState
       }
 
       previousDate = currentDate;
-    }
-
-    final latestSessionDate = _extractDateFromSessionName(sortedSessions.last.name);
-    final today = DateTime.now();
-    if (latestSessionDate.year == today.year &&
-        latestSessionDate.month == today.month &&
-        latestSessionDate.day == today.day) {
-      currentStreak++;
     }
 
     return {'current': currentStreak, 'best': bestStreak};
@@ -296,7 +300,6 @@ class _ProfessionalAnalyticsScreenState
                       fontSize: 24, fontWeight: pw.FontWeight.bold)),
             ),
             pw.SizedBox(height: 20),
-
             pw.Text('Summary Statistics',
                 style:
                     pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
@@ -305,16 +308,18 @@ class _ProfessionalAnalyticsScreenState
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
                 pw.Text('Total Sessions: ${analytics['totalSessions']}'),
-                pw.Text('Average Score: ${analytics['averageScore'].toStringAsFixed(1)}%'),
+                pw.Text(
+                    'Average Score: ${analytics['averageScore'].toStringAsFixed(1)}%'),
                 pw.Text('Total Questions: ${analytics['totalQuestions']}'),
                 pw.Text('Correct Answers: ${analytics['correctAnswers']}'),
-                pw.Text('Average Duration: ${_formatDuration(analytics['averageDuration'].toInt())}'),
-                pw.Text('Current Streak: ${analytics['streakInfo']['current']} days'),
+                pw.Text(
+                    'Average Duration: ${_formatDuration(analytics['averageDuration'].toInt())}'),
+                pw.Text(
+                    'Current Streak: ${analytics['streakInfo']['current']} days'),
                 pw.Text('Best Streak: ${analytics['streakInfo']['best']} days'),
               ],
             ),
             pw.SizedBox(height: 20),
-
             pw.Text('Subject Performance',
                 style:
                     pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
@@ -328,7 +333,8 @@ class _ProfessionalAnalyticsScreenState
               return pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  pw.Text('$subject: ${accuracy.toStringAsFixed(1)}% (${stats['correct']}/${stats['total']})'),
+                  pw.Text(
+                      '$subject: ${accuracy.toStringAsFixed(1)}% (${stats['correct']}/${stats['total']})'),
                 ],
               );
             }).toList(),
@@ -358,44 +364,32 @@ class _ProfessionalAnalyticsScreenState
     final analytics = _calculateAnalytics(sessions);
     final csvData = <List<dynamic>>[];
 
-    // Headers
-    csvData.add([
-      'Metric',
-      'Value'
-    ]);
-
-    // Summary Statistics
+    csvData.add(['Metric', 'Value']);
     csvData.add(['Total Sessions', analytics['totalSessions']]);
-    csvData.add(['Average Score (%)', analytics['averageScore'].toStringAsFixed(1)]);
+    csvData.add(
+        ['Average Score (%)', analytics['averageScore'].toStringAsFixed(1)]);
     csvData.add(['Total Questions', analytics['totalQuestions']]);
     csvData.add(['Correct Answers', analytics['correctAnswers']]);
     csvData.add(['Average Duration (s)', analytics['averageDuration']]);
     csvData.add(['Current Streak (days)', analytics['streakInfo']['current']]);
     csvData.add(['Best Streak (days)', analytics['streakInfo']['best']]);
-
-    // Subject Performance
     csvData.add(['']);
     csvData.add(['Subject Performance']);
     for (var entry in analytics['subjectPerformance'].entries) {
       final subject = entry.key;
       final stats = entry.value;
-      final accuracy = stats['total'] > 0
-          ? (stats['correct'] / stats['total'] * 100)
-          : 0.0;
+      final accuracy =
+          stats['total'] > 0 ? (stats['correct'] / stats['total'] * 100) : 0.0;
       csvData.add(['$subject Accuracy (%)', accuracy.toStringAsFixed(1)]);
       csvData.add(['$subject Correct', stats['correct']]);
       csvData.add(['$subject Total', stats['total']]);
     }
 
-    // Convert to CSV string
     final csvString = const ListToCsvConverter().convert(csvData);
-
-    // Save to file
     final directory = await getTemporaryDirectory();
     final file = File('${directory.path}/professional_analytics.csv');
     await file.writeAsString(csvString);
 
-    // Share the file
     await Share.shareXFiles(
       [XFile(file.path)],
       text: 'Professional Analytics Report',
@@ -404,11 +398,49 @@ class _ProfessionalAnalyticsScreenState
   }
 
   Widget _buildOverviewTab(Map<String, dynamic> analytics) {
+    String weakestMetric = _getWeakestMetric(analytics);
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (weakestMetric.isNotEmpty) ...[
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              color: Colors.red[50],
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        weakestMetric,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red[800],
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        ref.read(focusAreaProvider.notifier).state =
+                            weakestMetric.contains('Math') ? 'Math' : 
+                            weakestMetric.contains('English') ? 'English' : 
+                            weakestMetric.contains('Competency') ? 'Competency' : 
+                            weakestMetric.contains('time') ? 'Speed' : 'Consistency';
+                        // Navigate to practice screen with focus area
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red[800]),
+                      child: Text('Practice Now', style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
           _buildMetricsGrid(analytics),
           const SizedBox(height: 24),
           _buildPerformanceChart(analytics),
@@ -421,7 +453,51 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
+  String _getWeakestMetric(Map<String, dynamic> analytics) {
+    double averageScore = analytics['averageScore'] ?? 0.0;
+    int avgResponseTime = (analytics['timeAnalysis']['average'] ?? 0).toInt();
+    int currentStreak = analytics['streakInfo']['current'] ?? 0;
+    Map<String, Map<String, int>> subjectPerf = Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
+    String weakestSubject = '';
+    double lowestAccuracy = 100.0;
+
+    for (var entry in subjectPerf.entries) {
+      double accuracy = entry.value['total']! > 0
+          ? (entry.value['correct']! / entry.value['total']!) * 100
+          : 0.0;
+      if (accuracy < lowestAccuracy) {
+        lowestAccuracy = accuracy;
+        weakestSubject = entry.key;
+      }
+    }
+
+    if (averageScore < 60) {
+      return 'Your overall accuracy is ${averageScore.toStringAsFixed(1)}%. Focus on improving your correctness.';
+    } else if (lowestAccuracy < 70 && weakestSubject.isNotEmpty) {
+      return 'Your $weakestSubject accuracy is ${lowestAccuracy.toStringAsFixed(1)}%. Practice more in this area.';
+    } else if (avgResponseTime > 60) {
+      return 'Your response time is ${_formatDuration(avgResponseTime)}. Work on answering faster.';
+    } else if (currentStreak < 3) {
+      return 'Your current streak is $currentStreak days. Build consistency with daily practice.';
+    }
+    return '';
+  }
+
   Widget _buildMetricsGrid(Map<String, dynamic> analytics) {
+    List<Map<String, dynamic>> metrics = [
+      {'title': 'Sessions', 'value': analytics['totalSessions'].toString(), 'icon': Icons.quiz, 'color': Colors.blue},
+      {'title': 'Avg Score', 'value': '${analytics['averageScore'].toStringAsFixed(1)}%', 'icon': Icons.trending_up, 'color': Colors.green},
+      {'title': 'Questions', 'value': analytics['totalQuestions'].toString(), 'icon': Icons.help_outline, 'color': Colors.orange},
+      {'title': 'Duration', 'value': '${(analytics['averageDuration'] / 60).toStringAsFixed(1)}m', 'icon': Icons.timer, 'color': Colors.purple},
+    ];
+    metrics.sort((a, b) {
+      if (a['title'] == 'Avg Score' && double.parse(a['value'].replaceAll('%', '')) < 70) return -1;
+      if (b['title'] == 'Avg Score' && double.parse(b['value'].replaceAll('%', '')) < 70) return 1;
+      if (a['title'] == 'Duration' && analytics['averageDuration'] > 3600) return -1;
+      if (b['title'] == 'Duration' && analytics['averageDuration'] > 3600) return 1;
+      return 0;
+    });
+
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
@@ -430,32 +506,14 @@ class _ProfessionalAnalyticsScreenState
       crossAxisSpacing: 10,
       mainAxisSpacing: 10,
       padding: const EdgeInsets.all(8),
-      children: [
-        _buildMetricCard(
-          'Sessions',
-          analytics['totalSessions'].toString(),
-          Icons.quiz,
-          Colors.blue,
-        ),
-        _buildMetricCard(
-          'Avg Score',
-          '${analytics['averageScore'].toStringAsFixed(1)}%',
-          Icons.trending_up,
-          Colors.green,
-        ),
-        _buildMetricCard(
-          'Questions',
-          analytics['totalQuestions'].toString(),
-          Icons.help_outline,
-          Colors.orange,
-        ),
-        _buildMetricCard(
-          'Duration',
-          '${(analytics['averageDuration'] / 60).toStringAsFixed(1)}m',
-          Icons.timer,
-          Colors.purple,
-        ),
-      ],
+      children: metrics
+          .map((metric) => _buildMetricCard(
+                metric['title'],
+                metric['value'],
+                metric['icon'],
+                metric['color'],
+              ))
+          .toList(),
     );
   }
 
@@ -465,45 +523,48 @@ class _ProfessionalAnalyticsScreenState
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: const EdgeInsets.all(4),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: color, size: 24),
-            const SizedBox(height: 6),
-            Flexible(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
+      child: Semantics(
+        label: '$title: $value',
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: color, size: 24, semanticLabel: title),
+              const SizedBox(height: 6),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                      height: 1.1,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Flexible(
                 child: Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: color,
+                  title,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey,
                     height: 1.1,
                   ),
                   textAlign: TextAlign.center,
-                  maxLines: 1,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Flexible(
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 10,
-                  color: Colors.grey,
-                  height: 1.1,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -511,9 +572,10 @@ class _ProfessionalAnalyticsScreenState
 
   Widget _buildPerformanceChart(Map<String, dynamic> analytics) {
     List<Map<String, dynamic>> sessions =
-        List<Map<String, dynamic>>.from(analytics['weeklyProgress']);
+        _filterSessionsByTimeframe(List<Map<String, dynamic>>.from(analytics['weeklyProgress']));
 
-    if (sessions.isEmpty) {
+    if (
+        sessions.isEmpty) {
       return Card(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -544,10 +606,36 @@ class _ProfessionalAnalyticsScreenState
                   ),
             ),
             const SizedBox(height: 16),
-            Container(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DropdownButton<ChartMetric>(
+                  value: selectedMetric,
+                  onChanged: (value) => setState(() => selectedMetric = value!),
+                  items: ChartMetric.values
+                      .map((metric) => DropdownMenuItem(
+                            value: metric,
+                            child: Text(metric.toString().split('.').last),
+                          ))
+                      .toList(),
+                ),
+                DropdownButton<ChartTimeframe>(
+                  value: selectedTimeframe,
+                  onChanged: (value) => setState(() => selectedTimeframe = value!),
+                  items: ChartTimeframe.values
+                      .map((timeframe) => DropdownMenuItem(
+                            value: timeframe,
+                            child: Text(timeframe.toString().split('.').last),
+                          ))
+                      .toList(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
               height: 200,
               child: CustomPaint(
-                painter: _LineChartPainter(sessions),
+                painter: _LineChartPainter(sessions, metric: selectedMetric),
                 size: const Size(double.infinity, 200),
               ),
             ),
@@ -557,9 +645,24 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
+  List<Map<String, dynamic>> _filterSessionsByTimeframe(List<Map<String, dynamic>> sessions) {
+    final now = DateTime.now();
+    return sessions.where((session) {
+      final sessionDate = _extractDateFromSessionName(session['name']);
+      if (selectedTimeframe == ChartTimeframe.last7Days) {
+        return sessionDate.isAfter(now.subtract(const Duration(days: 7)));
+      } else if (selectedTimeframe == ChartTimeframe.last30Days) {
+        return sessionDate.isAfter(now.subtract(const Duration(days: 30)));
+      }
+      return true; // allTime
+    }).toList();
+  }
+
   Widget _buildSubjectPerformance(Map<String, dynamic> analytics) {
     Map<String, Map<String, int>> subjectPerformance =
         Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
+    List<Map<String, dynamic>> recentSessions =
+        List<Map<String, dynamic>>.from(analytics['weeklyProgress']).reversed.take(5).toList();
 
     return Card(
       elevation: 4,
@@ -581,7 +684,7 @@ class _ProfessionalAnalyticsScreenState
               int correct = entry.value['correct'] ?? 0;
               int total = entry.value['total'] ?? 0;
               double percentage = total > 0 ? (correct / total) * 100 : 0;
-
+              double trend = _calculateSubjectTrend(subject, recentSessions);
               Color color = subject == 'Math'
                   ? Colors.blue
                   : subject == 'English'
@@ -597,12 +700,25 @@ class _ProfessionalAnalyticsScreenState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(subject,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.w600)),
-                        Text(
-                            '${percentage.toStringAsFixed(1)}% ($correct/$total)',
-                            style: TextStyle(
-                                color: color, fontWeight: FontWeight.bold)),
+                            style: const TextStyle(fontWeight: FontWeight.w600)),
+                        Row(
+                          children: [
+                            Text(
+                                '${percentage.toStringAsFixed(1)}% ($correct/$total)',
+                                style: TextStyle(
+                                    color: color, fontWeight: FontWeight.bold)),
+                            const SizedBox(width: 8),
+                            Icon(
+                              trend > 0
+                                  ? Icons.arrow_upward
+                                  : (trend < 0 ? Icons.arrow_downward : Icons.remove),
+                              color: trend > 0
+                                  ? Colors.green
+                                  : (trend < 0 ? Colors.red : Colors.grey),
+                              size: 16,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -614,15 +730,37 @@ class _ProfessionalAnalyticsScreenState
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),
     );
   }
 
+  double _calculateSubjectTrend(String subject, List<Map<String, dynamic>> sessions) {
+    if (sessions.length < 2) return 0.0;
+    double recentScore = 0.0;
+    double olderScore = 0.0;
+    int recentCount = 0;
+    int olderCount = 0;
+
+    for (int i = 0; i < sessions.length; i++) {
+      if (i < sessions.length ~/ 2) {
+        recentScore += sessions[i]['score'] as double;
+        recentCount++;
+      } else {
+        olderScore += sessions[i]['score'] as double;
+        olderCount++;
+      }
+    }
+
+    return (recentCount > 0 && olderCount > 0)
+        ? (recentScore / recentCount) - (olderScore / olderCount)
+        : 0.0;
+  }
+
   Widget _buildQuickInsights(Map<String, dynamic> analytics) {
-    List<String> insights = _generateInsights(analytics);
+    List<Map<String, dynamic>> insights = _generateInsights(analytics);
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -651,55 +789,289 @@ class _ProfessionalAnalyticsScreenState
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              insight,
+                              insight['description'],
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
                         ],
                       ),
-                    ))
-                .toList(),
+                    )),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildGoalsTab(Map<String, dynamic> analytics) {
+  Widget _buildProgressTab(BuildContext context, Map<String, dynamic> analytics) {
+    Map<String, dynamic> difficultyAnalysis = analytics['difficultyAnalysis'];
+    List<String> orderedLevels = difficultyAnalysis['orderedLevels'] ?? [];
+    Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'];
+    bool isStruggling = (analytics['averageScore'] ?? 0.0) < 70;
+
+    List<String> customOrderedLevels = [];
+    List<String> competencyLevels = [];
+    List<String> mathLevels = [];
+    List<String> englishLevels = [];
+    List<String> otherLevels = [];
+
+    for (String level in orderedLevels) {
+      if (level.toLowerCase().contains('comp')) {
+        competencyLevels.add(level);
+      } else if (level.toLowerCase().contains('math') ||
+          level.toLowerCase().contains('level')) {
+        mathLevels.add(level);
+      } else if (level.toLowerCase().contains('eng')) {
+        englishLevels.add(level);
+      } else {
+        otherLevels.add(level);
+      }
+    }
+
+    competencyLevels.sort();
+    mathLevels.sort();
+    englishLevels.sort();
+    otherLevels.sort();
+
+    customOrderedLevels.addAll(competencyLevels);
+    customOrderedLevels.addAll(mathLevels);
+    customOrderedLevels.addAll(englishLevels);
+    customOrderedLevels.addAll(otherLevels);
+
+    List<String> displayedLevels = isStruggling
+        ? customOrderedLevels.where((level) {
+            final stats = levelStats[level] ?? {'correct': 0, 'total': 0};
+            return stats['total']! > 0 &&
+                (stats['correct']! / stats['total']!) * 100 < 70;
+          }).toList()
+        : customOrderedLevels;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildGoalCard(
-            'Accuracy Target',
-            '85%',
-            analytics['averageScore'],
-            85.0,
-            Icons.check_circle,
-            Colors.green,
+          Text(
+            'Difficulty Analysis',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           const SizedBox(height: 16),
-          _buildGoalCard(
-            'Speed Target',
-            '45s avg',
-            (analytics['timeAnalysis']['average'] ?? 60).toDouble(),
-            45.0,
-            Icons.speed,
-            Colors.blue,
-            isReversed: true,
-          ),
-          const SizedBox(height: 16),
-          _buildGoalCard(
-            'Consistency Goal',
-            '7 day streak',
-            analytics['streakInfo']['current'].toDouble(),
-            7.0,
-            Icons.local_fire_department,
-            Colors.orange,
-          ),
+          if (displayedLevels.isEmpty)
+            const Text('No low-performing levels to focus on. Keep it up!'),
+          ...displayedLevels.map((level) {
+            Map<String, int> stats =
+                levelStats[level] ?? {'correct': 0, 'total': 0};
+            double percentage = stats['total']! > 0
+                ? (stats['correct']! / stats['total']!) * 100
+                : 0;
+            Color color = percentage >= 70
+                ? Colors.green
+                : percentage >= 40
+                    ? Colors.orange
+                    : Colors.red;
+
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        level,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        '${percentage.toStringAsFixed(1)}% (${stats['correct']}/${stats['total']})',
+                        style:
+                            TextStyle(color: color, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  LinearProgressIndicator(
+                    value: percentage / 100,
+                    backgroundColor: Colors.grey.shade300,
+                    valueColor: AlwaysStoppedAnimation<Color>(color),
+                  ),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );
+  }
+
+  Widget _buildRecommendationsTab(
+      BuildContext context, Map<String, dynamic> analytics) {
+    List<Map<String, dynamic>> recommendations =
+        _generateRecommendations(analytics);
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Areas for Improvement',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 16),
+          ...recommendations.map((rec) => Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                color: Colors.grey[850],
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(rec['icon'], color: rec['color'], size: 32),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              rec['title'],
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        rec['description'],
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                      const SizedBox(height: 8),
+                      ...rec['tips']
+                          .map<Widget>((tip) => Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Icon(Icons.arrow_right,
+                                        color: Colors.white70, size: 16),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        tip,
+                                        style: const TextStyle(
+                                            color: Colors.white70),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                    ],
+                  ),
+                ),
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGoalsTab(Map<String, dynamic> analytics) {
+    List<Map<String, dynamic>> dynamicGoals = _generateDynamicGoals(analytics);
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: dynamicGoals
+            .map((goal) => Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: _buildGoalCard(
+                    goal['title'],
+                    goal['target'],
+                    goal['current'],
+                    goal['goal'],
+                    goal['icon'],
+                    goal['color'],
+                    isReversed: goal['isReversed'] ?? false,
+                  ),
+                ))
+            .toList(),
+      ),
+    );
+  }
+
+  List<Map<String, dynamic>> _generateDynamicGoals(Map<String, dynamic> analytics) {
+    List<Map<String, dynamic>> goals = [];
+    double averageScore = analytics['averageScore'] ?? 0.0;
+    int currentStreak = analytics['streakInfo']['current'] ?? 0;
+    int avgResponseTime = (analytics['timeAnalysis']['average'] ?? 0).toInt();
+    Map<String, Map<String, int>> subjectPerf =
+        Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
+
+    // Accuracy goal
+    double targetAccuracy = averageScore < 60 ? 70.0 : (averageScore < 80 ? 85.0 : 90.0);
+    goals.add({
+      'title': 'Accuracy Target',
+      'target': '$targetAccuracy%',
+      'current': averageScore,
+      'goal': targetAccuracy,
+      'icon': Icons.check_circle,
+      'color': Colors.green,
+    });
+
+    // Speed goal
+    double targetSpeed = avgResponseTime > 60 ? 45.0 : (avgResponseTime > 30 ? 30.0 : 20.0);
+    goals.add({
+      'title': 'Speed Target',
+      'target': '${targetSpeed.toInt()}s avg',
+      'current': avgResponseTime.toDouble(),
+      'goal': targetSpeed,
+      'icon': Icons.speed,
+      'color': Colors.blue,
+      'isReversed': true,
+    });
+
+    // Consistency goal
+    double targetStreak = currentStreak < 3 ? 3.0 : (currentStreak < 7 ? 7.0 : 14.0);
+    goals.add({
+      'title': 'Consistency Goal',
+      'target': '${targetStreak.toInt()} day streak',
+      'current': currentStreak.toDouble(),
+      'goal': targetStreak,
+      'icon': Icons.local_fire_department,
+      'color': Colors.orange,
+    });
+
+    // Weakest subject goal
+    String weakestSubject = '';
+    double lowestAccuracy = 100.0;
+    for (var entry in subjectPerf.entries) {
+      double accuracy = entry.value['total']! > 0
+          ? (entry.value['correct']! / entry.value['total']!) * 100
+          : 0.0;
+      if (accuracy < lowestAccuracy) {
+        lowestAccuracy = accuracy;
+        weakestSubject = entry.key;
+      }
+    }
+    if (weakestSubject.isNotEmpty && lowestAccuracy < 70) {
+      double targetSubjectAccuracy = lowestAccuracy < 50 ? 60.0 : 70.0;
+      goals.add({
+        'title': '$weakestSubject Accuracy',
+        'target': '$targetSubjectAccuracy%',
+        'current': lowestAccuracy,
+        'goal': targetSubjectAccuracy,
+        'icon': Icons.school,
+        'color': Colors.red,
+      });
+    }
+
+    return goals;
   }
 
   Widget _buildGoalCard(String title, String target, double current,
@@ -756,46 +1128,323 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  List<String> _generateInsights(Map<String, dynamic> analytics) {
-    List<String> insights = [];
+  List<Map<String, dynamic>> _generateInsights(Map<String, dynamic> analytics) {
+    return _generateRecommendations(analytics);
+  }
 
-    if (analytics['averageScore'] >= 80) {
-      insights.add(
-          'Excellent performance! You\'re consistently scoring above 80%.');
-    } else if (analytics['averageScore'] >= 60) {
-      insights.add(
-          'Good progress! Aim to reach 80% accuracy for optimal learning.');
-    } else {
-      insights
-          .add('Focus on accuracy improvement. Review explanations carefully.');
-    }
+  List<Map<String, dynamic>> _generateRecommendations(
+      Map<String, dynamic> analytics) {
+    List<Map<String, dynamic>> recommendations = [];
+    List<Map<String, dynamic>> recentSessions =
+        List<Map<String, dynamic>>.from(analytics['weeklyProgress']).reversed.take(3).toList();
+    bool isAccuracyDeclining = recentSessions.length >= 2 &&
+        recentSessions.first['score'] < recentSessions.last['score'];
 
-    if (analytics['streakInfo']['current'] >= 3) {
-      insights.add('Great streak! Consistency is key to mastering concepts.');
-    }
-
+    double averageScore = analytics['averageScore'] ?? 0.0;
+    int currentStreak = analytics['streakInfo']['current'] ?? 0;
     Map<String, Map<String, int>> subjectPerf =
         Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
+    Map<String, dynamic> timeAnalysis =
+        Map<String, dynamic>.from(analytics['timeAnalysis']);
+    Map<String, dynamic> difficultyAnalysis = analytics['difficultyAnalysis'] ?? {};
+    int avgResponseTime = timeAnalysis['average'] ?? 0;
+    String weakestArea = difficultyAnalysis['weakestArea'] ?? '';
+    double weakestAccuracy = difficultyAnalysis['weakestAccuracy'] ?? 100.0;
 
-    String strongestSubject = '';
-    double highestAccuracy = 0.0;
+    if (averageScore < 60 || isAccuracyDeclining) {
+      recommendations.add({
+        'title': 'Boost Your Accuracy',
+        'description':
+            'Your overall accuracy is ${averageScore.toStringAsFixed(1)}%${isAccuracyDeclining ? ' and declining' : ''}. Focus on improving your correctness.',
+        'icon': Icons.error,
+        'color': Colors.red,
+        'tips': [
+          'Read questions thoroughly before answering.',
+          'Review explanations for incorrect answers to understand mistakes.',
+          'Practice similar question types to reinforce weak areas.',
+          'Take short quizzes on core concepts to build confidence.',
+        ],
+      });
+    } else if (averageScore < 80) {
+      recommendations.add({
+        'title': 'Aim for Higher Accuracy',
+        'description':
+            'Your accuracy of ${averageScore.toStringAsFixed(1)}% is solid. Let’s push for 80%+!',
+        'icon': Icons.trending_up,
+        'color': Colors.orange,
+        'tips': [
+          'Double-check answers to avoid careless errors.',
+          'Focus on one subject at a time to improve consistency.',
+          'Use practice sets to target specific question types.',
+          'Track common mistakes to identify patterns.',
+        ],
+      });
+    } else {
+      recommendations.add({
+        'title': 'Maintain Excellent Accuracy',
+        'description':
+            'Great job! Your ${averageScore.toStringAsFixed(1)}% accuracy shows mastery. Keep it up!',
+        'icon': Icons.star,
+        'color': Colors.green,
+        'tips': [
+          'Challenge yourself with advanced questions.',
+          'Share your strategies with peers to reinforce learning.',
+          'Focus on maintaining speed without sacrificing accuracy.',
+          'Review high-level concepts to stay sharp.',
+        ],
+      });
+    }
 
-    for (var entry in subjectPerf.entries) {
-      double accuracy = entry.value['total']! > 0
-          ? (entry.value['correct']! / entry.value['total']!) * 100
-          : 0.0;
-      if (accuracy > highestAccuracy) {
-        highestAccuracy = accuracy;
-        strongestSubject = entry.key;
+    if (avgResponseTime > 60) {
+      recommendations.add({
+        'title': 'Increase Response Efficiency',
+        'description':
+            'Your average response time is ${_formatDuration(avgResponseTime)}. Let’s work on speed.',
+        'icon': Icons.speed,
+        'color': Colors.blue,
+        'tips': [
+          'Practice quick mental calculations for math questions.',
+          'Eliminate obviously wrong answers to save time.',
+          'Use timed practice sessions to build speed.',
+          'Familiarize yourself with question formats.',
+        ],
+      });
+    } else if (avgResponseTime < 20 && averageScore < 80) {
+      recommendations.add({
+        'title': 'Balance Speed and Accuracy',
+        'description':
+            'You’re answering quickly (${_formatDuration(avgResponseTime)}), but accuracy could improve.',
+        'icon': Icons.balance,
+        'color': Colors.purple,
+        'tips': [
+          'Slow down slightly to ensure correct answers.',
+          'Read each question carefully to avoid misinterpretation.',
+          'Practice with timed quizzes to find an optimal pace.',
+          'Verify answers before submitting.',
+        ],
+      });
+    } else if (avgResponseTime >= 20 && avgResponseTime <= 60) {
+      recommendations.add({
+        'title': 'Optimize Your Pace',
+        'description':
+            'Your response time (${_formatDuration(avgResponseTime)}) is balanced. Keep refining!',
+        'icon': Icons.timer,
+        'color': Colors.teal,
+        'tips': [
+          'Maintain your current pace but focus on tricky questions.',
+          'Practice under timed conditions to stay sharp.',
+          'Identify question types that take longer and target them.',
+          'Use shortcuts for familiar question patterns.',
+        ],
+      });
+    }
+
+    if (weakestArea.isNotEmpty && weakestAccuracy < 70) {
+      Map<String, List<String>> subjectTips = {
+        'Math': [
+          'Practice daily arithmetic and algebra problems.',
+          'Break down word problems into smaller steps.',
+          'Use visual aids like graphs or diagrams for clarity.',
+          'Review fundamental math concepts regularly.',
+        ],
+        'English': [
+          'Read diverse texts to enhance comprehension.',
+          'Practice grammar and punctuation exercises.',
+          'Build vocabulary through daily word exercises.',
+          'Summarize passages to improve understanding.',
+        ],
+        'Competency': [
+          'Solve logic puzzles to sharpen reasoning skills.',
+          'Practice pattern recognition with sample questions.',
+          'Work on critical thinking exercises daily.',
+          'Analyze complex problems step-by-step.',
+        ],
+      };
+
+      recommendations.add({
+        'title': 'Strengthen $weakestArea',
+        'description':
+            'Your $weakestArea accuracy is ${weakestAccuracy.toStringAsFixed(1)}%. Targeted practice will help.',
+        'icon': Icons.school,
+        'color': Colors.redAccent,
+        'tips': subjectTips[weakestArea] ?? [
+          'Focus on core concepts in this area.',
+          'Practice daily with targeted exercises.',
+          'Seek additional resources or tutorials.',
+          'Track progress to stay motivated.',
+        ],
+      });
+    } else if (subjectPerf.isNotEmpty) {
+      String strongestSubject = '';
+      double highestAccuracy = 0.0;
+      for (var entry in subjectPerf.entries) {
+        double accuracy = entry.value['total']! > 0
+            ? (entry.value['correct']! / entry.value['total']!) * 100
+            : 0.0;
+        if (accuracy > highestAccuracy) {
+          highestAccuracy = accuracy;
+          strongestSubject = entry.key;
+        }
+      }
+      if (strongestSubject.isNotEmpty) {
+        recommendations.add({
+          'title': 'Leverage $strongestSubject Strengths',
+          'description':
+              'Great work in $strongestSubject (${highestAccuracy.toStringAsFixed(1)}%)! Build on this.',
+          'icon': Icons.celebration,
+          'color': Colors.green,
+          'tips': [
+            'Use your $strongestSubject skills to teach peers.',
+            'Tackle advanced $strongestSubject questions.',
+            'Apply $strongestSubject strategies to weaker areas.',
+            'Maintain regular practice to stay strong.',
+          ],
+        });
       }
     }
 
-    if (strongestSubject.isNotEmpty) {
-      insights.add(
-          'Your strongest subject is $strongestSubject with ${highestAccuracy.toStringAsFixed(1)}% accuracy.');
+    if (currentStreak == 0) {
+      recommendations.add({
+        'title': 'Start a Practice Streak',
+        'description': 'No current streak. Consistent practice boosts learning!',
+        'icon': Icons.local_fire_department,
+        'color': Colors.orange,
+        'tips': [
+          'Complete a session daily to build a streak.',
+          'Set a reminder for daily practice.',
+          'Start with easier questions to gain momentum.',
+          'Celebrate small wins to stay motivated.',
+        ],
+      });
+    } else if (currentStreak < 5) {
+      recommendations.add({
+        'title': 'Grow Your Streak',
+        'description': 'You have a $currentStreak-day streak. Aim for 5+ days!',
+        'icon': Icons.local_fire_department,
+        'color': Colors.amber,
+        'tips': [
+          'Practice daily, even for 10 minutes.',
+          'Focus on consistency over quantity.',
+          'Track your streak to stay motivated.',
+          'Pair practice with a daily routine.',
+        ],
+      });
+    } else {
+      recommendations.add({
+        'title': 'Keep Your Streak Alive',
+        'description': 'Amazing $currentStreak-day streak! Don’t break it!',
+        'icon': Icons.celebration,
+        'color': Colors.green,
+        'tips': [
+          'Schedule daily practice at a fixed time.',
+          'Challenge yourself with new question types.',
+          'Share your streak for accountability.',
+          'Reward yourself for maintaining consistency.',
+        ],
+      });
     }
 
-    return insights;
+    Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'] ?? {};
+    if (levelStats.isNotEmpty) {
+      String hardestLevel = '';
+      double lowestLevelAccuracy = 100.0;
+      for (var entry in levelStats.entries) {
+        double accuracy = entry.value['total']! > 0
+            ? (entry.value['correct']! / entry.value['total']!) * 100
+            : 0.0;
+        if (accuracy < lowestLevelAccuracy) {
+          lowestLevelAccuracy = accuracy;
+          hardestLevel = entry.key;
+        }
+      }
+      if (hardestLevel.isNotEmpty && lowestLevelAccuracy < 70) {
+        recommendations.add({
+          'title': 'Tackle $hardestLevel Challenges',
+          'description':
+              'Your accuracy in $hardestLevel is ${lowestLevelAccuracy.toStringAsFixed(1)}%. Focus here.',
+          'icon': Icons.warning,
+          'color': Colors.deepOrange,
+          'tips': [
+            'Practice $hardestLevel questions daily.',
+            'Review explanations for $hardestLevel mistakes.',
+            'Start with simpler $hardestLevel problems.',
+            'Seek examples or tutorials for $hardestLevel.',
+          ],
+        });
+      }
+    }
+
+    List<String> generalTips = [
+      'Review mistakes immediately after sessions.',
+      'Create a distraction-free study environment.',
+      'Take short breaks to maintain focus.',
+      'Track progress weekly to stay motivated.',
+    ];
+    if (averageScore < 70) {
+      generalTips.add('Prioritize understanding over memorization.');
+    } else if (avgResponseTime > 60) {
+      generalTips.add('Practice timed sessions to improve efficiency.');
+    } else if (weakestArea.isNotEmpty) {
+      generalTips.add('Allocate extra time to $weakestArea practice.');
+    }
+
+    recommendations.add({
+      'title': 'Optimize Your Study Strategy',
+      'description': 'Enhance your learning with these tailored strategies.',
+      'icon': Icons.psychology,
+      'color': Colors.indigo,
+      'tips': generalTips,
+    });
+    String hardestLevel = '';
+    String strongestSubject = '';
+    if (difficultyAnalysis['levelStats'] != null) {
+      Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'];
+      double lowestLevelAccuracy = 100.0;
+      for (var entry in levelStats.entries) {
+        double accuracy = entry.value['total']! > 0
+            ? (entry.value['correct']! / entry.value['total']!) * 100
+            : 0.0;
+        if (accuracy < lowestLevelAccuracy) {
+          lowestLevelAccuracy = accuracy;
+          hardestLevel = entry.key;
+        }
+      }
+    }
+    if (subjectPerf.isNotEmpty) {
+      double highestAccuracy = 0.0;
+      for (var entry in subjectPerf.entries) {
+        double accuracy = entry.value['total']! > 0
+            ? (entry.value['correct']! / entry.value['total']!) * 100
+            : 0.0;
+        if (accuracy > highestAccuracy) {
+          highestAccuracy = accuracy;
+          strongestSubject = entry.key;
+        }
+      }
+    }
+
+    recommendations.sort((a, b) {
+      List<String> priorityOrder = [
+        'Boost Your Accuracy',
+        'Tackle ${hardestLevel.isNotEmpty ? hardestLevel : 'Level'} Challenges',
+        'Strengthen $weakestArea',
+        'Increase Response Efficiency',
+        'Balance Speed and Accuracy',
+        'Start a Practice Streak',
+        'Grow Your Streak',
+        'Aim for Higher Accuracy',
+        'Optimize Your Pace',
+        'Keep Your Streak Alive',
+        'Leverage $strongestSubject Strengths',
+        'Maintain Excellent Accuracy',
+        'Optimize Your Study Strategy',
+      ];
+      int aIndex = priorityOrder.indexOf(a['title']);
+      int bIndex = priorityOrder.indexOf(b['title']);
+      return aIndex.compareTo(bIndex);
+    });
+
+    return recommendations.take(4).toList();
   }
 
   @override
@@ -906,10 +1555,14 @@ class _ProfessionalAnalyticsScreenState
   }
 }
 
+enum ChartMetric { accuracy, duration, questionCount }
+enum ChartTimeframe { last7Days, last30Days, allTime }
+
 class _LineChartPainter extends CustomPainter {
   final List<Map<String, dynamic>> sessions;
+  final ChartMetric metric;
 
-  _LineChartPainter(this.sessions);
+  _LineChartPainter(this.sessions, {required this.metric});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -928,18 +1581,21 @@ class _LineChartPainter extends CustomPainter {
       ..color = Colors.grey.shade300
       ..strokeWidth = 1;
 
+    double maxY = metric == ChartMetric.accuracy
+        ? 100
+        : (metric == ChartMetric.duration
+            ? _calculateMaxDuration(sessions)
+            : sessions.map((s) => (s['totalQuestions'] ?? 3).toDouble()).reduce((a, b) => a > b ? a : b));
     for (int i = 0; i <= 4; i++) {
       final y = size.height * i / 4;
-      canvas.drawLine(
-        Offset(0, y),
-        Offset(size.width, y),
-        gridPaint,
-      );
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
     }
 
     if (sessions.length == 1) {
-      final point = Offset(
-          size.width / 2, size.height * (1 - sessions[0]['score'] / 100));
+      final value = metric == ChartMetric.accuracy
+          ? sessions[0]['score']
+          : (metric == ChartMetric.duration ? sessions[0]['duration'] : sessions[0]['totalQuestions'] ?? 3);
+      final point = Offset(size.width / 2, size.height * (1 - value / maxY));
       canvas.drawCircle(point, 6, pointPaint);
       return;
     }
@@ -949,357 +1605,23 @@ class _LineChartPainter extends CustomPainter {
 
     for (int i = 0; i < sessions.length; i++) {
       final x = size.width * i / (sessions.length - 1);
-      final y = size.height * (1 - sessions[i]['score'] / 100);
-      final point = Offset(x, y);
-      points.add(point);
-
-      if (i == 0) {
-        path.moveTo(x, y);
-      } else {
-        path.lineTo(x, y);
-      }
+      final value = metric == ChartMetric.accuracy
+          ? sessions[i]['score']
+          : (metric == ChartMetric.duration ? sessions[i]['duration'] : sessions[i]['totalQuestions'] ?? 3);
+      final y = size.height * (1 - value / maxY);
+      points.add(Offset(x, y));
+      if (i == 0) path.moveTo(x, y);
+      else path.lineTo(x, y);
     }
 
     canvas.drawPath(path, paint);
+    for (final point in points) canvas.drawCircle(point, 4, pointPaint);
+  }
 
-    for (final point in points) {
-      canvas.drawCircle(point, 4, pointPaint);
-    }
+  double _calculateMaxDuration(List<Map<String, dynamic>> sessions) {
+    return sessions.map((s) => s['duration'].toDouble()).reduce((a, b) => a > b ? a : b);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-}
-
-Widget _buildProgressTab(BuildContext context, Map<String, dynamic> analytics) {
-  Map<String, dynamic> difficultyAnalysis = analytics['difficultyAnalysis'];
-  List<String> orderedLevels = difficultyAnalysis['orderedLevels'] ?? [];
-  Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'];
-
-  List<String> customOrderedLevels = [];
-  List<String> competencyLevels = [];
-  List<String> mathLevels = [];
-  List<String> englishLevels = [];
-  List<String> otherLevels = [];
-
-  for (String level in orderedLevels) {
-    if (level.toLowerCase().contains('comp')) {
-      competencyLevels.add(level);
-    } else if (level.toLowerCase().contains('math') || level.toLowerCase().contains('level')) mathLevels.add(level);
-    else if (level.toLowerCase().contains('eng')) englishLevels.add(level);
-    else otherLevels.add(level);
-  }
-
-  competencyLevels.sort();
-  mathLevels.sort();
-  englishLevels.sort();
-  otherLevels.sort();
-
-  customOrderedLevels.addAll(competencyLevels);
-  customOrderedLevels.addAll(mathLevels);
-  customOrderedLevels.addAll(englishLevels);
-  customOrderedLevels.addAll(otherLevels);
-
-  return SingleChildScrollView(
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Difficulty Analysis',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 16),
-        ...customOrderedLevels.map((level) {
-          Map<String, int> stats =
-              levelStats[level] ?? {'correct': 0, 'total': 0};
-          double percentage = stats['total']! > 0
-              ? (stats['correct']! / stats['total']!) * 100
-              : 0;
-          Color color = percentage >= 70
-              ? Colors.green
-              : percentage >= 40
-                  ? Colors.orange
-                  : Colors.red;
-
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      level,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      '${percentage.toStringAsFixed(1)}% (${stats['correct']}/${stats['total']})',
-                      style:
-                          TextStyle(color: color, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                LinearProgressIndicator(
-                  value: percentage / 100,
-                  backgroundColor: Colors.grey.shade300,
-                  valueColor: AlwaysStoppedAnimation<Color>(color),
-                ),
-              ],
-            ),
-          );
-        }),
-      ],
-    ),
-  );
-}
-
-Widget _buildRecommendationsTab(
-    BuildContext context, Map<String, dynamic> analytics) {
-  List<Map<String, dynamic>> recommendations =
-      _generateRecommendations(analytics);
-  return SingleChildScrollView(
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Areas for Improvement',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        const SizedBox(height: 16),
-        ...recommendations.map((rec) => Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              color: Colors.grey[850],
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(rec['icon'], color: rec['color'], size: 32),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Text(
-                            rec['title'],
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      rec['description'],
-                      style: const TextStyle(color: Colors.white70),
-                    ),
-                    const SizedBox(height: 8),
-                    ...rec['tips']
-                        .map<Widget>((tip) => Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Icon(Icons.arrow_right,
-                                      color: Colors.white70, size: 16),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      tip,
-                                      style: const TextStyle(
-                                          color: Colors.white70),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ))
-                        .toList(),
-                  ],
-                ),
-              ),
-            )),
-      ],
-    ),
-  );
-}
-
-List<Map<String, dynamic>> _generateRecommendations(
-    Map<String, dynamic> analytics) {
-  List<Map<String, dynamic>> recommendations = [];
-
-  if (analytics['averageScore'] < 70) {
-    recommendations.add({
-      'title': 'Focus on Accuracy',
-      'description':
-          'Your current accuracy is ${analytics['averageScore'].toStringAsFixed(1)}%. Let\'s work on improving this.',
-      'icon': Icons.error,
-      'color': Colors.red,
-      'tips': [
-        'Take more time to read questions carefully',
-        'Review explanations after each incorrect answer',
-        'Practice similar question types in your weak areas',
-        'Consider reviewing fundamental concepts before sessions'
-      ],
-    });
-  } else if (analytics['averageScore'] >= 70 &&
-      analytics['averageScore'] < 85) {
-    recommendations.add({
-      'title': 'Push for Excellence',
-      'description':
-          'Good accuracy! Let\'s aim for 85%+ to demonstrate mastery.',
-      'icon': Icons.trending_up,
-      'color': Colors.orange,
-      'tips': [
-        'Focus on eliminating careless errors',
-        'Double-check your answers before submitting',
-        'Identify patterns in your mistakes',
-        'Practice speed without sacrificing accuracy'
-      ],
-    });
-  }
-
-  Map<String, dynamic> timeAnalysis =
-      Map<String, dynamic>.from(analytics['timeAnalysis']);
-  int avgTime = timeAnalysis['average'] ?? 0;
-
-  if (avgTime > 60) {
-    recommendations.add({
-      'title': 'Improve Response Speed',
-      'description':
-          'Your average response time is ${avgTime}s. Let\'s work on efficiency.',
-      'icon': Icons.speed,
-      'color': Colors.blue,
-      'tips': [
-        'Practice mental math for quicker calculations',
-        'Learn to eliminate obviously wrong answers quickly',
-        'Build confidence through regular practice',
-        'Set time limits during practice sessions'
-      ],
-    });
-  } else if (avgTime < 30) {
-    recommendations.add({
-      'title': 'Balance Speed and Accuracy',
-      'description':
-          'You\'re very fast (${avgTime}s avg). Ensure you\'re not rushing.',
-      'icon': Icons.balance,
-      'color': Colors.purple,
-      'tips': [
-        'Take time to fully understand each question',
-        'Verify your answers before submitting',
-        'Quality over speed - accuracy is more important',
-        'Practice mindful problem-solving'
-      ],
-    });
-  }
-
-  Map<String, Map<String, int>> subjectPerf =
-      Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
-
-  String weakestSubject = '';
-  double lowestAccuracy = 100.0;
-
-  for (var entry in subjectPerf.entries) {
-    if (entry.value['total']! > 0) {
-      double accuracy = (entry.value['correct']! / entry.value['total']!) * 100;
-      if (accuracy < lowestAccuracy) {
-        lowestAccuracy = accuracy;
-        weakestSubject = entry.key;
-      }
-    }
-  }
-
-  if (weakestSubject.isNotEmpty && lowestAccuracy < 70) {
-    Map<String, List<String>> subjectTips = {
-      'Math': [
-        'Practice arithmetic operations daily',
-        'Review basic algebra and geometry concepts',
-        'Use visual aids for complex problems',
-        'Break down word problems step by step'
-      ],
-      'English': [
-        'Read more diverse texts to improve comprehension',
-        'Practice grammar rules regularly',
-        'Expand your vocabulary through daily reading',
-        'Focus on understanding context clues'
-      ],
-      'Competency': [
-        'Develop logical reasoning skills',
-        'Practice pattern recognition exercises',
-        'Improve critical thinking through puzzles',
-        'Focus on analytical problem-solving methods'
-      ],
-    };
-
-    recommendations.add({
-      'title': 'Strengthen $weakestSubject Skills',
-      'description':
-          'Your $weakestSubject accuracy is ${lowestAccuracy.toStringAsFixed(1)}%. This area needs attention.',
-      'icon': Icons.school,
-      'color': Colors.red,
-      'tips': subjectTips[weakestSubject] ??
-          [
-            'Focus on fundamentals',
-            'Practice regularly',
-            'Seek additional resources'
-          ],
-    });
-  }
-
-  int currentStreak = analytics['streakInfo']['current'];
-  if (currentStreak == 0) {
-    recommendations.add({
-      'title': 'Build Consistency',
-      'description':
-          'Start building a performance streak for better learning outcomes.',
-      'icon': Icons.local_fire_department,
-      'color': Colors.orange,
-      'tips': [
-        'Aim for at least 2 out of 3 questions correct per session',
-        'Practice regularly to maintain momentum',
-        'Set realistic daily goals',
-        'Celebrate small victories to stay motivated'
-      ],
-    });
-  } else if (currentStreak >= 5) {
-    recommendations.add({
-      'title': 'Maintain Momentum',
-      'description': 'Excellent ${currentStreak}-session streak! Keep it up.',
-      'icon': Icons.celebration,
-      'color': Colors.green,
-      'tips': [
-        'Continue your regular practice schedule',
-        'Challenge yourself with harder concepts',
-        'Share your progress with others for accountability',
-        'Reflect on what\'s working well for you'
-      ],
-    });
-  }
-
-  recommendations.add({
-    'title': 'Study Strategy Optimization',
-    'description': 'Enhance your learning approach for better results.',
-    'icon': Icons.psychology,
-    'color': Colors.indigo,
-    'tips': [
-      'Review mistakes immediately after each session',
-      'Create a quiet, distraction-free study environment',
-      'Take breaks between study sessions to avoid fatigue',
-      'Track your progress regularly to stay motivated',
-      'Focus on understanding concepts, not just memorizing'
-    ],
-  });
-
-  return recommendations;
 }
