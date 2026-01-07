@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/question_logic/models.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'dart:math' as math;
 
 class AnalyticsScreen extends ConsumerWidget {
   const AnalyticsScreen({super.key});
@@ -11,7 +12,7 @@ class AnalyticsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final questionState = ref.watch(questionProvider);
     final sessions = questionState.pastSessions;
-    
+
     if (sessions.isEmpty) {
       return Scaffold(
         appBar: AppBar(
@@ -24,7 +25,6 @@ class AnalyticsScreen extends ConsumerWidget {
       );
     }
 
-    // Calculate analytics data
     final analytics = _calculateAnalytics(sessions);
     final streak = _calculateStreak(sessions);
 
@@ -38,15 +38,10 @@ class AnalyticsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Top section with streak and summary cards
             _buildTopSection(streak, analytics),
             const SizedBox(height: 16),
-            
-            // Weekly/Monthly Progress Charts
             _buildProgressCharts(analytics, context),
             const SizedBox(height: 16),
-            
-            // Subject Performance
             _buildSubjectPerformance(analytics),
           ],
         ),
@@ -57,7 +52,6 @@ class AnalyticsScreen extends ConsumerWidget {
   Widget _buildTopSection(int streak, AnalyticsData analytics) {
     return Column(
       children: [
-        // Streak Card - centered and with consistent height
         SizedBox(
           width: double.infinity,
           child: Card(
@@ -67,105 +61,39 @@ class AnalyticsScreen extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Current Streak',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+                  const Text('Current Streak',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  Text(
-                    '$streak days',
-                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.blue),
-                  ),
+                  Text('$streak days',
+                      style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue)),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Consecutive days with completed sessions',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
+                  const Text('Consecutive days with completed sessions',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey, fontSize: 12)),
                 ],
               ),
             ),
           ),
         ),
         const SizedBox(height: 16),
-        
-        // Summary Cards in a row with equal height
         IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: Card(
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Total Sessions',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          '${analytics.totalSessions}',
-                          style: const TextStyle(fontSize: 20, color: Colors.blue, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              _buildSummaryCard(
+                  'Total Sessions', '${analytics.totalSessions}', Colors.blue),
               const SizedBox(width: 12),
-              Expanded(
-                child: Card(
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Avg. Accuracy',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          '${analytics.averageAccuracy.toStringAsFixed(1)}%',
-                          style: const TextStyle(fontSize: 20, color: Colors.green, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              _buildSummaryCard(
+                  'Avg. Accuracy',
+                  '${analytics.averageAccuracy.toStringAsFixed(1)}%',
+                  Colors.green),
               const SizedBox(width: 12),
-              Expanded(
-                child: Card(
-                  elevation: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Avg. Time',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          _formatDuration(analytics.averageTime),
-                          style: const TextStyle(fontSize: 16, color: Colors.orange, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              _buildSummaryCard('Avg. Time',
+                  _formatDuration(analytics.averageTime), Colors.orange),
             ],
           ),
         ),
@@ -173,11 +101,40 @@ class AnalyticsScreen extends ConsumerWidget {
     );
   }
 
+  Widget _buildSummaryCard(String title, String value, Color color) {
+    return Expanded(
+      child: Card(
+        elevation: 4,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(title,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 14),
+                  textAlign: TextAlign.center),
+              const SizedBox(height: 6),
+              FittedBox(
+                  child: Text(value,
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: color,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildProgressCharts(AnalyticsData analytics, BuildContext context) {
-    // Ensure we have at least 4 weeks of data for display
-    final displayWeeks = analytics.weeklyAccuracy.length;
-    final maxWeeks = displayWeeks > 0 ? displayWeeks : 4;
-    
+    final sessionCount = analytics.weeklyAccuracy.length;
+    // Calculate width for scrolling: 60px per session
+    final double chartWidth =
+        math.max(MediaQuery.of(context).size.width - 64, sessionCount * 60.0);
+
     return Card(
       elevation: 4,
       child: Padding(
@@ -185,118 +142,99 @@ class AnalyticsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Weekly Progress',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            const Text('Session History Progress',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
-            SizedBox(
-              height: 250, // Increased height to accommodate labels
-              child: BarChart(
-                BarChartData(
-                  alignment: BarChartAlignment.spaceAround,
-                  barTouchData: BarTouchData(enabled: false),
-                  titlesData: FlTitlesData(
-                    show: true,
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 30, // Increased reserved space for bottom labels
-                        getTitlesWidget: (value, meta) {
-                          if (value.toInt() >= maxWeeks) {
-                            return const Text('');
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              'W${value.toInt() + 1}',
-                              style: const TextStyle(fontSize: 10), // Smaller font for week labels
-                              overflow: TextOverflow.visible,
-                            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                height: 250,
+                width: chartWidth,
+                child: BarChart(
+                  BarChartData(
+                    alignment: BarChartAlignment.spaceAround,
+                    // FIX 1 & 3: Tooltip rounding and interaction headroom
+                    maxY:
+                        110, // Added headroom so 100% bars are easily clickable
+                    barTouchData: BarTouchData(
+                      enabled: true,
+                      touchTooltipData: BarTouchTooltipData(
+                        getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                          // Round to 1 decimal digit in the tooltip
+                          // We use the 'real' accuracy stored in analytics, not the 'rod.toY'
+                          // which might be slightly higher for 0% visibility.
+                          double actualValue =
+                              analytics.weeklyAccuracy[groupIndex];
+                          return BarTooltipItem(
+                            '${actualValue.toStringAsFixed(1)}%',
+                            const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           );
                         },
                       ),
                     ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 40, // Increased reserved space for left labels
-                        interval: 20, // Show labels at 20% intervals
-                        getTitlesWidget: (value, meta) {
-                          // Only show whole numbers and ensure they fit
-                          if (value % 20 == 0) {
+                    titlesData: FlTitlesData(
+                      show: true,
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                          getTitlesWidget: (value, meta) {
+                            int idx = value.toInt();
+                            if (idx < 0 || idx >= sessionCount)
+                              return const Text('');
                             return Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Text(
-                                '${value.toInt()}%',
-                                style: const TextStyle(fontSize: 10),
-                                textAlign: TextAlign.right,
-                              ),
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text('S${idx + 1}',
+                                  style: const TextStyle(fontSize: 10)),
                             );
-                          }
-                          return const Text('');
-                        },
-                      ),
-                    ),
-                    rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                  ),
-                  gridData: FlGridData(
-                    show: true,
-                    drawHorizontalLine: true,
-                    drawVerticalLine: false,
-                    getDrawingHorizontalLine: (value) => FlLine(
-                      color: Colors.grey.withOpacity(0.2),
-                      strokeWidth: 1,
-                    ),
-                  ),
-                  borderData: FlBorderData(
-                    show: true,
-                    border: Border.all(
-                      color: Colors.grey.withOpacity(0.3),
-                      width: 1,
-                    ),
-                  ),
-                  barGroups: List.generate(maxWeeks, (index) {
-                    final accuracy = index < analytics.weeklyAccuracy.length 
-                        ? analytics.weeklyAccuracy[index] 
-                        : 0.0;
-                    return BarChartGroupData(
-                      x: index,
-                      barRods: [
-                        BarChartRodData(
-                          toY: accuracy,
-                          color: Colors.blue,
-                          width: 20, // Slightly wider bars for better visibility
-                          borderRadius: BorderRadius.circular(4),
+                          },
                         ),
-                      ],
-                    );
-                  }),
+                      ),
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 40,
+                          interval: 20,
+                          getTitlesWidget: (value, meta) {
+                            if (value > 100) return const Text('');
+                            return Text('${value.toInt()}%',
+                                style: const TextStyle(fontSize: 10));
+                          },
+                        ),
+                      ),
+                      rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                      topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                    ),
+                    gridData: FlGridData(show: true, drawVerticalLine: false),
+                    barGroups: List.generate(sessionCount, (index) {
+                      final accuracy = analytics.weeklyAccuracy[index];
+                      return BarChartGroupData(
+                        x: index,
+                        barRods: [
+                          BarChartRodData(
+                            // FIX 2: Ensure 0% accuracy shows a tiny bar for visibility
+                            toY: accuracy == 0 ? 3.0 : accuracy,
+                            color: accuracy == 0
+                                ? Colors.blue.withOpacity(0.3)
+                                : Colors.blue,
+                            width: 18,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 8),
-            // Add a legend for the chart
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 12,
-                  height: 12,
-                  color: Colors.blue,
-                ),
-                const SizedBox(width: 8),
-                const Text(
-                  'Weekly Accuracy (%)',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-              ],
-            ),
+            const Center(
+                child: Text('Tap bars to see percentage • Swipe for more',
+                    style: TextStyle(fontSize: 10, color: Colors.grey))),
           ],
         ),
       ),
@@ -311,49 +249,41 @@ class AnalyticsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Subject Performance',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
+            const Text('Subject Performance',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
-            Column(
-              children: analytics.subjectPerformance.entries.map((entry) {
-                final subject = entry.key;
-                final accuracy = entry.value;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
+            ...analytics.subjectPerformance.entries.map((entry) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
                         flex: 2,
-                        child: Text(
-                          subject,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        child: Text(entry.key,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold))),
+                    Expanded(
+                      flex: 3,
+                      child: LinearProgressIndicator(
+                        value: entry.value / 100,
+                        backgroundColor: Colors.grey[200],
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          entry.value >= 70
+                              ? Colors.green
+                              : entry.value >= 50
+                                  ? Colors.orange
+                                  : Colors.red,
                         ),
                       ),
-                      Expanded(
-                        flex: 3,
-                        child: LinearProgressIndicator(
-                          value: accuracy / 100,
-                          backgroundColor: Colors.grey[200],
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            accuracy >= 70 ? Colors.green : 
-                            accuracy >= 50 ? Colors.orange : Colors.red,
-                          ),
-                        ),
-                      ),
-                      Expanded(
+                    ),
+                    Expanded(
                         flex: 1,
-                        child: Text(
-                          '${accuracy.toStringAsFixed(1)}%',
-                          textAlign: TextAlign.right,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
-            ),
+                        child: Text('${entry.value.toStringAsFixed(1)}%',
+                            textAlign: TextAlign.right)),
+                  ],
+                ),
+              );
+            }).toList(),
           ],
         ),
       ),
@@ -366,147 +296,88 @@ class AnalyticsScreen extends ConsumerWidget {
     return '${minutes}m ${remainingSeconds}s';
   }
 
-  // Analytics calculation functions
   AnalyticsData _calculateAnalytics(List<Session> sessions) {
-    int totalSessions = sessions.length;
     int totalQuestions = 0;
     int correctAnswers = 0;
     int totalTime = 0;
-    
-    final subjectPerformance = <String, List<int>>{};
-    final weeklyAccuracy = <double>[];
-    
-    // Group sessions by week
-    final now = DateTime.now();
-    final currentWeek = _getWeekNumber(now);
-    final sessionsByWeek = <int, List<Session>>{};
-    
-    for (var session in sessions) {
-      // Parse date from session name (format: "s1 01-01-2023")
-      final dateParts = session.name.split(' ')[1].split('-');
-      if (dateParts.length == 3) {
-        final day = int.parse(dateParts[0]);
-        final month = int.parse(dateParts[1]);
-        final year = int.parse(dateParts[2]);
-        final sessionDate = DateTime(year, month, day);
-        final week = _getWeekNumber(sessionDate);
-        
-        sessionsByWeek.putIfAbsent(week, () => []);
-        sessionsByWeek[week]!.add(session);
-      }
-      
-      // Calculate totals
+    final subjectStats = <String, List<int>>{};
+
+    // Sort oldest to newest for chronological graph
+    final sortedSessions = List<Session>.from(sessions)
+      ..sort((a, b) => _parseDateFromSessionName(a.name)
+          .compareTo(_parseDateFromSessionName(b.name)));
+
+    final sessionAccuracies = sortedSessions.map((session) {
+      int sessionCorrect = 0;
       totalQuestions += session.results.length;
       totalTime += session.duration;
-      
+
       for (var result in session.results) {
-        if (result['userAnswer'] == result['correctAnswer']) {
+        bool isCorrect = result['userAnswer'] == result['correctAnswer'];
+        if (isCorrect) {
           correctAnswers++;
+          sessionCorrect++;
         }
-        
-        // Track subject performance
         final level = result['level'] ?? '';
-        final subject = level.contains('Eng') ? 'English' : 
-                       level.contains('Comp') ? 'Competency' : 'Math';
-        
-        subjectPerformance.putIfAbsent(subject, () => [0, 0]);
-        subjectPerformance[subject]![1]++; // Total questions
-        
-        if (result['userAnswer'] == result['correctAnswer']) {
-          subjectPerformance[subject]![0]++; // Correct answers
-        }
+        final subject = level.contains('Eng')
+            ? 'English'
+            : level.contains('Comp')
+                ? 'Competency'
+                : 'Math';
+        subjectStats.putIfAbsent(subject, () => [0, 0]);
+        subjectStats[subject]![1]++;
+        if (isCorrect) subjectStats[subject]![0]++;
       }
-    }
-    
-    // Calculate weekly accuracy for the last 4 weeks
-    for (int i = currentWeek - 4; i <= currentWeek; i++) {
-      if (sessionsByWeek.containsKey(i)) {
-        final weekSessions = sessionsByWeek[i]!;
-        int weekCorrect = 0;
-        int weekTotal = 0;
-        
-        for (var session in weekSessions) {
-          weekTotal += session.results.length;
-          weekCorrect += session.results.where((r) => 
-            r['userAnswer'] == r['correctAnswer']).length;
-        }
-        
-        weeklyAccuracy.add(weekTotal > 0 ? (weekCorrect / weekTotal * 100) : 0.0);
-      } else {
-        weeklyAccuracy.add(0.0);
-      }
-    }
-    
-    // Calculate subject performance percentages
-    final subjectAccuracy = <String, double>{};
-    for (var entry in subjectPerformance.entries) {
-      final correct = entry.value[0];
-      final total = entry.value[1];
-      subjectAccuracy[entry.key] = total > 0 ? (correct / total * 100) : 0.0;
-    }
-    
+      return session.results.isEmpty
+          ? 0.0
+          : (sessionCorrect / session.results.length * 100);
+    }).toList();
+
+    final subjectAccuracy = subjectStats.map((key, val) =>
+        MapEntry(key, val[1] > 0 ? (val[0] / val[1] * 100) : 0.0));
+
     return AnalyticsData(
-      totalSessions: totalSessions,
+      totalSessions: sessions.length,
       totalQuestions: totalQuestions,
       correctAnswers: correctAnswers,
       totalTime: totalTime,
-      averageAccuracy: totalQuestions > 0 ? (correctAnswers / totalQuestions * 100) : 0.0,
-      averageTime: totalSessions > 0 ? (totalTime / totalSessions).round() : 0,
+      averageAccuracy:
+          totalQuestions > 0 ? (correctAnswers / totalQuestions * 100) : 0.0,
+      averageTime: sessions.isNotEmpty ? (totalTime ~/ sessions.length) : 0,
       subjectPerformance: subjectAccuracy,
-      weeklyAccuracy: weeklyAccuracy,
+      weeklyAccuracy: sessionAccuracies,
     );
   }
 
   int _calculateStreak(List<Session> sessions) {
     if (sessions.isEmpty) return 0;
-    
-    // Sort sessions by date (newest first)
-    final sortedSessions = List<Session>.from(sessions)
-      ..sort((a, b) {
-        final aDate = _parseDateFromSessionName(a.name);
-        final bDate = _parseDateFromSessionName(b.name);
-        return bDate.compareTo(aDate);
-      });
-    
+    final sortedDates = sessions
+        .map((s) => _parseDateFromSessionName(s.name))
+        .toList()
+      ..sort((a, b) => b.compareTo(a));
     int streak = 0;
-    DateTime currentDate = DateTime.now();
-    final today = DateTime(currentDate.year, currentDate.month, currentDate.day);
-    
-    for (var session in sortedSessions) {
-      final sessionDate = _parseDateFromSessionName(session.name);
-      final sessionDay = DateTime(sessionDate.year, sessionDate.month, sessionDate.day);
-      
-      final difference = today.difference(sessionDay).inDays;
-      
-      if (difference == streak) {
+    DateTime checkDate = DateTime.now();
+    final today = DateTime(checkDate.year, checkDate.month, checkDate.day);
+
+    for (var date in sortedDates) {
+      final sessionDay = DateTime(date.year, date.month, date.day);
+      final diff = today.difference(sessionDay).inDays;
+      if (diff == streak)
         streak++;
-      } else if (difference > streak) {
-        break;
-      }
+      else if (diff > streak) break;
     }
-    
     return streak;
   }
 
   DateTime _parseDateFromSessionName(String name) {
     try {
-      final dateParts = name.split(' ')[1].split('-');
-      if (dateParts.length == 3) {
-        final day = int.parse(dateParts[0]);
-        final month = int.parse(dateParts[1]);
-        final year = int.parse(dateParts[2]);
-        return DateTime(year, month, day);
+      final parts = name.split(' ');
+      if (parts.length >= 2) {
+        final d = parts[1].split('-');
+        return DateTime(int.parse(d[2]), int.parse(d[1]), int.parse(d[0]));
       }
-    } catch (e) {
-      print('Error parsing date from session name: $e');
-    }
+    } catch (_) {}
     return DateTime.now();
-  }
-
-  int _getWeekNumber(DateTime date) {
-    final firstDay = DateTime(date.year, 1, 1);
-    final daysDiff = date.difference(firstDay).inDays;
-    return (daysDiff / 7).floor() + 1;
   }
 }
 

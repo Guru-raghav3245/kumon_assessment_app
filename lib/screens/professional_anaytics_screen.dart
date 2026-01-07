@@ -407,7 +407,8 @@ class _ProfessionalAnalyticsScreenState
           if (weakestMetric.isNotEmpty) ...[
             Card(
               elevation: 4,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
               color: Colors.red[50],
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -426,14 +427,21 @@ class _ProfessionalAnalyticsScreenState
                     ElevatedButton(
                       onPressed: () {
                         ref.read(focusAreaProvider.notifier).state =
-                            weakestMetric.contains('Math') ? 'Math' : 
-                            weakestMetric.contains('English') ? 'English' : 
-                            weakestMetric.contains('Competency') ? 'Competency' : 
-                            weakestMetric.contains('time') ? 'Speed' : 'Consistency';
+                            weakestMetric.contains('Math')
+                                ? 'Math'
+                                : weakestMetric.contains('English')
+                                    ? 'English'
+                                    : weakestMetric.contains('Competency')
+                                        ? 'Competency'
+                                        : weakestMetric.contains('time')
+                                            ? 'Speed'
+                                            : 'Consistency';
                         // Navigate to practice screen with focus area
                       },
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red[800]),
-                      child: Text('Practice Now', style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red[800]),
+                      child: Text('Practice Now',
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -457,7 +465,8 @@ class _ProfessionalAnalyticsScreenState
     double averageScore = analytics['averageScore'] ?? 0.0;
     int avgResponseTime = (analytics['timeAnalysis']['average'] ?? 0).toInt();
     int currentStreak = analytics['streakInfo']['current'] ?? 0;
-    Map<String, Map<String, int>> subjectPerf = Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
+    Map<String, Map<String, int>> subjectPerf =
+        Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
     String weakestSubject = '';
     double lowestAccuracy = 100.0;
 
@@ -485,16 +494,40 @@ class _ProfessionalAnalyticsScreenState
 
   Widget _buildMetricsGrid(Map<String, dynamic> analytics) {
     List<Map<String, dynamic>> metrics = [
-      {'title': 'Sessions', 'value': analytics['totalSessions'].toString(), 'icon': Icons.quiz, 'color': Colors.blue},
-      {'title': 'Avg Score', 'value': '${analytics['averageScore'].toStringAsFixed(1)}%', 'icon': Icons.trending_up, 'color': Colors.green},
-      {'title': 'Questions', 'value': analytics['totalQuestions'].toString(), 'icon': Icons.help_outline, 'color': Colors.orange},
-      {'title': 'Duration', 'value': '${(analytics['averageDuration'] / 60).toStringAsFixed(1)}m', 'icon': Icons.timer, 'color': Colors.purple},
+      {
+        'title': 'Sessions',
+        'value': analytics['totalSessions'].toString(),
+        'icon': Icons.quiz,
+        'color': Colors.blue
+      },
+      {
+        'title': 'Avg Score',
+        'value': '${analytics['averageScore'].toStringAsFixed(1)}%',
+        'icon': Icons.trending_up,
+        'color': Colors.green
+      },
+      {
+        'title': 'Questions',
+        'value': analytics['totalQuestions'].toString(),
+        'icon': Icons.help_outline,
+        'color': Colors.orange
+      },
+      {
+        'title': 'Duration',
+        'value': '${(analytics['averageDuration'] / 60).toStringAsFixed(1)}m',
+        'icon': Icons.timer,
+        'color': Colors.purple
+      },
     ];
     metrics.sort((a, b) {
-      if (a['title'] == 'Avg Score' && double.parse(a['value'].replaceAll('%', '')) < 70) return -1;
-      if (b['title'] == 'Avg Score' && double.parse(b['value'].replaceAll('%', '')) < 70) return 1;
-      if (a['title'] == 'Duration' && analytics['averageDuration'] > 3600) return -1;
-      if (b['title'] == 'Duration' && analytics['averageDuration'] > 3600) return 1;
+      if (a['title'] == 'Avg Score' &&
+          double.parse(a['value'].replaceAll('%', '')) < 70) return -1;
+      if (b['title'] == 'Avg Score' &&
+          double.parse(b['value'].replaceAll('%', '')) < 70) return 1;
+      if (a['title'] == 'Duration' && analytics['averageDuration'] > 3600)
+        return -1;
+      if (b['title'] == 'Duration' && analytics['averageDuration'] > 3600)
+        return 1;
       return 0;
     });
 
@@ -570,26 +603,12 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  Widget _buildPerformanceChart(Map<String, dynamic> analytics) {
-    List<Map<String, dynamic>> sessions =
-        _filterSessionsByTimeframe(List<Map<String, dynamic>>.from(analytics['weeklyProgress']));
+  // lib/screens/professional_anaytics_screen.dart - Update _buildPerformanceChart
 
-    if (
-        sessions.isEmpty) {
-      return Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              const Icon(Icons.bar_chart, size: 48, color: Colors.grey),
-              const SizedBox(height: 16),
-              Text('No session data available',
-                  style: Theme.of(context).textTheme.bodyLarge),
-            ],
-          ),
-        ),
-      );
-    }
+  Widget _buildPerformanceChart(Map<String, dynamic> analytics) {
+    // 1. Always filter sessions first to check for data based on current parameters
+    List<Map<String, dynamic>> sessions = _filterSessionsByTimeframe(
+        List<Map<String, dynamic>>.from(analytics['weeklyProgress']));
 
     return Card(
       elevation: 4,
@@ -599,13 +618,13 @@ class _ProfessionalAnalyticsScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Performance Trend',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            Text('Performance Trend',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
+            // 2. CONTROLS ARE OUTSIDE THE CONDITIONAL - They will never disappear
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -614,30 +633,33 @@ class _ProfessionalAnalyticsScreenState
                   onChanged: (value) => setState(() => selectedMetric = value!),
                   items: ChartMetric.values
                       .map((metric) => DropdownMenuItem(
-                            value: metric,
-                            child: Text(metric.toString().split('.').last),
-                          ))
+                          value: metric,
+                          child: Text(metric.toString().split('.').last)))
                       .toList(),
                 ),
                 DropdownButton<ChartTimeframe>(
                   value: selectedTimeframe,
-                  onChanged: (value) => setState(() => selectedTimeframe = value!),
+                  onChanged: (value) =>
+                      setState(() => selectedTimeframe = value!),
                   items: ChartTimeframe.values
                       .map((timeframe) => DropdownMenuItem(
-                            value: timeframe,
-                            child: Text(timeframe.toString().split('.').last),
-                          ))
+                          value: timeframe,
+                          child: Text(timeframe.toString().split('.').last)))
                       .toList(),
                 ),
               ],
             ),
             const SizedBox(height: 16),
+            // 3. ONLY the chart area shows the empty state, not the whole card/controls
             SizedBox(
               height: 200,
-              child: CustomPaint(
-                painter: _LineChartPainter(sessions, metric: selectedMetric),
-                size: const Size(double.infinity, 200),
-              ),
+              child: sessions.isEmpty
+                  ? const Center(child: Text('No data for this timeframe'))
+                  : CustomPaint(
+                      painter:
+                          _LineChartPainter(sessions, metric: selectedMetric),
+                      size: const Size(double.infinity, 200),
+                    ),
             ),
           ],
         ),
@@ -645,7 +667,8 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  List<Map<String, dynamic>> _filterSessionsByTimeframe(List<Map<String, dynamic>> sessions) {
+  List<Map<String, dynamic>> _filterSessionsByTimeframe(
+      List<Map<String, dynamic>> sessions) {
     final now = DateTime.now();
     return sessions.where((session) {
       final sessionDate = _extractDateFromSessionName(session['name']);
@@ -662,7 +685,10 @@ class _ProfessionalAnalyticsScreenState
     Map<String, Map<String, int>> subjectPerformance =
         Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
     List<Map<String, dynamic>> recentSessions =
-        List<Map<String, dynamic>>.from(analytics['weeklyProgress']).reversed.take(5).toList();
+        List<Map<String, dynamic>>.from(analytics['weeklyProgress'])
+            .reversed
+            .take(5)
+            .toList();
 
     return Card(
       elevation: 4,
@@ -700,7 +726,8 @@ class _ProfessionalAnalyticsScreenState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(subject,
-                            style: const TextStyle(fontWeight: FontWeight.w600)),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.w600)),
                         Row(
                           children: [
                             Text(
@@ -711,7 +738,9 @@ class _ProfessionalAnalyticsScreenState
                             Icon(
                               trend > 0
                                   ? Icons.arrow_upward
-                                  : (trend < 0 ? Icons.arrow_downward : Icons.remove),
+                                  : (trend < 0
+                                      ? Icons.arrow_downward
+                                      : Icons.remove),
                               color: trend > 0
                                   ? Colors.green
                                   : (trend < 0 ? Colors.red : Colors.grey),
@@ -737,7 +766,8 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  double _calculateSubjectTrend(String subject, List<Map<String, dynamic>> sessions) {
+  double _calculateSubjectTrend(
+      String subject, List<Map<String, dynamic>> sessions) {
     if (sessions.length < 2) return 0.0;
     double recentScore = 0.0;
     double olderScore = 0.0;
@@ -778,31 +808,31 @@ class _ProfessionalAnalyticsScreenState
                   ),
             ),
             const SizedBox(height: 16),
-            ...insights
-                .map((insight) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(Icons.lightbulb,
-                              color: Colors.yellow, size: 20),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              insight['description'],
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ],
+            ...insights.map((insight) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.lightbulb,
+                          color: Colors.yellow, size: 20),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          insight['description'],
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
-                    )),
+                    ],
+                  ),
+                )),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildProgressTab(BuildContext context, Map<String, dynamic> analytics) {
+  Widget _buildProgressTab(
+      BuildContext context, Map<String, dynamic> analytics) {
     Map<String, dynamic> difficultyAnalysis = analytics['difficultyAnalysis'];
     List<String> orderedLevels = difficultyAnalysis['orderedLevels'] ?? [];
     Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'];
@@ -885,8 +915,8 @@ class _ProfessionalAnalyticsScreenState
                       ),
                       Text(
                         '${percentage.toStringAsFixed(1)}% (${stats['correct']}/${stats['total']})',
-                        style:
-                            TextStyle(color: color, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: color, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -1005,7 +1035,8 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  List<Map<String, dynamic>> _generateDynamicGoals(Map<String, dynamic> analytics) {
+  List<Map<String, dynamic>> _generateDynamicGoals(
+      Map<String, dynamic> analytics) {
     List<Map<String, dynamic>> goals = [];
     double averageScore = analytics['averageScore'] ?? 0.0;
     int currentStreak = analytics['streakInfo']['current'] ?? 0;
@@ -1014,7 +1045,8 @@ class _ProfessionalAnalyticsScreenState
         Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
 
     // Accuracy goal
-    double targetAccuracy = averageScore < 60 ? 70.0 : (averageScore < 80 ? 85.0 : 90.0);
+    double targetAccuracy =
+        averageScore < 60 ? 70.0 : (averageScore < 80 ? 85.0 : 90.0);
     goals.add({
       'title': 'Accuracy Target',
       'target': '$targetAccuracy%',
@@ -1025,7 +1057,8 @@ class _ProfessionalAnalyticsScreenState
     });
 
     // Speed goal
-    double targetSpeed = avgResponseTime > 60 ? 45.0 : (avgResponseTime > 30 ? 30.0 : 20.0);
+    double targetSpeed =
+        avgResponseTime > 60 ? 45.0 : (avgResponseTime > 30 ? 30.0 : 20.0);
     goals.add({
       'title': 'Speed Target',
       'target': '${targetSpeed.toInt()}s avg',
@@ -1037,7 +1070,8 @@ class _ProfessionalAnalyticsScreenState
     });
 
     // Consistency goal
-    double targetStreak = currentStreak < 3 ? 3.0 : (currentStreak < 7 ? 7.0 : 14.0);
+    double targetStreak =
+        currentStreak < 3 ? 3.0 : (currentStreak < 7 ? 7.0 : 14.0);
     goals.add({
       'title': 'Consistency Goal',
       'target': '${targetStreak.toInt()} day streak',
@@ -1136,7 +1170,10 @@ class _ProfessionalAnalyticsScreenState
       Map<String, dynamic> analytics) {
     List<Map<String, dynamic>> recommendations = [];
     List<Map<String, dynamic>> recentSessions =
-        List<Map<String, dynamic>>.from(analytics['weeklyProgress']).reversed.take(3).toList();
+        List<Map<String, dynamic>>.from(analytics['weeklyProgress'])
+            .reversed
+            .take(3)
+            .toList();
     bool isAccuracyDeclining = recentSessions.length >= 2 &&
         recentSessions.first['score'] < recentSessions.last['score'];
 
@@ -1146,7 +1183,8 @@ class _ProfessionalAnalyticsScreenState
         Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
     Map<String, dynamic> timeAnalysis =
         Map<String, dynamic>.from(analytics['timeAnalysis']);
-    Map<String, dynamic> difficultyAnalysis = analytics['difficultyAnalysis'] ?? {};
+    Map<String, dynamic> difficultyAnalysis =
+        analytics['difficultyAnalysis'] ?? {};
     int avgResponseTime = timeAnalysis['average'] ?? 0;
     String weakestArea = difficultyAnalysis['weakestArea'] ?? '';
     double weakestAccuracy = difficultyAnalysis['weakestAccuracy'] ?? 100.0;
@@ -1267,12 +1305,13 @@ class _ProfessionalAnalyticsScreenState
             'Your $weakestArea accuracy is ${weakestAccuracy.toStringAsFixed(1)}%. Targeted practice will help.',
         'icon': Icons.school,
         'color': Colors.redAccent,
-        'tips': subjectTips[weakestArea] ?? [
-          'Focus on core concepts in this area.',
-          'Practice daily with targeted exercises.',
-          'Seek additional resources or tutorials.',
-          'Track progress to stay motivated.',
-        ],
+        'tips': subjectTips[weakestArea] ??
+            [
+              'Focus on core concepts in this area.',
+              'Practice daily with targeted exercises.',
+              'Seek additional resources or tutorials.',
+              'Track progress to stay motivated.',
+            ],
       });
     } else if (subjectPerf.isNotEmpty) {
       String strongestSubject = '';
@@ -1306,7 +1345,8 @@ class _ProfessionalAnalyticsScreenState
     if (currentStreak == 0) {
       recommendations.add({
         'title': 'Start a Practice Streak',
-        'description': 'No current streak. Consistent practice boosts learning!',
+        'description':
+            'No current streak. Consistent practice boosts learning!',
         'icon': Icons.local_fire_department,
         'color': Colors.orange,
         'tips': [
@@ -1344,7 +1384,8 @@ class _ProfessionalAnalyticsScreenState
       });
     }
 
-    Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'] ?? {};
+    Map<String, Map<String, int>> levelStats =
+        difficultyAnalysis['levelStats'] ?? {};
     if (levelStats.isNotEmpty) {
       String hardestLevel = '';
       double lowestLevelAccuracy = 100.0;
@@ -1398,7 +1439,8 @@ class _ProfessionalAnalyticsScreenState
     String hardestLevel = '';
     String strongestSubject = '';
     if (difficultyAnalysis['levelStats'] != null) {
-      Map<String, Map<String, int>> levelStats = difficultyAnalysis['levelStats'];
+      Map<String, Map<String, int>> levelStats =
+          difficultyAnalysis['levelStats'];
       double lowestLevelAccuracy = 100.0;
       for (var entry in levelStats.entries) {
         double accuracy = entry.value['total']! > 0
@@ -1556,6 +1598,7 @@ class _ProfessionalAnalyticsScreenState
 }
 
 enum ChartMetric { accuracy, duration, questionCount }
+
 enum ChartTimeframe { last7Days, last30Days, allTime }
 
 class _LineChartPainter extends CustomPainter {
@@ -1585,7 +1628,9 @@ class _LineChartPainter extends CustomPainter {
         ? 100
         : (metric == ChartMetric.duration
             ? _calculateMaxDuration(sessions)
-            : sessions.map((s) => (s['totalQuestions'] ?? 3).toDouble()).reduce((a, b) => a > b ? a : b));
+            : sessions
+                .map((s) => (s['totalQuestions'] ?? 3).toDouble())
+                .reduce((a, b) => a > b ? a : b));
     for (int i = 0; i <= 4; i++) {
       final y = size.height * i / 4;
       canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
@@ -1594,7 +1639,9 @@ class _LineChartPainter extends CustomPainter {
     if (sessions.length == 1) {
       final value = metric == ChartMetric.accuracy
           ? sessions[0]['score']
-          : (metric == ChartMetric.duration ? sessions[0]['duration'] : sessions[0]['totalQuestions'] ?? 3);
+          : (metric == ChartMetric.duration
+              ? sessions[0]['duration']
+              : sessions[0]['totalQuestions'] ?? 3);
       final point = Offset(size.width / 2, size.height * (1 - value / maxY));
       canvas.drawCircle(point, 6, pointPaint);
       return;
@@ -1607,11 +1654,15 @@ class _LineChartPainter extends CustomPainter {
       final x = size.width * i / (sessions.length - 1);
       final value = metric == ChartMetric.accuracy
           ? sessions[i]['score']
-          : (metric == ChartMetric.duration ? sessions[i]['duration'] : sessions[i]['totalQuestions'] ?? 3);
+          : (metric == ChartMetric.duration
+              ? sessions[i]['duration']
+              : sessions[i]['totalQuestions'] ?? 3);
       final y = size.height * (1 - value / maxY);
       points.add(Offset(x, y));
-      if (i == 0) path.moveTo(x, y);
-      else path.lineTo(x, y);
+      if (i == 0)
+        path.moveTo(x, y);
+      else
+        path.lineTo(x, y);
     }
 
     canvas.drawPath(path, paint);
@@ -1619,7 +1670,9 @@ class _LineChartPainter extends CustomPainter {
   }
 
   double _calculateMaxDuration(List<Map<String, dynamic>> sessions) {
-    return sessions.map((s) => s['duration'].toDouble()).reduce((a, b) => a > b ? a : b);
+    return sessions
+        .map((s) => s['duration'].toDouble())
+        .reduce((a, b) => a > b ? a : b);
   }
 
   @override
