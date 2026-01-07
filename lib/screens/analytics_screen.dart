@@ -129,9 +129,10 @@ class AnalyticsScreen extends ConsumerWidget {
     );
   }
 
+  // lib/screens/analytics_screen.dart
+
   Widget _buildProgressCharts(AnalyticsData analytics, BuildContext context) {
     final sessionCount = analytics.weeklyAccuracy.length;
-    // Calculate width for scrolling: 60px per session
     final double chartWidth =
         math.max(MediaQuery.of(context).size.width - 64, sessionCount * 60.0);
 
@@ -153,16 +154,14 @@ class AnalyticsScreen extends ConsumerWidget {
                 child: BarChart(
                   BarChartData(
                     alignment: BarChartAlignment.spaceAround,
-                    // FIX 1 & 3: Tooltip rounding and interaction headroom
-                    maxY:
-                        110, // Added headroom so 100% bars are easily clickable
+                    maxY: 110, // Headroom for tooltips
                     barTouchData: BarTouchData(
                       enabled: true,
+                      touchExtraThreshold:
+                          const EdgeInsets.symmetric(vertical: 250),
+                      handleBuiltInTouches: true,
                       touchTooltipData: BarTouchTooltipData(
                         getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                          // Round to 1 decimal digit in the tooltip
-                          // We use the 'real' accuracy stored in analytics, not the 'rod.toY'
-                          // which might be slightly higher for 0% visibility.
                           double actualValue =
                               analytics.weeklyAccuracy[groupIndex];
                           return BarTooltipItem(
@@ -209,20 +208,28 @@ class AnalyticsScreen extends ConsumerWidget {
                       topTitles: const AxisTitles(
                           sideTitles: SideTitles(showTitles: false)),
                     ),
-                    gridData: FlGridData(show: true, drawVerticalLine: false),
                     barGroups: List.generate(sessionCount, (index) {
                       final accuracy = analytics.weeklyAccuracy[index];
                       return BarChartGroupData(
                         x: index,
                         barRods: [
                           BarChartRodData(
-                            // FIX 2: Ensure 0% accuracy shows a tiny bar for visibility
+                            // toY is the data height.
+                            // We use a small visual height for 0% so it's visible.
                             toY: accuracy == 0 ? 3.0 : accuracy,
                             color: accuracy == 0
                                 ? Colors.blue.withOpacity(0.3)
                                 : Colors.blue,
                             width: 18,
                             borderRadius: BorderRadius.circular(4),
+                            // backDrawRodData fills the background of the bar,
+                            // making the entire vertical column "hittable"
+                            backDrawRodData: BackgroundBarChartRodData(
+                              show: true,
+                              toY: 100,
+                              color: Colors
+                                  .transparent, // Keeps the column hit-box active but invisible
+                            ),
                           ),
                         ],
                       );
@@ -233,7 +240,7 @@ class AnalyticsScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             const Center(
-                child: Text('Tap bars to see percentage • Swipe for more',
+                child: Text('Tap anywhere above a session to see percentage',
                     style: TextStyle(fontSize: 10, color: Colors.grey))),
           ],
         ),
