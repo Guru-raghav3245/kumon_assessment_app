@@ -307,26 +307,18 @@ class _ProfessionalAnalyticsScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Merged Component: Streak and Summary Cards from Progress Analytics
           _buildTopSection(streak, analytics),
           const SizedBox(height: 16),
-          
-          // Merged Component: Bar Chart from Progress Analytics
           _buildProgressCharts(weeklyAccuracy, context),
           const SizedBox(height: 24),
-          
-          // Original Professional Component: Subject Performance (kept for detailed breakdown)
           _buildSubjectPerformance(analytics),
           const SizedBox(height: 24),
-          
-          // Original Professional Component: Quick Insights
           _buildQuickInsights(analytics),
         ],
       ),
     );
   }
 
-  // Imported from Progress Analytics Screen
   Widget _buildTopSection(int streak, Map<String, dynamic> analytics) {
     final totalSessions = analytics['totalSessions'] ?? 0;
     final avgAccuracy = analytics['averageScore'] ?? 0.0;
@@ -383,7 +375,6 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  // Imported from Progress Analytics Screen
   Widget _buildSummaryCard(String title, String value, Color color) {
     return Expanded(
       child: Card(
@@ -412,10 +403,8 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  // Imported from Progress Analytics Screen
   Widget _buildProgressCharts(List<double> weeklyAccuracy, BuildContext context) {
     final sessionCount = weeklyAccuracy.length;
-    // Calculate width to allow scrolling if many sessions
     final double chartWidth =
         math.max(MediaQuery.of(context).size.width - 64, sessionCount * 60.0);
 
@@ -531,7 +520,6 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  // Original Subject Performance from Professional Analytics (kept as it provides more detail/visuals)
   Widget _buildSubjectPerformance(Map<String, dynamic> analytics) {
     Map<String, Map<String, int>> subjectPerformance =
         Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
@@ -756,7 +744,6 @@ class _ProfessionalAnalyticsScreenState
                     ? Colors.orange
                     : Colors.red;
             
-            // Format the level name here
             final formattedLevel = formatLevelName(level);
 
             return Padding(
@@ -1156,14 +1143,18 @@ class _ProfessionalAnalyticsScreenState
           'Analyze complex problems step-by-step.',
         ],
       };
+      
+      // Determine subject for tips lookup
+      String subjectForTips = _getSubjectFromLevel(weakestArea);
+      String displayWeakestArea = formatLevelName(weakestArea);
 
       recommendations.add({
-        'title': 'Strengthen $weakestArea',
+        'title': 'Strengthen $displayWeakestArea',
         'description':
-            'Your $weakestArea accuracy is ${weakestAccuracy.toStringAsFixed(1)}%. Targeted practice will help.',
+            'Your $displayWeakestArea accuracy is ${weakestAccuracy.toStringAsFixed(1)}%. Targeted practice will help.',
         'icon': Icons.school,
         'color': Colors.redAccent,
-        'tips': subjectTips[weakestArea] ??
+        'tips': subjectTips[subjectForTips] ??
             [
               'Focus on core concepts in this area.',
               'Practice daily with targeted exercises.',
@@ -1257,17 +1248,18 @@ class _ProfessionalAnalyticsScreenState
         }
       }
       if (hardestLevel.isNotEmpty && lowestLevelAccuracy < 70) {
+        String displayHardestLevel = formatLevelName(hardestLevel);
         recommendations.add({
-          'title': 'Tackle $hardestLevel Challenges',
+          'title': 'Tackle $displayHardestLevel Challenges',
           'description':
-              'Your accuracy in $hardestLevel is ${lowestLevelAccuracy.toStringAsFixed(1)}%. Focus here.',
+              'Your accuracy in $displayHardestLevel is ${lowestLevelAccuracy.toStringAsFixed(1)}%. Focus here.',
           'icon': Icons.warning,
           'color': Colors.deepOrange,
           'tips': [
-            'Practice $hardestLevel questions daily.',
-            'Review explanations for $hardestLevel mistakes.',
-            'Start with simpler $hardestLevel problems.',
-            'Seek examples or tutorials for $hardestLevel.',
+            'Practice $displayHardestLevel questions daily.',
+            'Review explanations for $displayHardestLevel mistakes.',
+            'Start with simpler $displayHardestLevel problems.',
+            'Seek examples or tutorials for $displayHardestLevel.',
           ],
         });
       }
@@ -1284,7 +1276,8 @@ class _ProfessionalAnalyticsScreenState
     } else if (avgResponseTime > 60) {
       generalTips.add('Practice timed sessions to improve efficiency.');
     } else if (weakestArea.isNotEmpty) {
-      generalTips.add('Allocate extra time to $weakestArea practice.');
+      String displayWeakestArea = formatLevelName(weakestArea);
+      generalTips.add('Allocate extra time to $displayWeakestArea practice.');
     }
 
     recommendations.add({
@@ -1328,8 +1321,8 @@ class _ProfessionalAnalyticsScreenState
     recommendations.sort((a, b) {
       List<String> priorityOrder = [
         'Boost Your Accuracy',
-        'Tackle ${hardestLevel.isNotEmpty ? hardestLevel : 'Level'} Challenges',
-        'Strengthen $weakestArea',
+        'Tackle ${hardestLevel.isNotEmpty ? formatLevelName(hardestLevel) : 'Level'} Challenges',
+        'Strengthen ${weakestArea.isNotEmpty ? formatLevelName(weakestArea) : ''}',
         'Increase Response Efficiency',
         'Balance Speed and Accuracy',
         'Start a Practice Streak',
