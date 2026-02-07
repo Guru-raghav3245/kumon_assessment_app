@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/question_logic/models.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
@@ -26,8 +27,6 @@ class _ProfessionalAnalyticsScreenState
     extends ConsumerState<ProfessionalAnalyticsScreen>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  ChartMetric selectedMetric = ChartMetric.accuracy;
-  ChartTimeframe selectedTimeframe = ChartTimeframe.allTime;
 
   @override
   void initState() {
@@ -63,7 +62,12 @@ class _ProfessionalAnalyticsScreenState
     Map<String, Map<String, int>> subjectStats = {};
     List<Map<String, dynamic>> sessionData = [];
 
-    for (var session in sessions) {
+    // Sort sessions by date (oldest to newest) to ensure charts work chronologically
+    final sortedSessions = List<Session>.from(sessions)
+      ..sort((a, b) => _extractDateFromSessionName(a.name)
+          .compareTo(_extractDateFromSessionName(b.name)));
+
+    for (var session in sortedSessions) {
       int sessionCorrect = 0;
       int sessionTotal = session.results.length;
       totalQuestions += sessionTotal;
@@ -139,15 +143,8 @@ class _ProfessionalAnalyticsScreenState
           );
         }
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid session date format: $sessionName')),
-      );
       return DateTime.now();
     } catch (e) {
-      print('Error parsing date: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error parsing session date')),
-      );
       return DateTime.now();
     }
   }
@@ -176,6 +173,17 @@ class _ProfessionalAnalyticsScreenState
       }
 
       previousDate = currentDate;
+    }
+    
+    // Check if the streak is still active (i.e., last session was today or yesterday)
+    final lastSessionDate = _extractDateFromSessionName(sortedSessions.last.name);
+    final today = DateTime.now();
+    final diffFromToday = DateTime(today.year, today.month, today.day)
+        .difference(DateTime(lastSessionDate.year, lastSessionDate.month, lastSessionDate.day))
+        .inDays;
+
+    if (diffFromToday > 1) {
+      currentStreak = 0;
     }
 
     return {'current': currentStreak, 'best': bestStreak};
@@ -285,318 +293,118 @@ class _ProfessionalAnalyticsScreenState
     };
   }
 
-  Future<void> _generateAnalyticsPdf(List<Session> sessions) async {
-    final pdf = pw.Document();
-    final analytics = _calculateAnalytics(sessions);
-
-    pdf.addPage(
-      pw.MultiPage(
-        pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return [
-            pw.Header(
-              level: 0,
-              child: pw.Text('Professional Analytics Report',
-                  style: pw.TextStyle(
-                      fontSize: 24, fontWeight: pw.FontWeight.bold)),
-            ),
-            pw.SizedBox(height: 20),
-            pw.Text('Summary Statistics',
-                style:
-                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
-            pw.SizedBox(height: 10),
-            pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text('Total Sessions: ${analytics['totalSessions']}'),
-                pw.Text(
-                    'Average Score: ${analytics['averageScore'].toStringAsFixed(1)}%'),
-                pw.Text('Total Questions: ${analytics['totalQuestions']}'),
-                pw.Text('Correct Answers: ${analytics['correctAnswers']}'),
-                pw.Text(
-                    'Average Duration: ${_formatDuration(analytics['averageDuration'].toInt())}'),
-                pw.Text(
-                    'Current Streak: ${analytics['streakInfo']['current']} days'),
-                pw.Text('Best Streak: ${analytics['streakInfo']['best']} days'),
-              ],
-            ),
-            pw.SizedBox(height: 20),
-            pw.Text('Subject Performance',
-                style:
-                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
-            pw.SizedBox(height: 10),
-            ...analytics['subjectPerformance'].entries.map((entry) {
-              final subject = entry.key;
-              final stats = entry.value;
-              final accuracy = stats['total'] > 0
-                  ? (stats['correct'] / stats['total'] * 100)
-                  : 0.0;
-              return pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Text(
-                      '$subject: ${accuracy.toStringAsFixed(1)}% (${stats['correct']}/${stats['total']})'),
-                ],
-              );
-            }).toList(),
-          ];
-        },
-      ),
-    );
-
-    final directory = await getTemporaryDirectory();
-    final file = File('${directory.path}/professional_analytics.pdf');
-    await file.writeAsBytes(await pdf.save());
-
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      text: 'Professional Analytics Report',
-      subject: 'Kumon Analytics Results',
-    );
-  }
-
-  String _formatDuration(int seconds) {
-    final minutes = seconds ~/ 60;
-    final remainingSeconds = seconds % 60;
-    return '${minutes}m ${remainingSeconds}s';
-  }
-
-  Future<void> _generateAnalyticsCsv(List<Session> sessions) async {
-    final analytics = _calculateAnalytics(sessions);
-    final csvData = <List<dynamic>>[];
-
-    csvData.add(['Metric', 'Value']);
-    csvData.add(['Total Sessions', analytics['totalSessions']]);
-    csvData.add(
-        ['Average Score (%)', analytics['averageScore'].toStringAsFixed(1)]);
-    csvData.add(['Total Questions', analytics['totalQuestions']]);
-    csvData.add(['Correct Answers', analytics['correctAnswers']]);
-    csvData.add(['Average Duration (s)', analytics['averageDuration']]);
-    csvData.add(['Current Streak (days)', analytics['streakInfo']['current']]);
-    csvData.add(['Best Streak (days)', analytics['streakInfo']['best']]);
-    csvData.add(['']);
-    csvData.add(['Subject Performance']);
-    for (var entry in analytics['subjectPerformance'].entries) {
-      final subject = entry.key;
-      final stats = entry.value;
-      final accuracy =
-          stats['total'] > 0 ? (stats['correct'] / stats['total'] * 100) : 0.0;
-      csvData.add(['$subject Accuracy (%)', accuracy.toStringAsFixed(1)]);
-      csvData.add(['$subject Correct', stats['correct']]);
-      csvData.add(['$subject Total', stats['total']]);
-    }
-
-    final csvString = const ListToCsvConverter().convert(csvData);
-    final directory = await getTemporaryDirectory();
-    final file = File('${directory.path}/professional_analytics.csv');
-    await file.writeAsString(csvString);
-
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      text: 'Professional Analytics Report',
-      subject: 'Kumon Analytics Results',
-    );
-  }
+  // --- UI Building Methods ---
 
   Widget _buildOverviewTab(Map<String, dynamic> analytics) {
-    String weakestMetric = _getWeakestMetric(analytics);
+    final int streak = analytics['streakInfo']['current'] ?? 0;
+    // Extract weekly accuracy for the chart
+    final List<double> weeklyAccuracy = (analytics['weeklyProgress'] as List)
+        .map((e) => (e['score'] as num).toDouble())
+        .toList();
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (weakestMetric.isNotEmpty) ...[
-            Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              color: Colors.red[50],
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        weakestMetric,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red[800],
-                        ),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        ref.read(focusAreaProvider.notifier).state =
-                            weakestMetric.contains('Math')
-                                ? 'Math'
-                                : weakestMetric.contains('English')
-                                    ? 'English'
-                                    : weakestMetric.contains('Competency')
-                                        ? 'Competency'
-                                        : weakestMetric.contains('time')
-                                            ? 'Speed'
-                                            : 'Consistency';
-                        // Navigate to practice screen with focus area
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red[800]),
-                      child: Text('Practice Now',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
-          _buildMetricsGrid(analytics),
+          // Merged Component: Streak and Summary Cards from Progress Analytics
+          _buildTopSection(streak, analytics),
+          const SizedBox(height: 16),
+          
+          // Merged Component: Bar Chart from Progress Analytics
+          _buildProgressCharts(weeklyAccuracy, context),
           const SizedBox(height: 24),
-          _buildPerformanceChart(analytics),
-          const SizedBox(height: 24),
+          
+          // Original Professional Component: Subject Performance (kept for detailed breakdown)
           _buildSubjectPerformance(analytics),
           const SizedBox(height: 24),
+          
+          // Original Professional Component: Quick Insights
           _buildQuickInsights(analytics),
         ],
       ),
     );
   }
 
-  String _getWeakestMetric(Map<String, dynamic> analytics) {
-    double averageScore = analytics['averageScore'] ?? 0.0;
-    int avgResponseTime = (analytics['timeAnalysis']['average'] ?? 0).toInt();
-    int currentStreak = analytics['streakInfo']['current'] ?? 0;
-    Map<String, Map<String, int>> subjectPerf =
-        Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
-    String weakestSubject = '';
-    double lowestAccuracy = 100.0;
+  // Imported from Progress Analytics Screen
+  Widget _buildTopSection(int streak, Map<String, dynamic> analytics) {
+    final totalSessions = analytics['totalSessions'] ?? 0;
+    final avgAccuracy = analytics['averageScore'] ?? 0.0;
+    final avgTime = analytics['averageDuration'] ?? 0;
 
-    for (var entry in subjectPerf.entries) {
-      double accuracy = entry.value['total']! > 0
-          ? (entry.value['correct']! / entry.value['total']!) * 100
-          : 0.0;
-      if (accuracy < lowestAccuracy) {
-        lowestAccuracy = accuracy;
-        weakestSubject = entry.key;
-      }
-    }
-
-    if (averageScore < 60) {
-      return 'Your overall accuracy is ${averageScore.toStringAsFixed(1)}%. Focus on improving your correctness.';
-    } else if (lowestAccuracy < 70 && weakestSubject.isNotEmpty) {
-      return 'Your $weakestSubject accuracy is ${lowestAccuracy.toStringAsFixed(1)}%. Practice more in this area.';
-    } else if (avgResponseTime > 60) {
-      return 'Your response time is ${_formatDuration(avgResponseTime)}. Work on answering faster.';
-    } else if (currentStreak < 3) {
-      return 'Your current streak is $currentStreak days. Build consistency with daily practice.';
-    }
-    return '';
-  }
-
-  Widget _buildMetricsGrid(Map<String, dynamic> analytics) {
-    List<Map<String, dynamic>> metrics = [
-      {
-        'title': 'Sessions',
-        'value': analytics['totalSessions'].toString(),
-        'icon': Icons.quiz,
-        'color': Colors.blue
-      },
-      {
-        'title': 'Avg Score',
-        'value': '${analytics['averageScore'].toStringAsFixed(1)}%',
-        'icon': Icons.trending_up,
-        'color': Colors.green
-      },
-      {
-        'title': 'Questions',
-        'value': analytics['totalQuestions'].toString(),
-        'icon': Icons.help_outline,
-        'color': Colors.orange
-      },
-      {
-        'title': 'Duration',
-        'value': '${(analytics['averageDuration'] / 60).toStringAsFixed(1)}m',
-        'icon': Icons.timer,
-        'color': Colors.purple
-      },
-    ];
-    metrics.sort((a, b) {
-      if (a['title'] == 'Avg Score' &&
-          double.parse(a['value'].replaceAll('%', '')) < 70) return -1;
-      if (b['title'] == 'Avg Score' &&
-          double.parse(b['value'].replaceAll('%', '')) < 70) return 1;
-      if (a['title'] == 'Duration' && analytics['averageDuration'] > 3600)
-        return -1;
-      if (b['title'] == 'Duration' && analytics['averageDuration'] > 3600)
-        return 1;
-      return 0;
-    });
-
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 2.0,
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
-      padding: const EdgeInsets.all(8),
-      children: metrics
-          .map((metric) => _buildMetricCard(
-                metric['title'],
-                metric['value'],
-                metric['icon'],
-                metric['color'],
-              ))
-          .toList(),
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: Card(
+            elevation: 4,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Current Streak',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Text('$streak days',
+                      style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue)),
+                  const SizedBox(height: 8),
+                  const Text('Consecutive days with completed sessions',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey, fontSize: 12)),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildSummaryCard(
+                  'Total Sessions', '$totalSessions', Colors.blue),
+              const SizedBox(width: 12),
+              _buildSummaryCard(
+                  'Avg. Accuracy',
+                  '${(avgAccuracy as double).toStringAsFixed(1)}%',
+                  Colors.green),
+              const SizedBox(width: 12),
+              _buildSummaryCard('Avg. Time',
+                  _formatDuration((avgTime as num).toInt()), Colors.orange),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildMetricCard(
-      String title, String value, IconData icon, Color color) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.all(4),
-      child: Semantics(
-        label: '$title: $value',
+  // Imported from Progress Analytics Screen
+  Widget _buildSummaryCard(String title, String value, Color color) {
+    return Expanded(
+      child: Card(
+        elevation: 4,
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(icon, color: color, size: 24, semanticLabel: title),
-              const SizedBox(height: 6),
-              Flexible(
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: color,
-                      height: 1.1,
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Flexible(
-                child: Text(
-                  title,
+              Text(title,
                   style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.grey,
-                    height: 1.1,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+                      fontWeight: FontWeight.bold, fontSize: 14),
+                  textAlign: TextAlign.center),
+              const SizedBox(height: 6),
+              FittedBox(
+                  child: Text(value,
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: color,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center)),
             ],
           ),
         ),
@@ -604,84 +412,126 @@ class _ProfessionalAnalyticsScreenState
     );
   }
 
-  // lib/screens/professional_anaytics_screen.dart - Update _buildPerformanceChart
-
-  Widget _buildPerformanceChart(Map<String, dynamic> analytics) {
-    // 1. Always filter sessions first to check for data based on current parameters
-    List<Map<String, dynamic>> sessions = _filterSessionsByTimeframe(
-        List<Map<String, dynamic>>.from(analytics['weeklyProgress']));
+  // Imported from Progress Analytics Screen
+  Widget _buildProgressCharts(List<double> weeklyAccuracy, BuildContext context) {
+    final sessionCount = weeklyAccuracy.length;
+    // Calculate width to allow scrolling if many sessions
+    final double chartWidth =
+        math.max(MediaQuery.of(context).size.width - 64, sessionCount * 60.0);
 
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Performance Trend',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const Text('Session History Progress',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
-            // 2. CONTROLS ARE OUTSIDE THE CONDITIONAL - They will never disappear
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DropdownButton<ChartMetric>(
-                  value: selectedMetric,
-                  onChanged: (value) => setState(() => selectedMetric = value!),
-                  items: ChartMetric.values
-                      .map((metric) => DropdownMenuItem(
-                          value: metric,
-                          child: Text(metric.toString().split('.').last)))
-                      .toList(),
-                ),
-                DropdownButton<ChartTimeframe>(
-                  value: selectedTimeframe,
-                  onChanged: (value) =>
-                      setState(() => selectedTimeframe = value!),
-                  items: ChartTimeframe.values
-                      .map((timeframe) => DropdownMenuItem(
-                          value: timeframe,
-                          child: Text(timeframe.toString().split('.').last)))
-                      .toList(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // 3. ONLY the chart area shows the empty state, not the whole card/controls
-            SizedBox(
-              height: 200,
-              child: sessions.isEmpty
-                  ? const Center(child: Text('No data for this timeframe'))
-                  : CustomPaint(
-                      painter:
-                          _LineChartPainter(sessions, metric: selectedMetric),
-                      size: const Size(double.infinity, 200),
+            if (sessionCount == 0)
+              const Center(child: Padding(
+                padding: EdgeInsets.all(24.0),
+                child: Text('No history yet'),
+              ))
+            else
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                height: 250,
+                width: chartWidth,
+                child: BarChart(
+                  BarChartData(
+                    alignment: BarChartAlignment.spaceAround,
+                    maxY: 110, // Headroom for tooltips
+                    barTouchData: BarTouchData(
+                      enabled: true,
+                      touchExtraThreshold:
+                          const EdgeInsets.symmetric(vertical: 250),
+                      handleBuiltInTouches: true,
+                      touchTooltipData: BarTouchTooltipData(
+                        getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                          double actualValue = weeklyAccuracy[groupIndex];
+                          return BarTooltipItem(
+                            '${actualValue.toStringAsFixed(1)}%',
+                            const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          );
+                        },
+                      ),
                     ),
+                    titlesData: FlTitlesData(
+                      show: true,
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                          getTitlesWidget: (value, meta) {
+                            int idx = value.toInt();
+                            if (idx < 0 || idx >= sessionCount)
+                              return const Text('');
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text('S${idx + 1}',
+                                  style: const TextStyle(fontSize: 10)),
+                            );
+                          },
+                        ),
+                      ),
+                      leftTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 40,
+                          interval: 20,
+                          getTitlesWidget: (value, meta) {
+                            if (value > 100) return const Text('');
+                            return Text('${value.toInt()}%',
+                                style: const TextStyle(fontSize: 10));
+                          },
+                        ),
+                      ),
+                      rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                      topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false)),
+                    ),
+                    barGroups: List.generate(sessionCount, (index) {
+                      final accuracy = weeklyAccuracy[index];
+                      return BarChartGroupData(
+                        x: index,
+                        barRods: [
+                          BarChartRodData(
+                            toY: accuracy == 0 ? 3.0 : accuracy,
+                            color: accuracy == 0
+                                ? Colors.blue.withOpacity(0.3)
+                                : Colors.blue,
+                            width: 18,
+                            borderRadius: BorderRadius.circular(4),
+                            backDrawRodData: BackgroundBarChartRodData(
+                              show: true,
+                              toY: 100,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
+                ),
+              ),
             ),
+            const SizedBox(height: 8),
+            const Center(
+                child: Text('Tap anywhere above a session to see percentage',
+                    style: TextStyle(fontSize: 10, color: Colors.grey))),
           ],
         ),
       ),
     );
   }
 
-  List<Map<String, dynamic>> _filterSessionsByTimeframe(
-      List<Map<String, dynamic>> sessions) {
-    final now = DateTime.now();
-    return sessions.where((session) {
-      final sessionDate = _extractDateFromSessionName(session['name']);
-      if (selectedTimeframe == ChartTimeframe.last7Days) {
-        return sessionDate.isAfter(now.subtract(const Duration(days: 7)));
-      } else if (selectedTimeframe == ChartTimeframe.last30Days) {
-        return sessionDate.isAfter(now.subtract(const Duration(days: 30)));
-      }
-      return true; // allTime
-    }).toList();
-  }
-
+  // Original Subject Performance from Professional Analytics (kept as it provides more detail/visuals)
   Widget _buildSubjectPerformance(Map<String, dynamic> analytics) {
     Map<String, Map<String, int>> subjectPerformance =
         Map<String, Map<String, int>>.from(analytics['subjectPerformance']);
@@ -706,6 +556,8 @@ class _ProfessionalAnalyticsScreenState
                   ),
             ),
             const SizedBox(height: 16),
+            if (subjectPerformance.isEmpty)
+              const Text('No subject data available yet.'),
             ...subjectPerformance.entries.map((entry) {
               String subject = entry.key;
               int correct = entry.value['correct'] ?? 0;
@@ -809,6 +661,8 @@ class _ProfessionalAnalyticsScreenState
                   ),
             ),
             const SizedBox(height: 16),
+            if (insights.isEmpty)
+              const Text('No insights available yet.', style: TextStyle(color: Colors.white70)),
             ...insights.map((insight) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Row(
@@ -1437,6 +1291,8 @@ class _ProfessionalAnalyticsScreenState
       'color': Colors.indigo,
       'tips': generalTips,
     });
+    
+    // Calculate strongest subject and hardest level for sorting only
     String hardestLevel = '';
     String strongestSubject = '';
     if (difficultyAnalysis['levelStats'] != null) {
@@ -1488,6 +1344,119 @@ class _ProfessionalAnalyticsScreenState
     });
 
     return recommendations.take(4).toList();
+  }
+
+  Future<void> _generateAnalyticsPdf(List<Session> sessions) async {
+    final pdf = pw.Document();
+    final analytics = _calculateAnalytics(sessions);
+
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.Header(
+              level: 0,
+              child: pw.Text('Professional Analytics Report',
+                  style: pw.TextStyle(
+                      fontSize: 24, fontWeight: pw.FontWeight.bold)),
+            ),
+            pw.SizedBox(height: 20),
+            pw.Text('Summary Statistics',
+                style:
+                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 10),
+            pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text('Total Sessions: ${analytics['totalSessions']}'),
+                pw.Text(
+                    'Average Score: ${analytics['averageScore'].toStringAsFixed(1)}%'),
+                pw.Text('Total Questions: ${analytics['totalQuestions']}'),
+                pw.Text('Correct Answers: ${analytics['correctAnswers']}'),
+                pw.Text(
+                    'Average Duration: ${_formatDuration(analytics['averageDuration'].toInt())}'),
+                pw.Text(
+                    'Current Streak: ${analytics['streakInfo']['current']} days'),
+                pw.Text('Best Streak: ${analytics['streakInfo']['best']} days'),
+              ],
+            ),
+            pw.SizedBox(height: 20),
+            pw.Text('Subject Performance',
+                style:
+                    pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 10),
+            ...analytics['subjectPerformance'].entries.map((entry) {
+              final subject = entry.key;
+              final stats = entry.value;
+              final accuracy = stats['total'] > 0
+                  ? (stats['correct'] / stats['total'] * 100)
+                  : 0.0;
+              return pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(
+                      '$subject: ${accuracy.toStringAsFixed(1)}% (${stats['correct']}/${stats['total']})'),
+                ],
+              );
+            }).toList(),
+          ];
+        },
+      ),
+    );
+
+    final directory = await getTemporaryDirectory();
+    final file = File('${directory.path}/professional_analytics.pdf');
+    await file.writeAsBytes(await pdf.save());
+
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: 'Professional Analytics Report',
+      subject: 'Kumon Analytics Results',
+    );
+  }
+
+  String _formatDuration(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes}m ${remainingSeconds}s';
+  }
+
+  Future<void> _generateAnalyticsCsv(List<Session> sessions) async {
+    final analytics = _calculateAnalytics(sessions);
+    final csvData = <List<dynamic>>[];
+
+    csvData.add(['Metric', 'Value']);
+    csvData.add(['Total Sessions', analytics['totalSessions']]);
+    csvData.add(
+        ['Average Score (%)', analytics['averageScore'].toStringAsFixed(1)]);
+    csvData.add(['Total Questions', analytics['totalQuestions']]);
+    csvData.add(['Correct Answers', analytics['correctAnswers']]);
+    csvData.add(['Average Duration (s)', analytics['averageDuration']]);
+    csvData.add(['Current Streak (days)', analytics['streakInfo']['current']]);
+    csvData.add(['Best Streak (days)', analytics['streakInfo']['best']]);
+    csvData.add(['']);
+    csvData.add(['Subject Performance']);
+    for (var entry in analytics['subjectPerformance'].entries) {
+      final subject = entry.key;
+      final stats = entry.value;
+      final accuracy =
+          stats['total'] > 0 ? (stats['correct'] / stats['total'] * 100) : 0.0;
+      csvData.add(['$subject Accuracy (%)', accuracy.toStringAsFixed(1)]);
+      csvData.add(['$subject Correct', stats['correct']]);
+      csvData.add(['$subject Total', stats['total']]);
+    }
+
+    final csvString = const ListToCsvConverter().convert(csvData);
+    final directory = await getTemporaryDirectory();
+    final file = File('${directory.path}/professional_analytics.csv');
+    await file.writeAsString(csvString);
+
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: 'Professional Analytics Report',
+      subject: 'Kumon Analytics Results',
+    );
   }
 
   @override
@@ -1596,86 +1565,4 @@ class _ProfessionalAnalyticsScreenState
             ),
     );
   }
-}
-
-enum ChartMetric { accuracy, duration, questionCount }
-
-enum ChartTimeframe { last7Days, last30Days, allTime }
-
-class _LineChartPainter extends CustomPainter {
-  final List<Map<String, dynamic>> sessions;
-  final ChartMetric metric;
-
-  _LineChartPainter(this.sessions, {required this.metric});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (sessions.isEmpty) return;
-
-    final paint = Paint()
-      ..color = Colors.blue
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke;
-
-    final pointPaint = Paint()
-      ..color = Colors.blue
-      ..style = PaintingStyle.fill;
-
-    final gridPaint = Paint()
-      ..color = Colors.grey.shade300
-      ..strokeWidth = 1;
-
-    double maxY = metric == ChartMetric.accuracy
-        ? 100
-        : (metric == ChartMetric.duration
-            ? _calculateMaxDuration(sessions)
-            : sessions
-                .map((s) => (s['totalQuestions'] ?? 3).toDouble())
-                .reduce((a, b) => a > b ? a : b));
-    for (int i = 0; i <= 4; i++) {
-      final y = size.height * i / 4;
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
-    }
-
-    if (sessions.length == 1) {
-      final value = metric == ChartMetric.accuracy
-          ? sessions[0]['score']
-          : (metric == ChartMetric.duration
-              ? sessions[0]['duration']
-              : sessions[0]['totalQuestions'] ?? 3);
-      final point = Offset(size.width / 2, size.height * (1 - value / maxY));
-      canvas.drawCircle(point, 6, pointPaint);
-      return;
-    }
-
-    final path = Path();
-    final points = <Offset>[];
-
-    for (int i = 0; i < sessions.length; i++) {
-      final x = size.width * i / (sessions.length - 1);
-      final value = metric == ChartMetric.accuracy
-          ? sessions[i]['score']
-          : (metric == ChartMetric.duration
-              ? sessions[i]['duration']
-              : sessions[i]['totalQuestions'] ?? 3);
-      final y = size.height * (1 - value / maxY);
-      points.add(Offset(x, y));
-      if (i == 0)
-        path.moveTo(x, y);
-      else
-        path.lineTo(x, y);
-    }
-
-    canvas.drawPath(path, paint);
-    for (final point in points) canvas.drawCircle(point, 4, pointPaint);
-  }
-
-  double _calculateMaxDuration(List<Map<String, dynamic>> sessions) {
-    return sessions
-        .map((s) => s['duration'].toDouble())
-        .reduce((a, b) => a > b ? a : b);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

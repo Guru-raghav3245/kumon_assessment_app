@@ -5,7 +5,6 @@ import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/screens/session_screen.dart';
 import 'package:kumon_assessment_app/screens/session_history_screen.dart';
 import 'package:kumon_assessment_app/screens/settings_screen.dart';
-import 'package:kumon_assessment_app/screens/analytics_screen.dart';
 import 'dart:async';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -192,17 +191,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (_) => const SessionHistoryScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.analytics),
-              title: const Text('Progress Analytics'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AnalyticsScreen()),
                 );
               },
             ),
