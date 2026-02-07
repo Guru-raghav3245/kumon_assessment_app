@@ -386,3 +386,20 @@ class Session {
     );
   }
 }
+
+/// Helper function to format level strings
+String formatLevelName(String levelStr) {
+  // Remove potentially redundant class prefix if passed
+  String cleaned = levelStr.replaceAll('QuestionLevel.', '');
+  
+  if (cleaned.startsWith('level')) {
+    // e.g. levelD -> Math Level D
+    return 'Math Level ${cleaned.substring(5).toUpperCase()}';
+  } else if (cleaned.startsWith('EngLevel')) {
+    // e.g. EngLevelG1 -> English Level G1
+    return 'English Level ${cleaned.substring(8).toUpperCase()}';
+  }
+  
+  // Return original for Comp levels or unmatched patterns
+  return cleaned;
+}

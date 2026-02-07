@@ -53,15 +53,6 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     return levelStr.contains('Eng') ? 'English' : 'Math';
   }
 
-  // Add the missing _getFormattedLevel method
-  String _getFormattedLevel(QuestionLevel level) {
-    final levelStr = level.toString();
-    return levelStr
-        .replaceFirst('QuestionLevel.', '')
-        .replaceFirst('EngLevel', '')
-        .replaceFirst('level', '');
-  }
-
   void _animateQuestionChange() {
     _animationController.reset();
     _animationController.forward();
@@ -207,9 +198,10 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     final currentQuestion =
         questionState.dailyQuestions[questionState.currentQuestionIndex];
     final subject = _getSubjectFromLevel(currentQuestion.level);
-    final levelText = subject.isEmpty
-        ? _getFormattedLevel(currentQuestion.level)
-        : '$subject: ${_getFormattedLevel(currentQuestion.level)}';
+    
+    // Updated logic to use formatted name directly
+    final rawLevelStr = currentQuestion.level.toString().split('.').last;
+    final levelText = formatLevelName(rawLevelStr);
 
     ref.listen<QuestionState>(questionProvider, (prev, next) {
       if (prev?.currentQuestionIndex != next.currentQuestionIndex ||

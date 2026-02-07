@@ -141,6 +141,9 @@ class SessionHistoryScreen extends ConsumerWidget {
       final questionNumber = i + 1;
       final isCorrect = result['userAnswer'] == result['correctAnswer'];
 
+      // Format level using helper
+      final formattedLevel = formatLevelName(result['level'] ?? 'Unknown');
+
       questionWidgets.addAll([
         pw.Container(
           margin: const pw.EdgeInsets.only(bottom: 8, left: 10),
@@ -169,7 +172,7 @@ class SessionHistoryScreen extends ConsumerWidget {
                   style: pw.TextStyle(fontSize: 12)),
 
               // Level information
-              pw.Text('Level: ${result['level'] ?? 'Unknown'}',
+              pw.Text('Level: $formattedLevel',
                   style: pw.TextStyle(fontSize: 10, color: PdfColors.grey)),
 
               // User answer

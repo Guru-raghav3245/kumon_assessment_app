@@ -755,6 +755,9 @@ class _ProfessionalAnalyticsScreenState
                 : percentage >= 40
                     ? Colors.orange
                     : Colors.red;
+            
+            // Format the level name here
+            final formattedLevel = formatLevelName(level);
 
             return Padding(
               padding: const EdgeInsets.only(bottom: 16),
@@ -765,7 +768,7 @@ class _ProfessionalAnalyticsScreenState
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        level,
+                        formattedLevel,
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                       Text(

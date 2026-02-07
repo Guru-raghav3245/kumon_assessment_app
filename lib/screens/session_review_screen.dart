@@ -165,8 +165,9 @@ class SessionReviewScreen extends StatelessWidget {
               ),
             );
 
-            final levelStr = result['level'] ??
-                levels.first['level'].toString().split('.').last;
+            // Use the formatter for the level display
+            final formattedLevel = formatLevelName(result['level'] ?? 
+                levels.first['level'].toString().split('.').last);
 
             final userAnswerText = question.options.isNotEmpty
                 ? question.getOptionText(result['userAnswer'] ?? 'Unknown')
@@ -188,7 +189,7 @@ class SessionReviewScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Question: ${result['question'] ?? 'Unknown'} (Level: ${levelStr.replaceFirst('level', '')})',
+                      'Question: ${result['question'] ?? 'Unknown'} ($formattedLevel)',
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium
