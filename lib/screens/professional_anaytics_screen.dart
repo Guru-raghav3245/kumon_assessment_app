@@ -12,7 +12,6 @@ import 'dart:io';
 import 'package:share_plus/share_plus.dart';
 import 'package:csv/csv.dart';
 
-// Riverpod provider for user focus area
 final focusAreaProvider = StateProvider<String>((ref) => 'None');
 
 class ProfessionalAnalyticsScreen extends ConsumerStatefulWidget {
