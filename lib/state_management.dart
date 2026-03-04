@@ -14,6 +14,7 @@ class QuestionState {
   final List<Session> pastSessions;
   final bool isCooldownActive;
   final int? cooldownEnd;
+  final QuestionLevel? selectedFilterLevel; // Added filter state
 
   QuestionState({
     required this.dailyQuestions,
@@ -25,10 +26,12 @@ class QuestionState {
     this.pastSessions = const [],
     this.isCooldownActive = false,
     this.cooldownEnd,
+    this.selectedFilterLevel,
   });
 }
 
-final questionProvider = StateNotifierProvider<QuestionNotifier, QuestionState>((ref) {
+final questionProvider =
+    StateNotifierProvider<QuestionNotifier, QuestionState>((ref) {
   return QuestionNotifier();
 });
 
@@ -42,6 +45,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       final prefs = await SharedPreferences.getInstance();
       final savedSessions = prefs.getString('pastSessions') ?? '[]';
       final savedCooldownEnd = prefs.getInt('cooldownEnd');
+      final savedFilterStr = prefs.getString('selectedFilterLevel');
       final now = DateTime.now().millisecondsSinceEpoch;
 
       List<Session> pastSessions = [];
@@ -57,11 +61,22 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         _showError('Failed to load past sessions');
       }
 
-      bool isCooldownActive = savedCooldownEnd != null && now < savedCooldownEnd;
+      bool isCooldownActive =
+          savedCooldownEnd != null && now < savedCooldownEnd;
       int? cooldownEnd = isCooldownActive ? savedCooldownEnd : null;
 
-      final newQuestions = _getRandomQuestions();
-      await prefs.setStringList('dailyQuestions', newQuestions.map((q) => q.text).toList());
+      // Load saved filter if it exists
+      QuestionLevel? savedFilter;
+      if (savedFilterStr != null) {
+        savedFilter = QuestionLevel.values.firstWhere(
+          (e) => e.toString() == savedFilterStr,
+          orElse: () => QuestionLevel.levelA,
+        );
+      }
+
+      final newQuestions = _getRandomQuestions(savedFilter);
+      await prefs.setStringList(
+          'dailyQuestions', newQuestions.map((q) => q.text).toList());
       await prefs.setInt('currentQuestionIndex', 0);
 
       state = QuestionState(
@@ -69,51 +84,99 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         pastSessions: pastSessions,
         isCooldownActive: isCooldownActive,
         cooldownEnd: cooldownEnd,
+        selectedFilterLevel: savedFilter,
       );
     } catch (e) {
       print('Error loading state: $e');
       _showError('Failed to initialize app state');
-      state = QuestionState(dailyQuestions: _getRandomQuestions(), pastSessions: []);
+      state = QuestionState(
+          dailyQuestions: _getRandomQuestions(null), pastSessions: []);
     }
   }
 
-  List<Question> _getRandomQuestions() {
+  List<Question> _getRandomQuestions(QuestionLevel? filter) {
     final random = Random();
     final selectedQuestions = <Question>[];
 
-    final mathQuestions = mathLevels
-        .expand((level) => (level['questions'] as List<Question>))
-        .where((q) => !q.correctAnswer.contains(','))
-        .toList();
-    final engQuestions = engLevels
-        .expand((level) => (level['questions'] as List<Question>))
-        .where((q) => !q.correctAnswer.contains(','))
-        .toList();
-    final compQuestions = compLevels
-        .expand((level) => (level['questions'] as List<Question>))
-        .where((q) => !q.correctAnswer.contains(','))
-        .toList();
+    if (filter == null) {
+      // DEFAULT LOGIC: 1 Math, 1 Eng, 1 Comp
+      final mathQuestions = mathLevels
+          .expand((level) => (level['questions'] as List<Question>))
+          .where((q) => !q.correctAnswer.contains(','))
+          .toList();
+      final engQuestions = engLevels
+          .expand((level) => (level['questions'] as List<Question>))
+          .where((q) => !q.correctAnswer.contains(','))
+          .toList();
+      final compQuestions = compLevels
+          .expand((level) => (level['questions'] as List<Question>))
+          .where((q) => !q.correctAnswer.contains(','))
+          .toList();
 
-    if (mathQuestions.isNotEmpty) {
-      selectedQuestions.add(mathQuestions[random.nextInt(mathQuestions.length)]);
-    }
-    if (engQuestions.isNotEmpty) {
-      selectedQuestions.add(engQuestions[random.nextInt(engQuestions.length)]);
-    }
-    if (compQuestions.isNotEmpty) {
-      selectedQuestions.add(compQuestions[random.nextInt(compQuestions.length)]);
+      if (mathQuestions.isNotEmpty) {
+        selectedQuestions
+            .add(mathQuestions[random.nextInt(mathQuestions.length)]);
+      }
+      if (engQuestions.isNotEmpty) {
+        selectedQuestions
+            .add(engQuestions[random.nextInt(engQuestions.length)]);
+      }
+      if (compQuestions.isNotEmpty) {
+        selectedQuestions
+            .add(compQuestions[random.nextInt(compQuestions.length)]);
+      }
+
+      selectedQuestions.sort((a, b) => a.level.index.compareTo(b.level.index));
+    } else {
+      // FILTERED LOGIC: 3 random questions from the chosen level
+      final levelMap = levels.firstWhere(
+        (l) => l['level'] == filter,
+        orElse: () => levels.first, // fallback
+      );
+
+      final levelQuestions = (levelMap['questions'] as List<Question>)
+          .where((q) => !q.correctAnswer.contains(','))
+          .toList();
+
+      // Shuffle and pick up to 3
+      final shuffled = List<Question>.from(levelQuestions)..shuffle(random);
+      selectedQuestions.addAll(shuffled.take(3));
     }
 
-    selectedQuestions.sort((a, b) => a.level.index.compareTo(b.level.index));
     return selectedQuestions;
+  }
+
+  Future<void> setFilter(QuestionLevel? filter) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (filter == null) {
+      await prefs.remove('selectedFilterLevel');
+    } else {
+      await prefs.setString('selectedFilterLevel', filter.toString());
+    }
+
+    // Update state and regenerate questions immediately
+    state = QuestionState(
+      dailyQuestions: state.dailyQuestions,
+      currentQuestionIndex: state.currentQuestionIndex,
+      selectedAnswer: state.selectedAnswer,
+      isAnswerCorrect: state.isAnswerCorrect,
+      showExplanation: state.showExplanation,
+      sessionResults: state.sessionResults,
+      pastSessions: state.pastSessions,
+      isCooldownActive: state.isCooldownActive,
+      cooldownEnd: state.cooldownEnd,
+      selectedFilterLevel: filter,
+    );
+    await _resetQuestions();
   }
 
   Future<void> _resetQuestions() async {
     try {
-      final newQuestions = _getRandomQuestions();
+      final newQuestions = _getRandomQuestions(state.selectedFilterLevel);
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt('lastReset', DateTime.now().millisecondsSinceEpoch);
-      await prefs.setStringList('dailyQuestions', newQuestions.map((q) => q.text).toList());
+      await prefs.setStringList(
+          'dailyQuestions', newQuestions.map((q) => q.text).toList());
       await prefs.setInt('currentQuestionIndex', 0);
       await prefs.setString('sessionResults', '[]');
 
@@ -122,11 +185,16 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         pastSessions: state.pastSessions,
         isCooldownActive: state.isCooldownActive,
         cooldownEnd: state.cooldownEnd,
+        selectedFilterLevel: state.selectedFilterLevel,
       );
     } catch (e) {
       print('Error resetting questions: $e');
       _showError('Failed to reset questions');
-      state = QuestionState(dailyQuestions: _getRandomQuestions(), pastSessions: state.pastSessions);
+      state = QuestionState(
+        dailyQuestions: _getRandomQuestions(state.selectedFilterLevel),
+        pastSessions: state.pastSessions,
+        selectedFilterLevel: state.selectedFilterLevel,
+      );
     }
   }
 
@@ -141,6 +209,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       pastSessions: state.pastSessions,
       isCooldownActive: state.isCooldownActive,
       cooldownEnd: state.cooldownEnd,
+      selectedFilterLevel: state.selectedFilterLevel,
     );
   }
 
@@ -166,6 +235,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         pastSessions: state.pastSessions,
         isCooldownActive: state.isCooldownActive,
         cooldownEnd: state.cooldownEnd,
+        selectedFilterLevel: state.selectedFilterLevel,
       );
 
       final prefs = await SharedPreferences.getInstance();
@@ -191,6 +261,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
           pastSessions: state.pastSessions,
           isCooldownActive: state.isCooldownActive,
           cooldownEnd: state.cooldownEnd,
+          selectedFilterLevel: state.selectedFilterLevel,
         );
         await prefs.setInt('currentQuestionIndex', state.currentQuestionIndex);
       }
@@ -215,7 +286,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         duration: duration,
       );
       final updatedSessions = [...state.pastSessions, newSession];
-      await prefs.setString('pastSessions', jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
+      await prefs.setString('pastSessions',
+          jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
       final now = DateTime.now().millisecondsSinceEpoch;
       final cooldownDuration = 20 * 60 * 60 * 1000;
@@ -231,6 +303,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         pastSessions: updatedSessions,
         isCooldownActive: true,
         cooldownEnd: newCooldownEnd,
+        selectedFilterLevel: state.selectedFilterLevel,
       );
     } catch (e) {
       print('Error saving session: $e');
@@ -252,6 +325,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         pastSessions: state.pastSessions,
         isCooldownActive: false,
         cooldownEnd: null,
+        selectedFilterLevel: state.selectedFilterLevel,
       );
     } catch (e) {
       print('Error clearing cooldown: $e');
@@ -262,8 +336,10 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   Future<void> deleteSession(Session session) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final updatedSessions = state.pastSessions.where((s) => s != session).toList();
-      await prefs.setString('pastSessions', jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
+      final updatedSessions =
+          state.pastSessions.where((s) => s != session).toList();
+      await prefs.setString('pastSessions',
+          jsonEncode(updatedSessions.map((s) => s.toJson()).toList()));
 
       final reindexedSessions = updatedSessions.asMap().entries.map((entry) {
         final index = entry.key + 1;
@@ -286,9 +362,11 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         pastSessions: reindexedSessions,
         isCooldownActive: state.isCooldownActive,
         cooldownEnd: state.cooldownEnd,
+        selectedFilterLevel: state.selectedFilterLevel,
       );
 
-      await prefs.setString('pastSessions', jsonEncode(reindexedSessions.map((s) => s.toJson()).toList()));
+      await prefs.setString('pastSessions',
+          jsonEncode(reindexedSessions.map((s) => s.toJson()).toList()));
     } catch (e) {
       print('Error deleting session: $e');
       _showError('Failed to delete session');
@@ -310,6 +388,7 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         pastSessions: [],
         isCooldownActive: state.isCooldownActive,
         cooldownEnd: state.cooldownEnd,
+        selectedFilterLevel: state.selectedFilterLevel,
       );
     } catch (e) {
       print('Error deleting all sessions: $e');
@@ -318,7 +397,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
   }
 
   void _showError(String message) {
-    // Placeholder for error handling in UI
     print('UI Error: $message');
   }
 }

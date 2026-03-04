@@ -5,6 +5,7 @@ import 'package:kumon_assessment_app/state_management.dart';
 import 'package:kumon_assessment_app/screens/session_screen.dart';
 import 'package:kumon_assessment_app/screens/session_history_screen.dart';
 import 'package:kumon_assessment_app/screens/settings_screen.dart';
+import 'package:kumon_assessment_app/question_logic/models.dart';
 import 'dart:async';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -61,6 +62,58 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
 
     return '$hours:$minutes:$seconds';
+  }
+
+  // Helper method to show the filter selection dialog
+  void _showFilterDialog(BuildContext context, QuestionLevel? currentFilter) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Select Session Filter', style: TextStyle(fontSize: 18)),
+          contentPadding: const EdgeInsets.only(top: 16),
+          content: SizedBox(
+            width: double.maxFinite,
+            height: MediaQuery.of(context).size.height * 0.6, // Scrollable constraint
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.shuffle),
+                  title: const Text('Default (Mixed Subjects)'),
+                  trailing: currentFilter == null
+                      ? const Icon(Icons.check, color: Colors.blue)
+                      : null,
+                  onTap: () {
+                    ref.read(questionProvider.notifier).setFilter(null);
+                    Navigator.pop(context);
+                  },
+                ),
+                const Divider(),
+                ...QuestionLevel.values.map((level) {
+                  return ListTile(
+                    title: Text(formatLevelName(level.toString())),
+                    trailing: currentFilter == level
+                        ? const Icon(Icons.check, color: Colors.blue)
+                        : null,
+                    onTap: () {
+                      ref.read(questionProvider.notifier).setFilter(level);
+                      Navigator.pop(context);
+                    },
+                  );
+                }).toList(),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildCooldownTimer(int millisecondsRemaining) {
@@ -160,6 +213,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final questionState = ref.watch(questionProvider);
     final isCooldownActive =
         questionState.isCooldownActive && _millisecondsRemaining > 0;
+        
+    // Check if dark mode is currently active
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -233,6 +289,46 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Filter UI Box - Updated for Dark Mode
+                  Container(
+                    decoration: BoxDecoration(
+                      // Dynamic background and border colors based on theme
+                      color: isDarkMode ? Colors.blue.withOpacity(0.15) : Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: isDarkMode ? Colors.blue.withOpacity(0.3) : Colors.blue.shade100,
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.tune, 
+                        color: isDarkMode ? Colors.blue.shade300 : Colors.blue.shade700
+                      ),
+                      title: Text(
+                        'Session Target', 
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: isDarkMode ? Colors.white : Colors.black87,
+                        )
+                      ),
+                      subtitle: Text(
+                        questionState.selectedFilterLevel == null
+                            ? 'Default (1 Math, 1 Eng, 1 Comp)'
+                            : formatLevelName(questionState.selectedFilterLevel.toString()),
+                        style: TextStyle(
+                          color: isDarkMode ? Colors.grey.shade400 : Colors.grey.shade700
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.edit, 
+                        size: 20, 
+                        color: isDarkMode ? Colors.blue.shade300 : Colors.blue.shade700
+                      ),
+                      onTap: isCooldownActive ? null : () => _showFilterDialog(context, questionState.selectedFilterLevel),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
                   // Start Session Button
                   ElevatedButton.icon(
                     onPressed: isCooldownActive
@@ -267,7 +363,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 24),
                         Icon(
                           Icons.check_circle,
-                          color: Colors.green.shade600,
+                          color: isDarkMode ? Colors.green.shade400 : Colors.green.shade600,
                           size: 48,
                         ),
                         const SizedBox(height: 12),
@@ -275,7 +371,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           'Ready to start!',
                           style:
                               Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: Colors.green.shade700,
+                                    color: isDarkMode ? Colors.green.shade400 : Colors.green.shade700,
                                     fontWeight: FontWeight.w600,
                                   ),
                         ),

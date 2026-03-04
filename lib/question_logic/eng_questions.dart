@@ -904,447 +904,607 @@ final List<Question> englevel6aQuestions = [
 
 final List<Question> englevel5aQuestions = [
   Question(
-    text: 'A student struggles to trace letters accurately. What would you do?',
+    text:
+        "A child in early 5A can trace neatly but cannot repeat sounds clearly. What is the core risk?",
     options: [
-      'A. Guide their hand while tracing each letter.',
-      'B. Show the letter pattern and ask them to try again.',
-      'C. Demonstrate tracing, then have them follow.',
-      'D. Let them attempt without assistance.',
+      "A) Slow writing speed",
+      "B) Weak phonemic encoding affecting later blending",
+      "C) Poor pencil grip",
+      "D) Low confidence only"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A provides direct support. B is passive, C shifts to modeling, D lacks guidance.',
+    correctAnswer: "B",
+    explanation: "Weak phonemic encoding affecting later blending",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Why is the ability to sit 10–15 minutes critical in 5A?",
+    options: [
+      "A) To complete more worksheets",
+      "B) To improve handwriting",
+      "C) To build sustained attention needed for sound-symbol linking",
+      "D) To prepare for Level 4A"
+    ],
+    correctAnswer: "C",
+    explanation: "To build sustained attention needed for sound-symbol linking",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student mispronounces words while reading sentences. How should you respond?',
+        "A child guesses sight words instead of looking carefully. Which future phase will most likely suffer?",
     options: [
-      'A. Read the sentences correctly, asking them to echo.',
-      'B. Point out errors and guide their pronunciation.',
-      'C. Correct mistakes after they finish.',
-      'D. Let them continue and review later.',
+      "A) Tracing only",
+      "B) Blending stage",
+      "C) Stroke direction",
+      "D) Pencil grip"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A corrects with immediate guidance. B is verbal only, C delays, D avoids correction.',
+    correctAnswer: "B",
+    explanation: "Blending stage",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student finishes reading quickly but skips words. What would you do?',
+        "If a child traces correctly but does not say the sound while tracing, which cognitive link is missing?",
     options: [
-      'A. Review their reading, guiding missed words.',
-      'B. Praise their speed and ask for accuracy.',
-      'C. Assign a new sentence exercise with focus.',
-      'D. Observe and let them self correct next time.',
+      "A) Motor coordination",
+      "B) Visual memory",
+      "C) Sound-symbol connection",
+      "D) Sentence rhythm"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A addresses skips directly. B reinforces speed, C is preparatory, D lacks support.',
+    correctAnswer: "C",
+    explanation: "Sound-symbol connection",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Inconsistent stroke direction primarily affects:",
+    options: [
+      "A) Neatness only",
+      "B) Motor memory formation",
+      "C) Vocabulary development",
+      "D) Sentence reading"
+    ],
+    correctAnswer: "B",
+    explanation: "Motor memory formation",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student refuses to read aloud in a group setting. What’s your best action?',
+        "A child rushes tracing and finishes fast. What should an instructor suspect first?",
     options: [
-      'A. Allow silent reading and check their understanding.',
-      'B. Pair them with a peer to read together.',
-      'C. Model reading aloud, inviting them to join.',
-      'D. Move to a one on one session for practice.',
+      "A) High intelligence",
+      "B) Good mastery",
+      "C) Weak attention regulation",
+      "D) Strong auditory memory"
     ],
-    correctAnswer: 'C',
-    explanation:
-        'C encourages participation gently. A avoids group practice, B adds pressure, D overadjusts.',
+    correctAnswer: "C",
+    explanation: "Weak attention regulation",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Which combination of skills is MOST active during tracing phase?",
+    options: [
+      "A) Comprehension + vocabulary",
+      "B) Attention + auditory memory + motor control",
+      "C) Fluency + grammar",
+      "D) Prediction + inference"
+    ],
+    correctAnswer: "B",
+    explanation: "Attention + auditory memory + motor control",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student struggles with recognizing sounds in sentences, mixing them up. What should you do?',
+        'A child reads “c-a-t” but cannot blend into “cat.” The missing ability is:',
     options: [
-      'A. Read the sentences with them, clarifying sounds.',
-      'B. Show a sound chart and guide their reading.',
-      'C. Ask them to retry without assistance.',
-      'D. Give simpler words to build confidence.',
+      "A) Vocabulary",
+      "B) Stroke control",
+      "C) Sound integration",
+      "D) Visual tracking"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A corrects with guidance. B relies on tools, C lacks support, D lowers difficulty.',
+    correctAnswer: "C",
+    explanation: "Sound integration",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student hesitates reading sentences on a worksheet. What would you do?',
+        "If a child pauses too long between two sounds, what cognitive weakness is likely?",
     options: [
-      'A. Read the sentences with them, guiding pronunciation.',
-      'B. Provide a sentence list for them to study first.',
-      'C. Demonstrate reading, asking them to copy.',
-      'D. Let them read again without help.',
+      "A) Poor handwriting",
+      "B) Weak working memory span",
+      "C) Low sight word bank",
+      "D) Weak pencil grip"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A offers direct support. B delays practice, C shifts to modeling, D lacks aid.',
+    correctAnswer: "B",
+    explanation: "Weak working memory span",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Why must the child avoid breaking sounds apart when blending?",
+    options: [
+      "A) It slows writing",
+      "B) It weakens phonemic flow required for fluency",
+      "C) It affects spelling only",
+      "D) It affects sentence punctuation"
+    ],
+    correctAnswer: "B",
+    explanation: "It weakens phonemic flow required for fluency",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Independent reading of focus words shows development of:",
+    options: [
+      "A) Motor speed",
+      "B) Automatic retrieval",
+      "C) Sentence comprehension",
+      "D) Grammar awareness"
+    ],
+    correctAnswer: "B",
+    explanation: "Automatic retrieval",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Losing place while tracing across a line indicates weakness in:",
+    options: [
+      "A) Vocabulary",
+      "B) Visual tracking",
+      "C) Stroke direction",
+      "D) Pencil grip"
+    ],
+    correctAnswer: "B",
+    explanation: "Visual tracking",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Freezing in the middle of a sentence usually indicates:",
+    options: [
+      "A) Weak fluency and short-term memory",
+      "B) Poor handwriting",
+      "C) Lack of motivation",
+      "D) Poor listening"
+    ],
+    correctAnswer: "A",
+    explanation: "Weak fluency and short-term memory",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Maintaining rhythm in sentence reading shows development of:",
+    options: [
+      "A) Grammar",
+      "B) Fluency processing",
+      "C) Writing speed",
+      "D) Sight word copying"
+    ],
+    correctAnswer: "B",
+    explanation: "Fluency processing",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student stops at sentence 5 while reading 10 sentences. What’s your approach?',
+        "Which is the BEST indicator that a child is ready to move beyond 5A?",
     options: [
-      'A. Read all 10 with them, emphasizing 510.',
-      'B. Encourage them past 5 with your guidance.',
-      'C. Show a sentence list and ask them to continue.',
-      'D. Assign a task stopping at 5 to build skill.',
+      "A) Fast worksheet completion",
+      "B) Neat tracing",
+      "C) Smooth blending + automatic word recognition + stable attention",
+      "D) Parent satisfaction"
     ],
-    correctAnswer: 'B',
+    correctAnswer: "C",
     explanation:
-        'B builds on their limit with support. A overdirects, C relies on tools, D limits progress.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'Parent Says: “My child traces letters daily. Is this necessary?”',
-    options: [
-      'A. Explain that repetition builds tracing accuracy and skill.',
-      'B. Note that daily practice ensures neat letter formation.',
-      'C. Assure them repetition strengthens writing habits over time.',
-      'D. Suggest that consistent tracing prepares them for reading.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A ties repetition to accuracy. B is vague, C lacks detail, D shifts focus to reading.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'Parent Says: “My child finds reading sentences boring.”',
-    options: [
-      'A. Highlight that reading builds focus and sentence recognition.',
-      'B. Explain that repetition improves reading and confidence.',
-      'C. Note that sentence practice develops accuracy and skills.',
-      'D. Assure them reading practice strengthens early English.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A addresses focus and recognition. B misses engagement, C is partial, D is too broad.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'Parent Says: “My child knows words. Why read sentences?”',
-    options: [
-      'A. Clarify that sentences build a stronger reading base.',
-      'B. Explain that reading sentences ensures full early mastery.',
-      'C. Note that progressing to sentences develops confidence.',
-      'D. Assure them sentences solidify word foundations.',
-    ],
-    correctAnswer: 'B',
-    explanation:
-        'B emphasizes mastery. A is general, C focuses on confidence, D lacks specificity.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'Parent Says: “My child struggles with sentence reading.”',
-    options: [
-      'A. Suggest practicing reading with guidance at home.',
-      'B. Recommend using worksheets to improve reading skills.',
-      'C. Offer to model reading during sessions.',
-      'D. Advise focusing on slow reading with support.',
-    ],
-    correctAnswer: 'C',
-    explanation:
-        'C provides direct support. A shifts to parents, B is passive, D lacks structure.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'Parent Says: “Why does my child read aloud so much?”',
-    options: [
-      'A. Explain that reading aloud builds verbal language skills.',
-      'B. Note that speaking enhances memory and fluency.',
-      'C. Assure them reading aloud reinforces word recall.',
-      'D. Suggest that verbal reading strengthens habits.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A links to verbal skills. B is secondary, C is vague, D is repetitive.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'Parent Says: “My child misreads when tired.”',
-    options: [
-      'A. Recommend a break before resuming with guidance.',
-      'B. Suggest continuing with fewer sentences to finish.',
-      'C. Advise observing and correcting later.',
-      'D. Propose reducing the session length slightly.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A addresses fatigue effectively. B lowers expectation, C delays help, D is temporary.',
+        "Smooth blending + automatic word recognition + stable attention",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student traces letters inaccurately due to hand control issues. What’s the best first step?',
+        "A child blends well but reads sentences robotically without rhythm. What phase needs strengthening?",
     options: [
-      'A. Guide their hand while tracing each letter.',
-      'B. Demonstrate proper tracing before they retry.',
-      'C. Ask them to trace without assistance.',
-      'D. Provide a new tracing exercise with help.',
+      "A) Tracing phase",
+      "B) Sound parts phase",
+      "C) Sentence fluency integration",
+      "D) Sight word copying"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A corrects control directly. B is preparatory, C lacks support, D delays focus.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'A student hesitates reading short sentences. What’s your priority?',
-    options: [
-      'A. Model reading slowly, asking them to follow.',
-      'B. Read with them, guiding pronunciation.',
-      'C. Encourage them to read with minimal help.',
-      'D. Show a sentence chart for them to study.',
-    ],
-    correctAnswer: 'B',
-    explanation:
-        'B combines support and practice. A is modeling only, C lacks aid, D is passive.',
+    correctAnswer: "C",
+    explanation: "Sentence fluency integration",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student skips words while reading sentences. What should you do first?',
+        "If an instructor focuses only on neat tracing in 5A, what long-term risk occurs?",
     options: [
-      'A. Read the sentences with them, pointing to missed words.',
-      'B. Let them retry and check their accuracy.',
-      'C. Assign simpler words to rebuild.',
-      'D. Observe and offer hints if they struggle.',
+      "A) Slow writing",
+      "B) Weak decoding foundation",
+      "C) Poor grammar",
+      "D) Weak vocabulary"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A ensures immediate correction. B delays help, C reduces challenge, D is indirect.',
+    correctAnswer: "B",
+    explanation: "Weak decoding foundation",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Which cognitive shift happens from 1–70 to 161–200?",
+    options: [
+      "A) Motor skill → Grammar",
+      "B) Attention → Fluency & memory integration",
+      "C) Vocabulary → Writing",
+      "D) Listening → Speaking"
+    ],
+    correctAnswer: "B",
+    explanation: "Attention → Fluency & memory integration",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'A student struggles with recognizing sounds in words. What’s your best action?',
+        "What is the correct mental sequence a child should follow when opening a 5A worksheet?",
     options: [
-      'A. Read the words with them, clarifying sounds.',
-      'B. Show a sound chart and guide their reading.',
-      'C. Ask them to read without assistance.',
-      'D. Provide a new worksheet with sound examples.',
+      "A) Look → Trace → Listen → Blend → Read",
+      "B) Listen → Look → Say sound → Trace → Blend → Read sentence",
+      "C) Trace → Say sound → Blend → Read",
+      "D) Look → Guess → Read sentence"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A offers direct guidance. B relies on tools, C lacks support, D is preparatory.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'A student loses focus reading a 10sheet set. What’s your priority?',
-    options: [
-      'A. Redirect with a short reading game and praise.',
-      'B. Continue reading with them, keeping focus.',
-      'C. Suggest a break before resuming the task.',
-      'D. Assign a new task to regain their interest.',
-    ],
-    correctAnswer: 'B',
-    explanation:
-        'B maintains engagement. A is distracting, C delays, D shifts focus.',
+    correctAnswer: "B",
+    explanation: "Listen → Look → Say sound → Trace → Blend → Read sentence",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'Case Study: A 5 year old student traces letters but stops, looking confused. What’s the best way to help them progress?',
+        "If a child starts tracing before listening to instruction, which workskill is weak?",
     options: [
-      'A. Trace to 10 letters with them, guiding their hand.',
-      'B. Show the letters and ask them to trace alone.',
-      'C. Guide their tracing to 10 with support.',
-      'D. Provide a new sheet with letters printed.',
+      "A) Sound blending",
+      "B) Visual tracking",
+      "C) Instruction-following discipline",
+      "D) Sentence fluency"
     ],
-    correctAnswer: 'C',
-    explanation:
-        'C builds on their skill with guidance. A is gradual, B lacks aid, D adds complexity.',
+    correctAnswer: "C",
+    explanation: "Instruction-following discipline",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Why must “Listen” come before “Look”?",
+    options: [
+      "A) To save time",
+      "B) To activate auditory processing before visual decoding",
+      "C) To improve handwriting",
+      "D) To complete worksheets faster"
+    ],
+    correctAnswer: "B",
+    explanation: "To activate auditory processing before visual decoding",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'Case Study: A student reads 15 sentences correctly but stumbles at 610. How should you support their learning?',
+        "A child immediately looks at the instructor when unsure instead of attempting. What is missing?",
     options: [
-      'A. Read 610 with them, guiding pronunciation.',
-      'B. Point to 610 while they read alone.',
-      'C. Show a sentence list and guide their reading.',
-      'D. Let them try again without immediate help.',
+      "A) Pencil grip",
+      "B) Confidence only",
+      "C) Independent problem-solving habit",
+      "D) Vocabulary knowledge"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A combines verbal and physical aid. B lacks guidance, C relies on tools, D lacks support.',
+    correctAnswer: "C",
+    explanation: "Independent problem-solving habit",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'Case Study: A student mispronounces sounds in sentences often. What’s your first step to correct this?',
+        "A child blends correctly the first time but continues blending the same word repeatedly instead of remembering it. This indicates weakness in:",
     options: [
-      'A. Read the sentences with them, clarifying sounds.',
-      'B. Show a sound chart and ask them to reread.',
-      'C. Guide their pronunciation for each sound.',
-      'D. Assign a new task focusing on sound recognition.',
+      "A) Listening",
+      "B) Working memory consolidation",
+      "C) Stroke control",
+      "D) Sentence rhythm"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A corrects with real time guidance. B is passive, C is general, D delays focus.',
+    correctAnswer: "B",
+    explanation: "Working memory consolidation",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'Case Study: A student hesitates during sentence reading, looking at peers. What should you do to build confidence?',
+        "A child reads the full sentence without blending smaller parts carefully. What risk does this create?",
     options: [
-      'A. Read with them, offering praise.',
-      'B. Encourage them to watch peers, then try.',
-      'C. Demonstrate reading, asking them to follow.',
-      'D. Suggest they read silently to reduce pressure.',
+      "A) Faster fluency",
+      "B) Guessing habit formation",
+      "C) Strong independence",
+      "D) Good visual tracking"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A boosts confidence with support. B increases comparison, C shifts focus, D avoids practice.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'What is the main goal of reading in Level 5A?',
-    options: [
-      'A. Build fluency in reading short sentences.',
-      'B. Teach students to recognize letters quickly.',
-      'C. Help students memorize sentence structures.',
-      'D. Ensure students read without errors daily.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A focuses on fluency. B is secondary, C is memorization, D is unrealistic.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'Why does Kumon emphasize guidance during reading?',
-    options: [
-      'A. It helps students understand correct pronunciation.',
-      'B. It speeds up reading practice.',
-      'C. It reduces the need for verbal instructions.',
-      'D. It ensures students memorize word order.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A enhances pronunciation. B overstates speed, C minimizes teaching, D is incidental.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'When should a student move from tracing to reading?',
-    options: [
-      'A. After consistent accuracy with tracing.',
-      'B. When they can trace without help.',
-      'C. Once they master reading fully.',
-      'D. After recognizing all sounds.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A ensures readiness. B lacks progression, C is premature, D skips reading.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'What is the purpose of sound recognition in early levels?',
-    options: [
-      'A. Develop auditory skills for reading sentences.',
-      'B. Teach students to write sounds correctly.',
-      'C. Help students count letters quickly.',
-      'D. Ensure mastery of vocabulary lists.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A targets auditory skills. B is writing focused, C is unrelated, D is broader.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'How should instructors handle a student skipping words?',
-    options: [
-      'A. Read with them, pointing to missed words.',
-      'B. Let them self correct on the next attempt.',
-      'C. Assign easier sentences to rebuild skills.',
-      'D. None of the above.',
-    ],
-    correctAnswer: 'D',
-    explanation:
-        'D applies; immediate correction is needed, not self correction or easing.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'What role does repetition play in Level 5A?',
-    options: [
-      'A. Reinforces reading accuracy and confidence.',
-      'B. Helps students finish worksheets faster.',
-      'C. Ensures they memorize sentences quickly.',
-      'D. Reduces the need for instructor guidance.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A builds skills. B focuses on speed, C is memorization, D is incorrect.',
+    correctAnswer: "B",
+    explanation: "Guessing habit formation",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'According to Level 5A, how should instructors introduce reading sentences?',
+        "If a child rushes tracing but sound clarity is weak, what should the instructor correct first?",
     options: [
-      'A. Start with 15 sentences, then add more with guidance.',
-      'B. Begin with 10 sentences, reducing if needed.',
-      'C. Teach all sentences at once with a chart.',
-      'D. Read silently, showing sentences later.',
+      "A) Speed",
+      "B) Sentence reading",
+      "C) Sound clarity before motor speed",
+      "D) Worksheet completion rate"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A follows the manual’s progression. B reverses order, C overwhelms, D skips verbal.',
+    correctAnswer: "C",
+    explanation: "Sound clarity before motor speed",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
-    text: 'What does the manual suggest for students struggling with reading?',
+    text: "Which behavior BEST shows workskill maturity?",
     options: [
-      'A. Read with them to guide pronunciation.',
-      'B. Let them observe peers before retrying.',
-      'C. Provide a new sheet without assistance.',
-      'D. Skip to writing exercises.',
+      "A) Fast completion",
+      "B) Looking at instructor for approval",
+      "C) Trying independently before seeking help",
+      "D) Perfect handwriting"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A aligns with guidance. B delays, C lacks support, D shifts focus.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'How should instructors use the 10sheet structure?',
-    options: [
-      'A. Guide reading with support for the full set.',
-      'B. Teach students to guess sentences quickly.',
-      'C. Focus on tracing after reading.',
-      'D. Allow self correction without help.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A matches the manual. B avoids accuracy, C is premature, D lacks support.',
-    level: QuestionLevel.EngLevel5a,
-  ),
-  Question(
-    text: 'What is the aim of the sound recognition exercise per the manual?',
-    options: [
-      'A. Build initial reading skills with support.',
-      'B. Ensure students memorize all sounds.',
-      'C. Teach fast reading without guidance.',
-      'D. Prepare for immediate sentence writing.',
-    ],
-    correctAnswer: 'A',
-    explanation:
-        'A reflects the goal. B is memorization, C skips support, D is unrelated.',
+    correctAnswer: "C",
+    explanation: "Trying independently before seeking help",
     level: QuestionLevel.EngLevel5a,
   ),
   Question(
     text:
-        'According to the manual, when can students read 10 sentences smoothly?',
+        "When a child pauses before blending but attempts independently, this indicates:",
     options: [
-      'A. After mastering reading the 10sheet set accurately.',
-      'B. When they finish all sheets quickly.',
-      'C. If they recognize sounds without help.',
-      'D. After observing peers read successfully.',
+      "A) Weakness",
+      "B) Thoughtful processing",
+      "C) Poor attention",
+      "D) Lack of preparation"
     ],
-    correctAnswer: 'A',
-    explanation:
-        'A ensures mastery. B focuses on speed, C skips practice, D relies on others.',
+    correctAnswer: "B",
+    explanation: "Thoughtful processing",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "If the child guesses words instead of blending, which step in the thinking process is being skipped?",
+    options: [
+      "A) Listen",
+      "B) Look carefully",
+      "C) Blend smoothly",
+      "D) Read sentence confidently"
+    ],
+    correctAnswer: "C",
+    explanation: "Blend smoothly",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "The purpose of “Look carefully” is primarily to develop:",
+    options: [
+      "A) Neatness",
+      "B) Visual discrimination and attention control",
+      "C) Vocabulary",
+      "D) Sentence rhythm"
+    ],
+    correctAnswer: "B",
+    explanation: "Visual discrimination and attention control",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "The instruction “Blend first time, remember second time” is meant to develop:",
+    options: [
+      "A) Writing speed",
+      "B) Long-term memory storage and automaticity",
+      "C) Listening skills",
+      "D) Pencil control"
+    ],
+    correctAnswer: "B",
+    explanation: "Long-term memory storage and automaticity",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Which behavior shows the instructor is over-supporting?",
+    options: [
+      "A) Observing silently",
+      "B) Giving immediate answers",
+      "C) Encouraging retry",
+      "D) Waiting 5 seconds before intervening"
+    ],
+    correctAnswer: "B",
+    explanation: "Giving immediate answers",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "What is the ultimate purpose of enforcing this step-by-step thinking routine?",
+    options: [
+      "A) To maintain discipline",
+      "B) To complete worksheets neatly",
+      "C) To build independent, self-correcting learners",
+      "D) To impress parents"
+    ],
+    correctAnswer: "C",
+    explanation: "To build independent, self-correcting learners",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "A child: Listens, Looks carefully, Says sounds clearly, Traces slowly, but freezes during blending. Which layer is underdeveloped?",
+    options: [
+      "A) Attention",
+      "B) Motor control",
+      "C) Sound integration & working memory",
+      "D) Independence habit"
+    ],
+    correctAnswer: "C",
+    explanation: "Sound integration & working memory",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Which internal statement BEST reflects a healthy 5A mindset?",
+    options: [
+      "A) “I must finish fast.”",
+      "B) “I should not make mistakes.”",
+      "C) “I will try even if I am unsure.”",
+      "D) “Teacher will help me.”"
+    ],
+    correctAnswer: "C",
+    explanation: "“I will try even if I am unsure.”",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "A child rereads after making an error without being told. This shows development of:",
+    options: [
+      "A) Fear",
+      "B) Self-correction habit",
+      "C) Dependence",
+      "D) Speed control"
+    ],
+    correctAnswer: "B",
+    explanation: "Self-correction habit",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Which behavior indicates growing confidence through repetition?",
+    options: [
+      "A) Avoiding difficult words",
+      "B) Asking for help immediately",
+      "C) Re-blending calmly and trying again",
+      "D) Skipping difficult lines"
+    ],
+    correctAnswer: "C",
+    explanation: "Re-blending calmly and trying again",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "A child slows down after making a mistake and carefully tries again. The instructor should interpret this as:",
+    options: [
+      "A) Weak ability",
+      "B) Loss of confidence",
+      "C) Healthy persistence",
+      "D) Lack of preparation"
+    ],
+    correctAnswer: "C",
+    explanation: "Healthy persistence",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "A child becomes tense when corrected. What attitude layer is fragile?",
+    options: [
+      "A) Motor control",
+      "B) Phonemic awareness",
+      "C) Emotional safety toward mistakes",
+      "D) Sentence fluency"
+    ],
+    correctAnswer: "C",
+    explanation: "Emotional safety toward mistakes",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "If a child constantly asks, “Is this correct?” after every word, the underlying issue is:",
+    options: [
+      "A) Poor reading skill",
+      "B) Weak independence mindset",
+      "C) Poor handwriting",
+      "D) Weak blending ability"
+    ],
+    correctAnswer: "B",
+    explanation: "Weak independence mindset",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Which instructor behavior most damages 5A attitude development?",
+    options: [
+      "A) Waiting silently",
+      "B) Encouraging retry",
+      "C) Giving immediate correction before child attempts self-fix",
+      "D) Asking the child to read again"
+    ],
+    correctAnswer: "C",
+    explanation: "Giving immediate correction before child attempts self-fix",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Speed obsession in 5A most likely leads to:",
+    options: [
+      "A) Strong fluency",
+      "B) Calm effort",
+      "C) Guessing habit and shallow processing",
+      "D) Strong attention"
+    ],
+    correctAnswer: "C",
+    explanation: "Guessing habit and shallow processing",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Fear of mistakes usually results in:",
+    options: [
+      "A) Careful retry",
+      "B) Independent thinking",
+      "C) Avoidance and hesitation",
+      "D) Smooth blending"
+    ],
+    correctAnswer: "C",
+    explanation: "Avoidance and hesitation",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "A child who smiles and says, “I’ll try again,” after blending incorrectly shows:",
+    options: [
+      "A) Weak decoding",
+      "B) Strong growth mindset",
+      "C) Poor attention",
+      "D) Slow processing"
+    ],
+    correctAnswer: "B",
+    explanation: "Strong growth mindset",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "The phrase “Confidence through repetition” in 5A means:",
+    options: [
+      "A) Repeating until fast",
+      "B) Repeating until automatic and calm",
+      "C) Repeating to avoid mistakes",
+      "D) Repeating to impress parents"
+    ],
+    correctAnswer: "B",
+    explanation: "Repeating until automatic and calm",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "Which combination reflects the correct 5A attitude goals?",
+    options: [
+      "A) Speed + perfection",
+      "B) Calm effort + patience + self-correction",
+      "C) Fast tracing + loud reading",
+      "D) Teacher guidance + quick completion"
+    ],
+    correctAnswer: "B",
+    explanation: "Calm effort + patience + self-correction",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "If a child blends incorrectly but continues trying without frustration, the instructor should:",
+    options: [
+      "A) Stop the child immediately",
+      "B) Correct instantly",
+      "C) Allow attempt and guide gently",
+      "D) Move to easier level"
+    ],
+    correctAnswer: "C",
+    explanation: "Allow attempt and guide gently",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text:
+        "A child: Works neatly, Blends correctly, Finishes fast, but becomes upset when corrected once. What is the hidden weakness?",
+    options: [
+      "A) Fluency",
+      "B) Working memory",
+      "C) Emotional resilience toward error",
+      "D) Visual tracking"
+    ],
+    correctAnswer: "C",
+    explanation: "Emotional resilience toward error",
+    level: QuestionLevel.EngLevel5a,
+  ),
+  Question(
+    text: "The TRUE long-term purpose of cultivating patience in 5A is to:",
+    options: [
+      "A) Improve handwriting",
+      "B) Increase worksheet completion",
+      "C) Build learning stamina for higher levels",
+      "D) Reduce instructor workload"
+    ],
+    correctAnswer: "C",
+    explanation: "Build learning stamina for higher levels",
     level: QuestionLevel.EngLevel5a,
   ),
 ];
@@ -10864,7 +11024,8 @@ final List<Question> englevelH2Questions = [
 
 final List<Question> englevelI1Questions = [
   Question(
-    text: 'A student struggles with forming simple sentences (I1-21 to I1-30) and hesitates. What would you do?',
+    text:
+        'A student struggles with forming simple sentences (I1-21 to I1-30) and hesitates. What would you do?',
     options: [
       'A. Model building a sentence and ask them to repeat.',
       'B. Construct a sentence with them, guiding each step.',
@@ -10872,11 +11033,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain sentence structure rules and guide their work.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because direct guidance builds confidence to reduce hesitation; D focuses on theory, A lacks interaction, C may overwhelm without clarity.',
+    explanation:
+        'B is correct because direct guidance builds confidence to reduce hesitation; D focuses on theory, A lacks interaction, C may overwhelm without clarity.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'A student loses focus during basic vocabulary exercises (I1-41 to I1-50). What’s your next step?',
+    text:
+        'A student loses focus during basic vocabulary exercises (I1-41 to I1-50). What’s your next step?',
     options: [
       'A. Provide a similar word list with support.',
       'B. Explain word meanings and guide their work.',
@@ -10884,11 +11047,13 @@ final List<Question> englevelI1Questions = [
       'D. Model using new words and have them follow.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because active support re-engages them; B focuses on explanation, D shifts to modeling, A adds without guidance.',
+    explanation:
+        'C is correct because active support re-engages them; B focuses on explanation, D shifts to modeling, A adds without guidance.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'A student rushes through identifying parts of speech (I1-61 to I1-70) with errors. What would you do?',
+    text:
+        'A student rushes through identifying parts of speech (I1-61 to I1-70) with errors. What would you do?',
     options: [
       'A. Break the task into parts with support.',
       'B. Model labeling parts of speech and ask them to repeat.',
@@ -10896,11 +11061,13 @@ final List<Question> englevelI1Questions = [
       'D. Identify parts of speech with them, focusing on each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct guidance slows rushing and corrects errors; C focuses on theory, B lacks pacing control, A risks continued haste.',
+    explanation:
+        'D is correct because direct guidance slows rushing and corrects errors; C focuses on theory, B lacks pacing control, A risks continued haste.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'A student fears working with punctuation marks (I1-121 to I1-130). What should you do?',
+    text:
+        'A student fears working with punctuation marks (I1-121 to I1-130). What should you do?',
     options: [
       'A. Explain punctuation basics and guide their work.',
       'B. Punctuate a sentence with them, showing each step.',
@@ -10908,11 +11075,13 @@ final List<Question> englevelI1Questions = [
       'D. Model adding punctuation and have them repeat.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because direct help reduces fear; A overwhelms with theory, D lacks personal involvement, C adjusts without addressing fear.',
+    explanation:
+        'B is correct because direct help reduces fear; A overwhelms with theory, D lacks personal involvement, C adjusts without addressing fear.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'A student struggles with writing short sentences (I1-81 to I1-90) due to confusion. What’s your action?',
+    text:
+        'A student struggles with writing short sentences (I1-81 to I1-90) due to confusion. What’s your action?',
     options: [
       'A. Model writing a sentence and ask them to follow.',
       'B. Provide examples of sentences with support.',
@@ -10920,11 +11089,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain writing basics and guide their work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because hands-on clarification resolves confusion; D focuses on theory, A lacks interaction, B offers examples without guidance.',
+    explanation:
+        'C is correct because hands-on clarification resolves confusion; D focuses on theory, A lacks interaction, B offers examples without guidance.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'A student progresses slowly in reading short passages (I1-141 to I1-150). What would you do?',
+    text:
+        'A student progresses slowly in reading short passages (I1-141 to I1-150). What would you do?',
     options: [
       'A. Break reading tasks into smaller steps with support.',
       'B. Model reading a passage and have them repeat.',
@@ -10932,11 +11103,13 @@ final List<Question> englevelI1Questions = [
       'D. Read a passage with them, guiding steps.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct support accelerates slow progress; C focuses on explanation, B lacks active participation, A adjusts without engagement.',
+    explanation:
+        'D is correct because direct support accelerates slow progress; C focuses on explanation, B lacks active participation, A adjusts without engagement.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'A student misunderstands basic grammar rules (I1-161 to I1-170). What should you do?',
+    text:
+        'A student misunderstands basic grammar rules (I1-161 to I1-170). What should you do?',
     options: [
       'A. Provide similar grammar tasks with support.',
       'B. Apply grammar rules with them, guiding each step.',
@@ -10944,11 +11117,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain grammar concepts and guide work.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because hands-on help clarifies misunderstanding; D focuses on theory, C lacks interaction, A shifts focus without correction.',
+    explanation:
+        'B is correct because hands-on help clarifies misunderstanding; D focuses on theory, C lacks interaction, A shifts focus without correction.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'A student resists working on simple writing prompts (I1-181 to I1-190). What’s your best action?',
+    text:
+        'A student resists working on simple writing prompts (I1-181 to I1-190). What’s your best action?',
     options: [
       'A. Break the prompt into steps with support.',
       'B. Model writing a prompt and have them follow.',
@@ -10956,11 +11131,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain writing prompts and guide their work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct involvement overcomes resistance; D overwhelms with theory, B lacks engagement, A adjusts without addressing resistance.',
+    explanation:
+        'C is correct because direct involvement overcomes resistance; D overwhelms with theory, B lacks engagement, A adjusts without addressing resistance.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Parent says: “My child finds reading short passages (I1-141 to I1-150) too slow.”',
+    text:
+        'Parent says: “My child finds reading short passages (I1-141 to I1-150) too slow.”',
     options: [
       'A. Clarify that slow progress ensures fluency.',
       'B. Explain that mastery improves reading skills.',
@@ -10968,11 +11145,13 @@ final List<Question> englevelI1Questions = [
       'D. Assure them the pace enhances accuracy.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because mastery reassures pacing concerns; C focuses on understanding, D on accuracy, A on fluency without addressing mastery.',
+    explanation:
+        'B is correct because mastery reassures pacing concerns; C focuses on understanding, D on accuracy, A on fluency without addressing mastery.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Parent says: “My child struggles with writing short sentences (I1-81 to I1-90).”',
+    text:
+        'Parent says: “My child struggles with writing short sentences (I1-81 to I1-90).”',
     options: [
       'A. Assure them extra sessions enhance accuracy.',
       'B. Clarify that guidance ensures writing mastery.',
@@ -10980,11 +11159,13 @@ final List<Question> englevelI1Questions = [
       'D. Note that support builds writing confidence.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because practice targets struggles; D focuses on confidence, A adds sessions, B emphasizes mastery without immediate action.',
+    explanation:
+        'C is correct because practice targets struggles; D focuses on confidence, A adds sessions, B emphasizes mastery without immediate action.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Parent asks: “Why so many parts of speech worksheets (I1-61 to I1-70)?”',
+    text:
+        'Parent asks: “Why so many parts of speech worksheets (I1-61 to I1-70)?”',
     options: [
       'A. Clarify that volume ensures problem-solving.',
       'B. Explain that repetition builds grammar fluency.',
@@ -10992,11 +11173,13 @@ final List<Question> englevelI1Questions = [
       'D. Note that worksheets improve grammar accuracy.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because repetition justifies volume; D focuses on accuracy, C on understanding, A on problem-solving without specificity.',
+    explanation:
+        'B is correct because repetition justifies volume; D focuses on accuracy, C on understanding, A on problem-solving without specificity.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Parent notes: “My child loses interest in basic vocabulary exercises (I1-41 to I1-50).”',
+    text:
+        'Parent notes: “My child loses interest in basic vocabulary exercises (I1-41 to I1-50).”',
     options: [
       'A. Assure them support enhances interest.',
       'B. Clarify that practice builds vocabulary confidence.',
@@ -11004,7 +11187,8 @@ final List<Question> englevelI1Questions = [
       'D. Explain that engagement boosts vocabulary skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because engagement addresses interest; C focuses on variety, A on support, B on confidence without tackling motivation.',
+    explanation:
+        'D is correct because engagement addresses interest; C focuses on variety, A on support, B on confidence without tackling motivation.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
@@ -11016,11 +11200,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain that understanding rules improves skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because rules clarify confusion; C focuses on examples, B on practice, A on mastery without immediate help.',
+    explanation:
+        'D is correct because rules clarify confusion; C focuses on examples, B on practice, A on mastery without immediate help.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Parent asks: “Why focus on simple writing prompts (I1-181 to I1-190)?”',
+    text:
+        'Parent asks: “Why focus on simple writing prompts (I1-181 to I1-190)?”',
     options: [
       'A. Clarify that mastery prepares for advanced writing.',
       'B. Note that practice improves fluency.',
@@ -11028,11 +11214,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain that prompts build writing skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because writing skills justify focus; B focuses on fluency, C on understanding, A on future goals without relevance.',
+    explanation:
+        'D is correct because writing skills justify focus; B focuses on fluency, C on understanding, A on future goals without relevance.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'A student struggles with forming simple sentences (I1-21 to I1-30). Rank the best first action.',
+    text:
+        'A student struggles with forming simple sentences (I1-21 to I1-30). Rank the best first action.',
     options: [
       'A. Provide a simpler sentence task with support.',
       'B. Explain sentence structure rules and guide work.',
@@ -11040,11 +11228,13 @@ final List<Question> englevelI1Questions = [
       'D. Model building a sentence and have them follow.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct support addresses struggles; B focuses on theory, D shifts to modeling, A adjusts without core help.',
+    explanation:
+        'C is correct because direct support addresses struggles; B focuses on theory, D shifts to modeling, A adjusts without core help.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Prioritize for a student excelling in reading short passages (I1-141 to I1-150).',
+    text:
+        'Prioritize for a student excelling in reading short passages (I1-141 to I1-150).',
     options: [
       'A. Explain advanced reading and guide work.',
       'B. Model a complex passage for them to follow.',
@@ -11052,11 +11242,13 @@ final List<Question> englevelI1Questions = [
       'D. Read a passage with them to challenge further.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because harder tasks challenge excellence; D focuses on solving, A on theory, B on modeling without progression.',
+    explanation:
+        'C is correct because harder tasks challenge excellence; D focuses on solving, A on theory, B on modeling without progression.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Rank responses to a student slowing in basic vocabulary exercises (I1-41 to I1-50).',
+    text:
+        'Rank responses to a student slowing in basic vocabulary exercises (I1-41 to I1-50).',
     options: [
       'A. Model using vocabulary and ask them to repeat.',
       'B. Break into smaller word sets with support.',
@@ -11064,11 +11256,13 @@ final List<Question> englevelI1Questions = [
       'D. Work on a word exercise with them, guiding steps.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because smaller sets aid slowing; D focuses on solving, C on explanation, A on repetition without pacing.',
+    explanation:
+        'B is correct because smaller sets aid slowing; D focuses on solving, C on explanation, A on repetition without pacing.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Prioritize for a student confused in punctuation marks (I1-121 to I1-130).',
+    text:
+        'Prioritize for a student confused in punctuation marks (I1-121 to I1-130).',
     options: [
       'A. Model adding punctuation and have them follow.',
       'B. Provide basic punctuation examples with support.',
@@ -11076,11 +11270,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain punctuation basics and guide work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct help clears confusion; D focuses on theory, A on modeling, B offers examples without guidance.',
+    explanation:
+        'C is correct because direct help clears confusion; D focuses on theory, A on modeling, B offers examples without guidance.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Rank actions for a student rushing identifying parts of speech (I1-61 to I1-70).',
+    text:
+        'Rank actions for a student rushing identifying parts of speech (I1-61 to I1-70).',
     options: [
       'A. Model careful labeling and have them follow.',
       'B. Provide more grammar tasks with support.',
@@ -11088,11 +11284,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain grammar rules and guide work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because guidance slows rushing; D focuses on rules, A on modeling, B increases tasks without pacing.',
+    explanation:
+        'C is correct because guidance slows rushing; D focuses on rules, A on modeling, B increases tasks without pacing.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Case: Student excels in Level H but struggles with I1-81 to I1-90. What’s the best way to help?',
+    text:
+        'Case: Student excels in Level H but struggles with I1-81 to I1-90. What’s the best way to help?',
     options: [
       'A. Break sentences into parts with support.',
       'B. Model writing a sentence and have them repeat.',
@@ -11100,11 +11298,13 @@ final List<Question> englevelI1Questions = [
       'D. Write a sentence with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct support targets struggles; C focuses on theory, B on modeling, A adjusts without core help.',
+    explanation:
+        'D is correct because direct support targets struggles; C focuses on theory, B on modeling, A adjusts without core help.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Case: Student skips steps in reading short passages (I1-141 to I1-150). How should you respond?',
+    text:
+        'Case: Student skips steps in reading short passages (I1-141 to I1-150). How should you respond?',
     options: [
       'A. Model a solution with all steps and have them follow.',
       'B. Provide a similar passage with support.',
@@ -11112,11 +11312,13 @@ final List<Question> englevelI1Questions = [
       'D. Explain reading strategies and guide corrections.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because guidance corrects step-skipping; D focuses on theory, A on modeling, B shifts focus without correction.',
+    explanation:
+        'C is correct because guidance corrects step-skipping; D focuses on theory, A on modeling, B shifts focus without correction.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Case: Parent reports frustration in punctuation marks (I1-121 to I1-130). Your action?',
+    text:
+        'Case: Parent reports frustration in punctuation marks (I1-121 to I1-130). Your action?',
     options: [
       'A. Explain punctuation basics and guide work.',
       'B. Punctuate a sentence with them, guiding each step.',
@@ -11124,11 +11326,13 @@ final List<Question> englevelI1Questions = [
       'D. Provide extra punctuation examples with support.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because direct help reduces frustration; A focuses on theory, C on modeling, D offers examples without interaction.',
+    explanation:
+        'B is correct because direct help reduces frustration; A focuses on theory, C on modeling, D offers examples without interaction.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Case: Student lacks depth in simple writing prompts (I1-181 to I1-190). What’s next?',
+    text:
+        'Case: Student lacks depth in simple writing prompts (I1-181 to I1-190). What’s next?',
     options: [
       'A. Provide complex prompt tasks with support.',
       'B. Explain writing strategies and guide their work.',
@@ -11136,11 +11340,13 @@ final List<Question> englevelI1Questions = [
       'D. Write a prompt with them, guiding depth.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because guidance builds depth; B focuses on theory, C on modeling, A increases challenge without support.',
+    explanation:
+        'D is correct because guidance builds depth; B focuses on theory, C on modeling, A increases challenge without support.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'Case: Student struggles with identifying parts of speech (I1-61 to I1-70). Your plan?',
+    text:
+        'Case: Student struggles with identifying parts of speech (I1-61 to I1-70). Your plan?',
     options: [
       'A. Explain grammar concepts and guide work.',
       'B. Break into grammar examples with support.',
@@ -11148,7 +11354,8 @@ final List<Question> englevelI1Questions = [
       'D. Identify parts of speech with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct guidance clarifies struggles; A focuses on theory, C on modeling, B adjusts without core help.',
+    explanation:
+        'D is correct because direct guidance clarifies struggles; A focuses on theory, C on modeling, B adjusts without core help.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
@@ -11160,7 +11367,8 @@ final List<Question> englevelI1Questions = [
       'D. Mastery before progressing to new topics.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because mastery drives progression; C, B, A contradict Kumon’s focus.',
+    explanation:
+        'D is correct because mastery drives progression; C, B, A contradict Kumon’s focus.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
@@ -11172,11 +11380,13 @@ final List<Question> englevelI1Questions = [
       'D. To build fluency in grammar skills.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because mastery ensures progression; D focuses on fluency, B on speed, A on confidence.',
+    explanation:
+        'C is correct because mastery ensures progression; D focuses on fluency, B on speed, A on confidence.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'How should instructors handle errors in forming simple sentences (I1-21 to I1-30)?',
+    text:
+        'How should instructors handle errors in forming simple sentences (I1-21 to I1-30)?',
     options: [
       'A. Ignore minor mistakes and proceed.',
       'B. Assign more problems without review.',
@@ -11184,11 +11394,13 @@ final List<Question> englevelI1Questions = [
       'D. Correct and move to the next topic.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because analyzing errors supports learning; D rushes, A ignores, B lacks review.',
+    explanation:
+        'C is correct because analyzing errors supports learning; D rushes, A ignores, B lacks review.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'What supports self-learning in reading short passages (I1-141 to I1-150)?',
+    text:
+        'What supports self-learning in reading short passages (I1-141 to I1-150)?',
     options: [
       'A. Group reading activities.',
       'B. Parental reading correction.',
@@ -11196,11 +11408,13 @@ final List<Question> englevelI1Questions = [
       'D. Teacher-led reading lessons.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because independence fosters self-learning; D, A, B rely on external help.',
+    explanation:
+        'C is correct because independence fosters self-learning; D, A, B rely on external help.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'When is a student ready for simple writing prompts (I1-181 to I1-190)?',
+    text:
+        'When is a student ready for simple writing prompts (I1-181 to I1-190)?',
     options: [
       'A. When they can write with minimal help.',
       'B. After mastering sentence writing (I1-81 to I1-90).',
@@ -11208,7 +11422,8 @@ final List<Question> englevelI1Questions = [
       'D. After completing all grammar tasks.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because mastery ensures readiness; A focuses on independence, D adds prerequisites, C broadens scope.',
+    explanation:
+        'B is correct because mastery ensures readiness; A focuses on independence, D adds prerequisites, C broadens scope.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
@@ -11220,11 +11435,13 @@ final List<Question> englevelI1Questions = [
       'D. To build fluency in punctuation skills.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because understanding aligns with notices; D focuses on fluency, A on speed, C on confidence.',
+    explanation:
+        'B is correct because understanding aligns with notices; D focuses on fluency, A on speed, C on confidence.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
-    text: 'According to Level I1 instructions, how to handle I1-81 to I1-90 struggles?',
+    text:
+        'According to Level I1 instructions, how to handle I1-81 to I1-90 struggles?',
     options: [
       'A. Model writing a sentence and have them follow.',
       'B. Skip to I1-91 if structure is unclear.',
@@ -11232,7 +11449,8 @@ final List<Question> englevelI1Questions = [
       'D. Write a sentence with them, focusing on structure.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because explanation follows instructions; D focuses on solving, A shifts to modeling, B contradicts guidance.',
+    explanation:
+        'C is correct because explanation follows instructions; D focuses on solving, A shifts to modeling, B contradicts guidance.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
@@ -11244,7 +11462,8 @@ final List<Question> englevelI1Questions = [
       'D. Explain vocabulary and grammar methods and guide work.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because explanation ensures readiness; C focuses on solving, A emphasizes modeling, B skips review.',
+    explanation:
+        'D is correct because explanation ensures readiness; C focuses on solving, A emphasizes modeling, B skips review.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
@@ -11256,7 +11475,8 @@ final List<Question> englevelI1Questions = [
       'D. Explain reading techniques and guide work.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because explanation supports learning; C focuses on solving, B shifts to modeling, A contradicts guidance.',
+    explanation:
+        'D is correct because explanation supports learning; C focuses on solving, B shifts to modeling, A contradicts guidance.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
@@ -11268,7 +11488,8 @@ final List<Question> englevelI1Questions = [
       'D. Punctuate a sentence with them, guiding steps.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because explanation aligns with guide; D focuses on solving, A emphasizes modeling, C skips support.',
+    explanation:
+        'B is correct because explanation aligns with guide; D focuses on solving, A emphasizes modeling, C skips support.',
     level: QuestionLevel.EngLevelI1,
   ),
   Question(
@@ -11280,7 +11501,8 @@ final List<Question> englevelI1Questions = [
       'D. Write a prompt with them, guiding steps.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because strategies align with priority; D focuses on solving, A shifts to modeling, B contradicts guidance.',
+    explanation:
+        'C is correct because strategies align with priority; D focuses on solving, A shifts to modeling, B contradicts guidance.',
     level: QuestionLevel.EngLevelI1,
   ),
 ];
@@ -12256,7 +12478,8 @@ final List<Question> englevelJQuestions = [
 
 final List<Question> englevelKQuestions = [
   Question(
-    text: 'A student struggles with analyzing literary themes (K-21 to K-30) and hesitates. What would you do?',
+    text:
+        'A student struggles with analyzing literary themes (K-21 to K-30) and hesitates. What would you do?',
     options: [
       'A. Break the task into smaller parts with support.',
       'B. Model identifying a theme and ask them to repeat.',
@@ -12264,11 +12487,13 @@ final List<Question> englevelKQuestions = [
       'D. Explain theme analysis techniques and guide their work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct guidance builds confidence to reduce hesitation; D focuses on theory, B lacks interaction, A may overwhelm without clarity.',
+    explanation:
+        'C is correct because direct guidance builds confidence to reduce hesitation; D focuses on theory, B lacks interaction, A may overwhelm without clarity.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'A student loses focus during advanced vocabulary in context exercises (K-41 to K-50). What’s your next step?',
+    text:
+        'A student loses focus during advanced vocabulary in context exercises (K-41 to K-50). What’s your next step?',
     options: [
       'A. Provide a similar word list with support.',
       'B. Work on a vocabulary exercise with them, guiding each step.',
@@ -12276,11 +12501,13 @@ final List<Question> englevelKQuestions = [
       'D. Model using vocabulary in context and have them follow.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because active support re-engages them; C focuses on explanation, D shifts to modeling, A adds without guidance.',
+    explanation:
+        'B is correct because active support re-engages them; C focuses on explanation, D shifts to modeling, A adds without guidance.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'A student rushes through evaluating reading arguments (K-61 to K-70) with errors. What would you do?',
+    text:
+        'A student rushes through evaluating reading arguments (K-61 to K-70) with errors. What would you do?',
     options: [
       'A. Model assessing an argument and ask them to repeat.',
       'B. Break the task into parts with support.',
@@ -12288,11 +12515,13 @@ final List<Question> englevelKQuestions = [
       'D. Evaluate an argument with them, focusing on each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct guidance slows rushing and corrects errors; C focuses on theory, A lacks pacing control, B risks continued haste.',
+    explanation:
+        'D is correct because direct guidance slows rushing and corrects errors; C focuses on theory, A lacks pacing control, B risks continued haste.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'A student fears working with thesis statements (K-121 to K-130). What should you do?',
+    text:
+        'A student fears working with thesis statements (K-121 to K-130). What should you do?',
     options: [
       'A. Explain thesis development strategies and guide their work.',
       'B. Write a thesis with them, showing each step.',
@@ -12300,11 +12529,13 @@ final List<Question> englevelKQuestions = [
       'D. Model crafting a thesis and have them repeat.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because direct help reduces fear; A overwhelms with theory, D lacks personal involvement, C adjusts without addressing fear.',
+    explanation:
+        'B is correct because direct help reduces fear; A overwhelms with theory, D lacks personal involvement, C adjusts without addressing fear.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'A student struggles with organizing essay body paragraphs (K-81 to K-90) due to confusion. What’s your action?',
+    text:
+        'A student struggles with organizing essay body paragraphs (K-81 to K-90) due to confusion. What’s your action?',
     options: [
       'A. Provide examples of paragraphs with support.',
       'B. Model structuring a paragraph and ask them to follow.',
@@ -12312,11 +12543,13 @@ final List<Question> englevelKQuestions = [
       'D. Explain paragraph organization and guide their work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because hands-on clarification resolves confusion; D focuses on theory, B lacks interaction, A offers examples without guidance.',
+    explanation:
+        'C is correct because hands-on clarification resolves confusion; D focuses on theory, B lacks interaction, A offers examples without guidance.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'A student progresses slowly in synthesizing multiple texts (K-141 to K-150). What would you do?',
+    text:
+        'A student progresses slowly in synthesizing multiple texts (K-141 to K-150). What would you do?',
     options: [
       'A. Break synthesis tasks into smaller steps with support.',
       'B. Explain synthesis techniques and guide their work.',
@@ -12324,11 +12557,13 @@ final List<Question> englevelKQuestions = [
       'D. Synthesize texts with them, guiding steps.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct support accelerates slow progress; B focuses on explanation, C lacks active participation, A adjusts without engagement.',
+    explanation:
+        'D is correct because direct support accelerates slow progress; B focuses on explanation, C lacks active participation, A adjusts without engagement.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'A student misunderstands advanced punctuation in essays (K-161 to K-170). What should you do?',
+    text:
+        'A student misunderstands advanced punctuation in essays (K-161 to K-170). What should you do?',
     options: [
       'A. Explain punctuation concepts and guide work.',
       'B. Provide similar punctuation tasks with support.',
@@ -12336,11 +12571,13 @@ final List<Question> englevelKQuestions = [
       'D. Model using punctuation and ask them to repeat.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because hands-on help clarifies misunderstanding; A focuses on theory, D lacks interaction, B shifts focus without correction.',
+    explanation:
+        'C is correct because hands-on help clarifies misunderstanding; A focuses on theory, D lacks interaction, B shifts focus without correction.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'A student resists working on full essay drafts (K-181 to K-190). What’s your best action?',
+    text:
+        'A student resists working on full essay drafts (K-181 to K-190). What’s your best action?',
     options: [
       'A. Model writing a draft and have them follow.',
       'B. Draft an essay with them, guiding steps.',
@@ -12348,11 +12585,13 @@ final List<Question> englevelKQuestions = [
       'D. Explain essay drafting techniques and guide their work.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because direct involvement overcomes resistance; D overwhelms with theory, A lacks engagement, C adjusts without addressing resistance.',
+    explanation:
+        'B is correct because direct involvement overcomes resistance; D overwhelms with theory, A lacks engagement, C adjusts without addressing resistance.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Parent says: “My child finds synthesizing multiple texts (K-141 to K-150) too slow.”',
+    text:
+        'Parent says: “My child finds synthesizing multiple texts (K-141 to K-150) too slow.”',
     options: [
       'A. Note that slow pace builds understanding.',
       'B. Clarify that slow progress ensures fluency.',
@@ -12360,11 +12599,13 @@ final List<Question> englevelKQuestions = [
       'D. Assure them the pace enhances accuracy.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because mastery reassures pacing concerns; A focuses on understanding, D on accuracy, B on fluency without addressing mastery.',
+    explanation:
+        'C is correct because mastery reassures pacing concerns; A focuses on understanding, D on accuracy, B on fluency without addressing mastery.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Parent says: “My child struggles with organizing essay body paragraphs (K-81 to K-90).”',
+    text:
+        'Parent says: “My child struggles with organizing essay body paragraphs (K-81 to K-90).”',
     options: [
       'A. Clarify that guidance ensures organization mastery.',
       'B. Assure them extra sessions enhance accuracy.',
@@ -12372,11 +12613,13 @@ final List<Question> englevelKQuestions = [
       'D. Explain that practice improves organization skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because practice targets struggles; C focuses on confidence, B adds sessions, A emphasizes mastery without immediate action.',
+    explanation:
+        'D is correct because practice targets struggles; C focuses on confidence, B adds sessions, A emphasizes mastery without immediate action.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Parent asks: “Why so many argument evaluation worksheets (K-61 to K-70)?”',
+    text:
+        'Parent asks: “Why so many argument evaluation worksheets (K-61 to K-70)?”',
     options: [
       'A. Clarify that volume ensures problem-solving.',
       'B. Assure them practice enhances understanding.',
@@ -12384,11 +12627,13 @@ final List<Question> englevelKQuestions = [
       'D. Note that worksheets improve evaluation accuracy.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because repetition justifies volume; D focuses on accuracy, B on understanding, A on problem-solving without specificity.',
+    explanation:
+        'C is correct because repetition justifies volume; D focuses on accuracy, B on understanding, A on problem-solving without specificity.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Parent notes: “My child loses interest in advanced vocabulary in context exercises (K-41 to K-50).”',
+    text:
+        'Parent notes: “My child loses interest in advanced vocabulary in context exercises (K-41 to K-50).”',
     options: [
       'A. Clarify that practice builds vocabulary confidence.',
       'B. Explain that engagement boosts vocabulary skills.',
@@ -12396,7 +12641,8 @@ final List<Question> englevelKQuestions = [
       'D. Note that variety can improve motivation.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because engagement addresses interest; D focuses on variety, C on support, A on confidence without tackling motivation.',
+    explanation:
+        'B is correct because engagement addresses interest; D focuses on variety, C on support, A on confidence without tackling motivation.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12408,7 +12654,8 @@ final List<Question> englevelKQuestions = [
       'D. Explain that understanding rules improves skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because rules clarify confusion; B focuses on examples, A on practice, C on mastery without immediate help.',
+    explanation:
+        'D is correct because rules clarify confusion; B focuses on examples, A on practice, C on mastery without immediate help.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12420,11 +12667,13 @@ final List<Question> englevelKQuestions = [
       'D. Explain that drafts build writing skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because writing skills justify focus; A focuses on fluency, C on understanding, B on future goals without relevance.',
+    explanation:
+        'D is correct because writing skills justify focus; A focuses on fluency, C on understanding, B on future goals without relevance.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'A student struggles with analyzing literary themes (K-21 to K-30). Rank the best first action.',
+    text:
+        'A student struggles with analyzing literary themes (K-21 to K-30). Rank the best first action.',
     options: [
       'A. Provide a simpler theme task with support.',
       'B. Explain theme analysis techniques and guide work.',
@@ -12432,11 +12681,13 @@ final List<Question> englevelKQuestions = [
       'D. Analyze a theme with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct support addresses struggles; B focuses on theory, C shifts to modeling, A adjusts without core help.',
+    explanation:
+        'D is correct because direct support addresses struggles; B focuses on theory, C shifts to modeling, A adjusts without core help.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Prioritize for a student excelling in synthesizing multiple texts (K-141 to K-150).',
+    text:
+        'Prioritize for a student excelling in synthesizing multiple texts (K-141 to K-150).',
     options: [
       'A. Model a complex synthesis for them to follow.',
       'B. Synthesize texts with them to challenge further.',
@@ -12444,11 +12695,13 @@ final List<Question> englevelKQuestions = [
       'D. Explain advanced synthesis and guide work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because harder tasks challenge excellence; B focuses on solving, D on theory, A on modeling without progression.',
+    explanation:
+        'C is correct because harder tasks challenge excellence; B focuses on solving, D on theory, A on modeling without progression.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Rank responses to a student slowing in advanced vocabulary in context exercises (K-41 to K-50).',
+    text:
+        'Rank responses to a student slowing in advanced vocabulary in context exercises (K-41 to K-50).',
     options: [
       'A. Explain contextual word usage and guide work.',
       'B. Model using vocabulary and ask them to repeat.',
@@ -12456,11 +12709,13 @@ final List<Question> englevelKQuestions = [
       'D. Work on a word exercise with them, guiding steps.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because smaller sets aid slowing; D focuses on solving, A on explanation, B on repetition without pacing.',
+    explanation:
+        'C is correct because smaller sets aid slowing; D focuses on solving, A on explanation, B on repetition without pacing.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Prioritize for a student confused in thesis statements (K-121 to K-130).',
+    text:
+        'Prioritize for a student confused in thesis statements (K-121 to K-130).',
     options: [
       'A. Provide basic thesis examples with support.',
       'B. Model crafting a thesis and have them follow.',
@@ -12468,11 +12723,13 @@ final List<Question> englevelKQuestions = [
       'D. Explain thesis development strategies and guide work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct help clears confusion; D focuses on theory, B on modeling, A offers examples without guidance.',
+    explanation:
+        'C is correct because direct help clears confusion; D focuses on theory, B on modeling, A offers examples without guidance.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Rank actions for a student rushing evaluating reading arguments (K-61 to K-70).',
+    text:
+        'Rank actions for a student rushing evaluating reading arguments (K-61 to K-70).',
     options: [
       'A. Provide more argument tasks with support.',
       'B. Evaluate an argument with them, slowing the pace.',
@@ -12480,11 +12737,13 @@ final List<Question> englevelKQuestions = [
       'D. Explain evaluation techniques and guide work.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because guidance slows rushing; D focuses on rules, C on modeling, A increases tasks without pacing.',
+    explanation:
+        'B is correct because guidance slows rushing; D focuses on rules, C on modeling, A increases tasks without pacing.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Case: Student excels in Level J but struggles with K-81 to K-90. What’s the best way to help?',
+    text:
+        'Case: Student excels in Level J but struggles with K-81 to K-90. What’s the best way to help?',
     options: [
       'A. Break paragraphs into parts with support.',
       'B. Explain paragraph organization and guide work.',
@@ -12492,11 +12751,13 @@ final List<Question> englevelKQuestions = [
       'D. Model structuring a paragraph and have them repeat.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct support targets struggles; B focuses on theory, D on modeling, A adjusts without core help.',
+    explanation:
+        'C is correct because direct support targets struggles; B focuses on theory, D on modeling, A adjusts without core help.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Case: Student skips steps in synthesizing multiple texts (K-141 to K-150). How should you respond?',
+    text:
+        'Case: Student skips steps in synthesizing multiple texts (K-141 to K-150). How should you respond?',
     options: [
       'A. Provide a similar text with support.',
       'B. Model a solution with all steps and have them follow.',
@@ -12504,11 +12765,13 @@ final List<Question> englevelKQuestions = [
       'D. Synthesize texts with them, pointing to steps.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because guidance corrects step-skipping; C focuses on theory, B on modeling, A shifts focus without correction.',
+    explanation:
+        'D is correct because guidance corrects step-skipping; C focuses on theory, B on modeling, A shifts focus without correction.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Case: Parent reports frustration in thesis statements (K-121 to K-130). Your action?',
+    text:
+        'Case: Parent reports frustration in thesis statements (K-121 to K-130). Your action?',
     options: [
       'A. Explain thesis development strategies and guide work.',
       'B. Provide extra thesis examples with support.',
@@ -12516,11 +12779,13 @@ final List<Question> englevelKQuestions = [
       'D. Model crafting a thesis and have them follow.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct help reduces frustration; A focuses on theory, D on modeling, B offers examples without interaction.',
+    explanation:
+        'C is correct because direct help reduces frustration; A focuses on theory, D on modeling, B offers examples without interaction.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Case: Student lacks depth in full essay drafts (K-181 to K-190). What’s next?',
+    text:
+        'Case: Student lacks depth in full essay drafts (K-181 to K-190). What’s next?',
     options: [
       'A. Model a detailed draft and have them follow.',
       'B. Provide complex draft tasks with support.',
@@ -12528,11 +12793,13 @@ final List<Question> englevelKQuestions = [
       'D. Draft an essay with them, guiding depth.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because guidance builds depth; C focuses on theory, A on modeling, B increases challenge without support.',
+    explanation:
+        'D is correct because guidance builds depth; C focuses on theory, A on modeling, B increases challenge without support.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'Case: Student struggles with evaluating reading arguments (K-61 to K-70). Your plan?',
+    text:
+        'Case: Student struggles with evaluating reading arguments (K-61 to K-70). Your plan?',
     options: [
       'A. Break into argument examples with support.',
       'B. Model assessing an argument and have them repeat.',
@@ -12540,7 +12807,8 @@ final List<Question> englevelKQuestions = [
       'D. Evaluate an argument with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct guidance clarifies struggles; C focuses on theory, B on modeling, A adjusts without core help.',
+    explanation:
+        'D is correct because direct guidance clarifies struggles; C focuses on theory, B on modeling, A adjusts without core help.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12552,7 +12820,8 @@ final List<Question> englevelKQuestions = [
       'D. Mastery before progressing to new topics.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because mastery drives progression; C, A, B contradict Kumon’s focus.',
+    explanation:
+        'D is correct because mastery drives progression; C, A, B contradict Kumon’s focus.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12564,11 +12833,13 @@ final List<Question> englevelKQuestions = [
       'D. To build fluency in comprehension skills.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because mastery ensures progression; D focuses on fluency, C on speed, A on confidence.',
+    explanation:
+        'B is correct because mastery ensures progression; D focuses on fluency, C on speed, A on confidence.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'How should instructors handle errors in analyzing literary themes (K-21 to K-30)?',
+    text:
+        'How should instructors handle errors in analyzing literary themes (K-21 to K-30)?',
     options: [
       'A. Assign more problems without review.',
       'B. Correct and move to the next topic.',
@@ -12576,11 +12847,13 @@ final List<Question> englevelKQuestions = [
       'D. Ignore minor mistakes and proceed.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because analyzing errors supports learning; B rushes, D ignores, A lacks review.',
+    explanation:
+        'C is correct because analyzing errors supports learning; B rushes, D ignores, A lacks review.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'What supports self-learning in synthesizing multiple texts (K-141 to K-150)?',
+    text:
+        'What supports self-learning in synthesizing multiple texts (K-141 to K-150)?',
     options: [
       'A. Parental synthesis correction.',
       'B. Group synthesis activities.',
@@ -12588,7 +12861,8 @@ final List<Question> englevelKQuestions = [
       'D. Teacher-led synthesis lessons.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because independence fosters self-learning; D, B, A rely on external help.',
+    explanation:
+        'C is correct because independence fosters self-learning; D, B, A rely on external help.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12600,7 +12874,8 @@ final List<Question> englevelKQuestions = [
       'D. After mastering body paragraphs (K-81 to K-90).',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because mastery ensures readiness; C focuses on independence, A adds prerequisites, B broadens scope.',
+    explanation:
+        'D is correct because mastery ensures readiness; C focuses on independence, A adds prerequisites, B broadens scope.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12612,11 +12887,13 @@ final List<Question> englevelKQuestions = [
       'D. To build fluency in vocabulary skills.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because understanding aligns with notices; D focuses on fluency, A on speed, B on confidence.',
+    explanation:
+        'C is correct because understanding aligns with notices; D focuses on fluency, A on speed, B on confidence.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
-    text: 'According to Level K instructions, how to handle K-81 to K-90 struggles?',
+    text:
+        'According to Level K instructions, how to handle K-81 to K-90 struggles?',
     options: [
       'A. Skip to K-91 if structure is unclear.',
       'B. Model structuring a paragraph and have them follow.',
@@ -12624,7 +12901,8 @@ final List<Question> englevelKQuestions = [
       'D. Organize a paragraph with them, focusing on structure.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because explanation follows instructions; D focuses on solving, B shifts to modeling, A contradicts guidance.',
+    explanation:
+        'C is correct because explanation follows instructions; D focuses on solving, B shifts to modeling, A contradicts guidance.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12636,7 +12914,8 @@ final List<Question> englevelKQuestions = [
       'D. Model solutions and have them repeat.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because explanation ensures readiness; B focuses on solving, D emphasizes modeling, A skips review.',
+    explanation:
+        'C is correct because explanation ensures readiness; B focuses on solving, D emphasizes modeling, A skips review.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12648,7 +12927,8 @@ final List<Question> englevelKQuestions = [
       'D. Explain synthesis techniques and guide work.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because explanation supports learning; C focuses on solving, A shifts to modeling, B contradicts guidance.',
+    explanation:
+        'D is correct because explanation supports learning; C focuses on solving, A shifts to modeling, B contradicts guidance.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12660,7 +12940,8 @@ final List<Question> englevelKQuestions = [
       'D. Write a thesis with them, guiding steps.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because explanation aligns with guide; D focuses on solving, A emphasizes modeling, B skips support.',
+    explanation:
+        'C is correct because explanation aligns with guide; D focuses on solving, A emphasizes modeling, B skips support.',
     level: QuestionLevel.EngLevelK,
   ),
   Question(
@@ -12672,14 +12953,16 @@ final List<Question> englevelKQuestions = [
       'D. Explain drafting techniques and guide work.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because techniques align with priority; C focuses on solving, B shifts to modeling, A contradicts guidance.',
+    explanation:
+        'D is correct because techniques align with priority; C focuses on solving, B shifts to modeling, A contradicts guidance.',
     level: QuestionLevel.EngLevelK,
   ),
 ];
 
 final List<Question> englevelLQuestions = [
   Question(
-    text: 'A student struggles with analyzing character development (L-21 to L-30) and hesitates. What would you do?',
+    text:
+        'A student struggles with analyzing character development (L-21 to L-30) and hesitates. What would you do?',
     options: [
       'A. Break the task into smaller parts with support.',
       'B. Analyze character development with them, guiding each step.',
@@ -12687,11 +12970,13 @@ final List<Question> englevelLQuestions = [
       'D. Explain character analysis techniques and guide their work.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because direct guidance builds confidence to reduce hesitation; D focuses on theory, C lacks interaction, A may overwhelm without clarity.',
+    explanation:
+        'B is correct because direct guidance builds confidence to reduce hesitation; D focuses on theory, C lacks interaction, A may overwhelm without clarity.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'A student loses focus during nuanced vocabulary exercises (L-41 to L-50). What’s your next step?',
+    text:
+        'A student loses focus during nuanced vocabulary exercises (L-41 to L-50). What’s your next step?',
     options: [
       'A. Model using nuanced vocabulary and have them follow.',
       'B. Provide a similar word list with support.',
@@ -12699,11 +12984,13 @@ final List<Question> englevelLQuestions = [
       'D. Explain subtle word meanings and guide their work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because active support re-engages them; D focuses on explanation, A shifts to modeling, B adds without guidance.',
+    explanation:
+        'C is correct because active support re-engages them; D focuses on explanation, A shifts to modeling, B adds without guidance.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'A student rushes through critiquing literary styles (L-61 to L-70) with errors. What would you do?',
+    text:
+        'A student rushes through critiquing literary styles (L-61 to L-70) with errors. What would you do?',
     options: [
       'A. Explain literary style critique techniques and guide their corrections.',
       'B. Break the task into parts with support.',
@@ -12711,11 +12998,13 @@ final List<Question> englevelLQuestions = [
       'D. Critique a style with them, focusing on each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct guidance slows rushing and corrects errors; A focuses on theory, C lacks pacing control, B risks continued haste.',
+    explanation:
+        'D is correct because direct guidance slows rushing and corrects errors; A focuses on theory, C lacks pacing control, B risks continued haste.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'A student fears working with argumentative essay outlines (L-121 to L-130). What should you do?',
+    text:
+        'A student fears working with argumentative essay outlines (L-121 to L-130). What should you do?',
     options: [
       'A. Provide a simpler outline task with support.',
       'B. Model creating an outline and have them repeat.',
@@ -12723,11 +13012,13 @@ final List<Question> englevelLQuestions = [
       'D. Explain argumentative outline strategies and guide their work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct help reduces fear; D overwhelms with theory, B lacks personal involvement, A adjusts without addressing fear.',
+    explanation:
+        'C is correct because direct help reduces fear; D overwhelms with theory, B lacks personal involvement, A adjusts without addressing fear.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'A student struggles with integrating evidence in essays (L-81 to L-90) due to confusion. What’s your action?',
+    text:
+        'A student struggles with integrating evidence in essays (L-81 to L-90) due to confusion. What’s your action?',
     options: [
       'A. Explain evidence integration and guide their work.',
       'B. Integrate evidence with them, clarifying techniques.',
@@ -12735,11 +13026,13 @@ final List<Question> englevelLQuestions = [
       'D. Model incorporating evidence and ask them to follow.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because hands-on clarification resolves confusion; A focuses on theory, D lacks interaction, C offers examples without guidance.',
+    explanation:
+        'B is correct because hands-on clarification resolves confusion; A focuses on theory, D lacks interaction, C offers examples without guidance.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'A student progresses slowly in comparing diverse texts (L-141 to L-150). What would you do?',
+    text:
+        'A student progresses slowly in comparing diverse texts (L-141 to L-150). What would you do?',
     options: [
       'A. Model comparing texts and have them repeat.',
       'B. Break comparison tasks into smaller steps with support.',
@@ -12747,11 +13040,13 @@ final List<Question> englevelLQuestions = [
       'D. Compare texts with them, guiding steps.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct support accelerates slow progress; C focuses on explanation, A lacks active participation, B adjusts without engagement.',
+    explanation:
+        'D is correct because direct support accelerates slow progress; C focuses on explanation, A lacks active participation, B adjusts without engagement.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'A student misunderstands advanced syntax in writing (L-161 to L-170). What should you do?',
+    text:
+        'A student misunderstands advanced syntax in writing (L-161 to L-170). What should you do?',
     options: [
       'A. Model using syntax and ask them to repeat.',
       'B. Provide similar syntax tasks with support.',
@@ -12759,11 +13054,13 @@ final List<Question> englevelLQuestions = [
       'D. Apply syntax rules with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because hands-on help clarifies misunderstanding; C focuses on theory, A lacks interaction, B shifts focus without correction.',
+    explanation:
+        'D is correct because hands-on help clarifies misunderstanding; C focuses on theory, A lacks interaction, B shifts focus without correction.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'A student resists working on polished essay revisions (L-181 to L-190). What’s your best action?',
+    text:
+        'A student resists working on polished essay revisions (L-181 to L-190). What’s your best action?',
     options: [
       'A. Break the revision into steps with support.',
       'B. Explain revision techniques and guide their work.',
@@ -12771,11 +13068,13 @@ final List<Question> englevelLQuestions = [
       'D. Model revising an essay and have them follow.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because direct involvement overcomes resistance; B overwhelms with theory, D lacks engagement, A adjusts without addressing resistance.',
+    explanation:
+        'C is correct because direct involvement overcomes resistance; B overwhelms with theory, D lacks engagement, A adjusts without addressing resistance.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Parent says: “My child finds comparing diverse texts (L-141 to L-150) too slow.”',
+    text:
+        'Parent says: “My child finds comparing diverse texts (L-141 to L-150) too slow.”',
     options: [
       'A. Assure them the pace enhances accuracy.',
       'B. Clarify that slow progress ensures fluency.',
@@ -12783,11 +13082,13 @@ final List<Question> englevelLQuestions = [
       'D. Explain that mastery improves comparison skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because mastery reassures pacing concerns; C focuses on understanding, A on accuracy, B on fluency without addressing mastery.',
+    explanation:
+        'D is correct because mastery reassures pacing concerns; C focuses on understanding, A on accuracy, B on fluency without addressing mastery.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Parent says: “My child struggles with integrating evidence in essays (L-81 to L-90).”',
+    text:
+        'Parent says: “My child struggles with integrating evidence in essays (L-81 to L-90).”',
     options: [
       'A. Note that support builds integration confidence.',
       'B. Clarify that guidance ensures integration mastery.',
@@ -12795,11 +13096,13 @@ final List<Question> englevelLQuestions = [
       'D. Assure them extra sessions enhance accuracy.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because practice targets struggles; A focuses on confidence, D adds sessions, B emphasizes mastery without immediate action.',
+    explanation:
+        'C is correct because practice targets struggles; A focuses on confidence, D adds sessions, B emphasizes mastery without immediate action.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Parent asks: “Why so many literary style critique worksheets (L-61 to L-70)?”',
+    text:
+        'Parent asks: “Why so many literary style critique worksheets (L-61 to L-70)?”',
     options: [
       'A. Note that worksheets improve critique accuracy.',
       'B. Explain that repetition builds critique fluency.',
@@ -12807,11 +13110,13 @@ final List<Question> englevelLQuestions = [
       'D. Assure them practice enhances understanding.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because repetition justifies volume; A focuses on accuracy, D on understanding, C on problem-solving without specificity.',
+    explanation:
+        'B is correct because repetition justifies volume; A focuses on accuracy, D on understanding, C on problem-solving without specificity.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Parent notes: “My child loses interest in nuanced vocabulary exercises (L-41 to L-50).”',
+    text:
+        'Parent notes: “My child loses interest in nuanced vocabulary exercises (L-41 to L-50).”',
     options: [
       'A. Note that variety can improve motivation.',
       'B. Assure them support enhances interest.',
@@ -12819,11 +13124,13 @@ final List<Question> englevelLQuestions = [
       'D. Clarify that practice builds vocabulary confidence.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because engagement addresses interest; A focuses on variety, B on support, D on confidence without tackling motivation.',
+    explanation:
+        'C is correct because engagement addresses interest; A focuses on variety, B on support, D on confidence without tackling motivation.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Parent says: “Argumentative outlines (L-121 to L-130) seem confusing.”',
+    text:
+        'Parent says: “Argumentative outlines (L-121 to L-130) seem confusing.”',
     options: [
       'A. Clarify that guidance ensures outline mastery.',
       'B. Assure them practice enhances accuracy.',
@@ -12831,11 +13138,13 @@ final List<Question> englevelLQuestions = [
       'D. Explain that understanding rules improves skills.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because rules clarify confusion; C focuses on examples, B on practice, A on mastery without immediate help.',
+    explanation:
+        'D is correct because rules clarify confusion; C focuses on examples, B on practice, A on mastery without immediate help.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Parent asks: “Why focus on polished essay revisions (L-181 to L-190)?”',
+    text:
+        'Parent asks: “Why focus on polished essay revisions (L-181 to L-190)?”',
     options: [
       'A. Clarify that mastery prepares for advanced writing.',
       'B. Explain that revisions build writing skills.',
@@ -12843,11 +13152,13 @@ final List<Question> englevelLQuestions = [
       'D. Note that practice improves fluency.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because writing skills justify focus; D focuses on fluency, C on understanding, A on future goals without relevance.',
+    explanation:
+        'B is correct because writing skills justify focus; D focuses on fluency, C on understanding, A on future goals without relevance.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'A student struggles with analyzing character development (L-21 to L-30). Rank the best first action.',
+    text:
+        'A student struggles with analyzing character development (L-21 to L-30). Rank the best first action.',
     options: [
       'A. Model evaluating character development and have them follow.',
       'B. Provide a simpler character task with support.',
@@ -12855,11 +13166,13 @@ final List<Question> englevelLQuestions = [
       'D. Analyze character development with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct support addresses struggles; C focuses on theory, A shifts to modeling, B adjusts without core help.',
+    explanation:
+        'D is correct because direct support addresses struggles; C focuses on theory, A shifts to modeling, B adjusts without core help.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Prioritize for a student excelling in comparing diverse texts (L-141 to L-150).',
+    text:
+        'Prioritize for a student excelling in comparing diverse texts (L-141 to L-150).',
     options: [
       'A. Explain advanced comparison and guide work.',
       'B. Model a complex comparison for them to follow.',
@@ -12867,11 +13180,13 @@ final List<Question> englevelLQuestions = [
       'D. Provide harder comparison tasks with support.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because harder tasks challenge excellence; C focuses on solving, A on theory, B on modeling without progression.',
+    explanation:
+        'D is correct because harder tasks challenge excellence; C focuses on solving, A on theory, B on modeling without progression.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Rank responses to a student slowing in nuanced vocabulary exercises (L-41 to L-50).',
+    text:
+        'Rank responses to a student slowing in nuanced vocabulary exercises (L-41 to L-50).',
     options: [
       'A. Explain subtle word meanings and guide work.',
       'B. Work on a word exercise with them, guiding steps.',
@@ -12879,11 +13194,13 @@ final List<Question> englevelLQuestions = [
       'D. Model using vocabulary and ask them to repeat.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because smaller sets aid slowing; B focuses on solving, A on explanation, D on repetition without pacing.',
+    explanation:
+        'C is correct because smaller sets aid slowing; B focuses on solving, A on explanation, D on repetition without pacing.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Prioritize for a student confused in argumentative outlines (L-121 to L-130).',
+    text:
+        'Prioritize for a student confused in argumentative outlines (L-121 to L-130).',
     options: [
       'A. Explain outline strategies and guide work.',
       'B. Provide basic outline examples with support.',
@@ -12891,11 +13208,13 @@ final List<Question> englevelLQuestions = [
       'D. Outline an argument with them, guiding steps.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct help clears confusion; A focuses on theory, C on modeling, B offers examples without guidance.',
+    explanation:
+        'D is correct because direct help clears confusion; A focuses on theory, C on modeling, B offers examples without guidance.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Rank actions for a student rushing critiquing literary styles (L-61 to L-70).',
+    text:
+        'Rank actions for a student rushing critiquing literary styles (L-61 to L-70).',
     options: [
       'A. Model careful analysis and have them follow.',
       'B. Provide more style tasks with support.',
@@ -12903,11 +13222,13 @@ final List<Question> englevelLQuestions = [
       'D. Critique a style with them, slowing the pace.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because guidance slows rushing; C focuses on rules, A on modeling, B increases tasks without pacing.',
+    explanation:
+        'D is correct because guidance slows rushing; C focuses on rules, A on modeling, B increases tasks without pacing.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Case: Student excels in Level K but struggles with L-81 to L-90. What’s the best way to help?',
+    text:
+        'Case: Student excels in Level K but struggles with L-81 to L-90. What’s the best way to help?',
     options: [
       'A. Model incorporating evidence and have them repeat.',
       'B. Break evidence into parts with support.',
@@ -12915,11 +13236,13 @@ final List<Question> englevelLQuestions = [
       'D. Integrate evidence with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct support targets struggles; C focuses on theory, A on modeling, B adjusts without core help.',
+    explanation:
+        'D is correct because direct support targets struggles; C focuses on theory, A on modeling, B adjusts without core help.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Case: Student skips steps in comparing diverse texts (L-141 to L-150). How should you respond?',
+    text:
+        'Case: Student skips steps in comparing diverse texts (L-141 to L-150). How should you respond?',
     options: [
       'A. Model a solution with all steps and have them follow.',
       'B. Explain comparison techniques and guide corrections.',
@@ -12927,11 +13250,13 @@ final List<Question> englevelLQuestions = [
       'D. Compare texts with them, pointing to steps.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because guidance corrects step-skipping; B focuses on theory, A on modeling, C shifts focus without correction.',
+    explanation:
+        'D is correct because guidance corrects step-skipping; B focuses on theory, A on modeling, C shifts focus without correction.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Case: Parent reports frustration in argumentative outlines (L-121 to L-130). Your action?',
+    text:
+        'Case: Parent reports frustration in argumentative outlines (L-121 to L-130). Your action?',
     options: [
       'A. Model creating an outline and have them follow.',
       'B. Provide extra outline examples with support.',
@@ -12939,11 +13264,13 @@ final List<Question> englevelLQuestions = [
       'D. Outline an argument with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct help reduces frustration; C focuses on theory, A on modeling, B offers examples without interaction.',
+    explanation:
+        'D is correct because direct help reduces frustration; C focuses on theory, A on modeling, B offers examples without interaction.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Case: Student lacks depth in polished essay revisions (L-181 to L-190). What’s next?',
+    text:
+        'Case: Student lacks depth in polished essay revisions (L-181 to L-190). What’s next?',
     options: [
       'A. Provide complex revision tasks with support.',
       'B. Model a detailed revision and have them follow.',
@@ -12951,11 +13278,13 @@ final List<Question> englevelLQuestions = [
       'D. Explain revision strategies and guide their work.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because guidance builds depth; D focuses on theory, B on modeling, A increases challenge without support.',
+    explanation:
+        'C is correct because guidance builds depth; D focuses on theory, B on modeling, A increases challenge without support.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'Case: Student struggles with critiquing literary styles (L-61 to L-70). Your plan?',
+    text:
+        'Case: Student struggles with critiquing literary styles (L-61 to L-70). Your plan?',
     options: [
       'A. Explain critique concepts and guide work.',
       'B. Break into style examples with support.',
@@ -12963,7 +13292,8 @@ final List<Question> englevelLQuestions = [
       'D. Critique a style with them, guiding each step.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because direct guidance clarifies struggles; A focuses on theory, C on modeling, B adjusts without core help.',
+    explanation:
+        'D is correct because direct guidance clarifies struggles; A focuses on theory, C on modeling, B adjusts without core help.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
@@ -12975,7 +13305,8 @@ final List<Question> englevelLQuestions = [
       'D. Rush through worksheets to finish quickly.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because mastery drives progression; D, B, A contradict Kumon’s focus.',
+    explanation:
+        'C is correct because mastery drives progression; D, B, A contradict Kumon’s focus.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
@@ -12987,11 +13318,13 @@ final List<Question> englevelLQuestions = [
       'D. To ensure mastery of each topic.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because mastery ensures progression; C focuses on fluency, A on speed, B on confidence.',
+    explanation:
+        'D is correct because mastery ensures progression; C focuses on fluency, A on speed, B on confidence.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'How should instructors handle errors in analyzing character development (L-21 to L-30)?',
+    text:
+        'How should instructors handle errors in analyzing character development (L-21 to L-30)?',
     options: [
       'A. Ignore minor mistakes and proceed.',
       'B. Analyze errors and reteach if needed.',
@@ -12999,11 +13332,13 @@ final List<Question> englevelLQuestions = [
       'D. Correct and move to the next topic.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because analyzing errors supports learning; D rushes, A ignores, C lacks review.',
+    explanation:
+        'B is correct because analyzing errors supports learning; D rushes, A ignores, C lacks review.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'What supports self-learning in comparing diverse texts (L-141 to L-150)?',
+    text:
+        'What supports self-learning in comparing diverse texts (L-141 to L-150)?',
     options: [
       'A. Parental comparison correction.',
       'B. Student independence with guidance.',
@@ -13011,11 +13346,13 @@ final List<Question> englevelLQuestions = [
       'D. Teacher-led comparison lessons.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because independence fosters self-learning; D, C, A rely on external help.',
+    explanation:
+        'B is correct because independence fosters self-learning; D, C, A rely on external help.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'When is a student ready for polished essay revisions (L-181 to L-190)?',
+    text:
+        'When is a student ready for polished essay revisions (L-181 to L-190)?',
     options: [
       'A. Once they understand all writing rules.',
       'B. After completing all comprehension tasks.',
@@ -13023,7 +13360,8 @@ final List<Question> englevelLQuestions = [
       'D. When they can revise with minimal help.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because mastery ensures readiness; D focuses on independence, B adds prerequisites, A broadens scope.',
+    explanation:
+        'C is correct because mastery ensures readiness; D focuses on independence, B adds prerequisites, A broadens scope.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
@@ -13035,11 +13373,13 @@ final List<Question> englevelLQuestions = [
       'D. To ensure consistent skill understanding.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because understanding aligns with notices; B focuses on fluency, C on speed, A on confidence.',
+    explanation:
+        'D is correct because understanding aligns with notices; B focuses on fluency, C on speed, A on confidence.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
-    text: 'According to Level L instructions, how to handle L-81 to L-90 struggles?',
+    text:
+        'According to Level L instructions, how to handle L-81 to L-90 struggles?',
     options: [
       'A. Model incorporating evidence and have them follow.',
       'B. Skip to L-91 if techniques are unclear.',
@@ -13047,7 +13387,8 @@ final List<Question> englevelLQuestions = [
       'D. Explain evidence integration and guide work.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because explanation follows instructions; C focuses on solving, A shifts to modeling, B contradicts guidance.',
+    explanation:
+        'D is correct because explanation follows instructions; C focuses on solving, A shifts to modeling, B contradicts guidance.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
@@ -13059,7 +13400,8 @@ final List<Question> englevelLQuestions = [
       'D. Work on exercises with them, guiding steps.',
     ],
     correctAnswer: 'C',
-    explanation: 'C is correct because explanation ensures readiness; D focuses on solving, A emphasizes modeling, B skips review.',
+    explanation:
+        'C is correct because explanation ensures readiness; D focuses on solving, A emphasizes modeling, B skips review.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
@@ -13071,7 +13413,8 @@ final List<Question> englevelLQuestions = [
       'D. Explain comparison techniques and guide work.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because explanation supports learning; B focuses on solving, C shifts to modeling, A contradicts guidance.',
+    explanation:
+        'D is correct because explanation supports learning; B focuses on solving, C shifts to modeling, A contradicts guidance.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
@@ -13083,7 +13426,8 @@ final List<Question> englevelLQuestions = [
       'D. Outline an argument with them, guiding steps.',
     ],
     correctAnswer: 'B',
-    explanation: 'B is correct because explanation aligns with guide; D focuses on solving, C emphasizes modeling, A skips support.',
+    explanation:
+        'B is correct because explanation aligns with guide; D focuses on solving, C emphasizes modeling, A skips support.',
     level: QuestionLevel.EngLevelL,
   ),
   Question(
@@ -13095,7 +13439,8 @@ final List<Question> englevelLQuestions = [
       'D. Explain revision techniques and guide work.',
     ],
     correctAnswer: 'D',
-    explanation: 'D is correct because techniques align with priority; C focuses on solving, A shifts to modeling, B contradicts guidance.',
+    explanation:
+        'D is correct because techniques align with priority; C focuses on solving, A shifts to modeling, B contradicts guidance.',
     level: QuestionLevel.EngLevelL,
   ),
 ];
