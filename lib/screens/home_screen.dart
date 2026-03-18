@@ -22,28 +22,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // Immediately calculate the correct cooldown state when we land on Home
+    _updateCooldownState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _startCooldownTimer();
     });
   }
 
+  // NEW: Syncs the provider cooldown with our local timer variable
+  void _updateCooldownState() {
+    final questionState = ref.read(questionProvider);
+    if (questionState.isCooldownActive && questionState.cooldownEnd != null) {
+      final now = DateTime.now().millisecondsSinceEpoch;
+      _millisecondsRemaining = questionState.cooldownEnd! - now;
+
+      if (_millisecondsRemaining <= 0) {
+        ref.read(questionProvider.notifier).clearCooldown();
+        _millisecondsRemaining = 0;
+      }
+    } else {
+      _millisecondsRemaining = 0;
+    }
+  }
+
   void _startCooldownTimer() {
     _cooldownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      final questionState = ref.read(questionProvider);
-      if (questionState.isCooldownActive && questionState.cooldownEnd != null) {
-        final now = DateTime.now().millisecondsSinceEpoch;
-        _millisecondsRemaining = questionState.cooldownEnd! - now;
-
-        if (_millisecondsRemaining <= 0) {
-          ref.read(questionProvider.notifier).clearCooldown();
-          _millisecondsRemaining = 0;
-          timer.cancel();
-        }
-        setState(() {});
-      } else {
-        _millisecondsRemaining = 0;
-        timer.cancel();
-      }
+      _updateCooldownState(); // Keep countdown accurate
+      setState(() {});
     });
   }
 
@@ -64,17 +69,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return '$hours:$minutes:$seconds';
   }
 
-  // Helper method to show the filter selection dialog
   void _showFilterDialog(BuildContext context, QuestionLevel? currentFilter) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Select Session Filter', style: TextStyle(fontSize: 18)),
+          title: const Text('Select Session Filter',
+              style: TextStyle(fontSize: 18)),
           contentPadding: const EdgeInsets.only(top: 16),
           content: SizedBox(
             width: double.maxFinite,
-            height: MediaQuery.of(context).size.height * 0.6, // Scrollable constraint
+            height: MediaQuery.of(context).size.height * 0.6,
             child: ListView(
               shrinkWrap: true,
               children: [
@@ -117,13 +122,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildCooldownTimer(int millisecondsRemaining) {
-    const totalCooldown = 20 * 60 * 60 * 1000; // 20 hours in milliseconds
+    const totalCooldown = 20 * 60 * 60 * 1000;
     final progress = 1.0 - (millisecondsRemaining / totalCooldown);
 
     return Column(
       children: [
         const SizedBox(height: 24),
-        // Status text
         Text(
           'Next session available in:',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -132,7 +136,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
         ),
         const SizedBox(height: 20),
-        // Timer circle with text
         Container(
           width: 140,
           height: 140,
@@ -146,7 +149,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Progress indicator
               SizedBox(
                 width: 140,
                 height: 140,
@@ -157,7 +159,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
                 ),
               ),
-              // Timer text
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -185,10 +186,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
         const SizedBox(height: 20),
-        // Skip button
         ElevatedButton.icon(
           onPressed: () {
-            // Skip the cooldown for testing
             ref.read(questionProvider.notifier).clearCooldown();
             _millisecondsRemaining = 0;
             setState(() {});
@@ -211,10 +210,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final questionState = ref.watch(questionProvider);
-    final isCooldownActive =
+
+    // Cooldown is active ONLY when provider flag is true AND we have positive remaining time
+    final bool isCooldownActive =
         questionState.isCooldownActive && _millisecondsRemaining > 0;
-        
-    // Check if dark mode is currently active
+
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -289,42 +289,48 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Filter UI Box - Updated for Dark Mode
+                  // Filter UI Box
                   Container(
                     decoration: BoxDecoration(
-                      // Dynamic background and border colors based on theme
-                      color: isDarkMode ? Colors.blue.withOpacity(0.15) : Colors.blue.shade50,
+                      color: isDarkMode
+                          ? Colors.blue.withOpacity(0.15)
+                          : Colors.blue.shade50,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: isDarkMode ? Colors.blue.withOpacity(0.3) : Colors.blue.shade100,
+                        color: isDarkMode
+                            ? Colors.blue.withOpacity(0.3)
+                            : Colors.blue.shade100,
                       ),
                     ),
                     child: ListTile(
-                      leading: Icon(
-                        Icons.tune, 
-                        color: isDarkMode ? Colors.blue.shade300 : Colors.blue.shade700
-                      ),
-                      title: Text(
-                        'Session Target', 
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: isDarkMode ? Colors.white : Colors.black87,
-                        )
-                      ),
+                      leading: Icon(Icons.tune,
+                          color: isDarkMode
+                              ? Colors.blue.shade300
+                              : Colors.blue.shade700),
+                      title: Text('Session Target',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: isDarkMode ? Colors.white : Colors.black87,
+                          )),
                       subtitle: Text(
                         questionState.selectedFilterLevel == null
                             ? 'Default (1 Math, 1 Eng, 1 Comp)'
-                            : formatLevelName(questionState.selectedFilterLevel.toString()),
+                            : formatLevelName(
+                                questionState.selectedFilterLevel.toString()),
                         style: TextStyle(
-                          color: isDarkMode ? Colors.grey.shade400 : Colors.grey.shade700
-                        ),
+                            color: isDarkMode
+                                ? Colors.grey.shade400
+                                : Colors.grey.shade700),
                       ),
-                      trailing: Icon(
-                        Icons.edit, 
-                        size: 20, 
-                        color: isDarkMode ? Colors.blue.shade300 : Colors.blue.shade700
-                      ),
-                      onTap: isCooldownActive ? null : () => _showFilterDialog(context, questionState.selectedFilterLevel),
+                      trailing: Icon(Icons.edit,
+                          size: 20,
+                          color: isDarkMode
+                              ? Colors.blue.shade300
+                              : Colors.blue.shade700),
+                      onTap: isCooldownActive
+                          ? null
+                          : () => _showFilterDialog(
+                              context, questionState.selectedFilterLevel),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -363,7 +369,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         const SizedBox(height: 24),
                         Icon(
                           Icons.check_circle,
-                          color: isDarkMode ? Colors.green.shade400 : Colors.green.shade600,
+                          color: isDarkMode
+                              ? Colors.green.shade400
+                              : Colors.green.shade600,
                           size: 48,
                         ),
                         const SizedBox(height: 12),
@@ -371,7 +379,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           'Ready to start!',
                           style:
                               Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: isDarkMode ? Colors.green.shade400 : Colors.green.shade700,
+                                    color: isDarkMode
+                                        ? Colors.green.shade400
+                                        : Colors.green.shade700,
                                     fontWeight: FontWeight.w600,
                                   ),
                         ),
