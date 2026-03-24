@@ -27,7 +27,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     _sessionStartTime = DateTime.now();
     _questionStartTimes = [DateTime.now()];
     _questionDurations = List.filled(3, 0); // Initialize for 3 questions
-    
+
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -70,18 +70,24 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     try {
       final questionState = ref.read(questionProvider);
       final currentQuestionIndex = questionState.currentQuestionIndex;
-      
+
       // Record question duration
       final questionEndTime = DateTime.now();
-      final duration = questionEndTime.difference(_questionStartTimes[currentQuestionIndex]).inSeconds;
+      final duration = questionEndTime
+          .difference(_questionStartTimes[currentQuestionIndex])
+          .inSeconds;
       _questionDurations[currentQuestionIndex] = duration;
-      
-      final currentQuestion = questionState.dailyQuestions[questionState.currentQuestionIndex];
-      final isCorrect = questionState.selectedAnswer == currentQuestion.correctAnswer;
+
+      final currentQuestion =
+          questionState.dailyQuestions[questionState.currentQuestionIndex];
+      final isCorrect =
+          questionState.selectedAnswer == currentQuestion.correctAnswer;
       final result = {
         'question': currentQuestion.text,
-        'userAnswer': questionState.selectedAnswer!,
-        'correctAnswer': currentQuestion.correctAnswer,
+        'userAnswer':
+            "${questionState.selectedAnswer!}. ${currentQuestion.getOptionText(questionState.selectedAnswer!)}",
+        'correctAnswer':
+            "${currentQuestion.correctAnswer}. ${currentQuestion.getOptionText(currentQuestion.correctAnswer)}",
         'level': currentQuestion.level.toString().split('.').last,
         'duration': duration.toString(),
       };
@@ -111,12 +117,12 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     try {
       final prefs = await SharedPreferences.getInstance();
       const totalQuestions = 3;
-      
+
       final questionState = ref.read(questionProvider);
       if (questionState.currentQuestionIndex + 1 < totalQuestions) {
         // Start timing for the next question
         _questionStartTimes.add(DateTime.now());
-        
+
         ref.read(questionProvider.notifier).state = QuestionState(
           dailyQuestions: questionState.dailyQuestions,
           currentQuestionIndex: questionState.currentQuestionIndex + 1,
@@ -128,7 +134,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
           isCooldownActive: questionState.isCooldownActive,
           cooldownEnd: questionState.cooldownEnd,
         );
-        await prefs.setInt('currentQuestionIndex', questionState.currentQuestionIndex + 1);
+        await prefs.setInt(
+            'currentQuestionIndex', questionState.currentQuestionIndex + 1);
       }
     } catch (e) {
       print('Error navigating to next question: $e');
@@ -147,7 +154,8 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
       final sessionName = "s$sessionNumber $dateStr";
 
       // Add question durations to results
-      final enhancedResults = questionState.sessionResults.asMap().entries.map((entry) {
+      final enhancedResults =
+          questionState.sessionResults.asMap().entries.map((entry) {
         final index = entry.key;
         final result = Map<String, dynamic>.from(entry.value);
         if (index < _questionDurations.length) {
@@ -198,7 +206,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
     final currentQuestion =
         questionState.dailyQuestions[questionState.currentQuestionIndex];
     final subject = _getSubjectFromLevel(currentQuestion.level);
-    
+
     // Updated logic to use formatted name directly
     final rawLevelStr = currentQuestion.level.toString().split('.').last;
     final levelText = formatLevelName(rawLevelStr);
@@ -318,8 +326,9 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                   onPressed: () async {
                     if (questionState.currentQuestionIndex + 1 >=
                         totalQuestions) {
-                      final duration =
-                          DateTime.now().difference(_sessionStartTime).inSeconds;
+                      final duration = DateTime.now()
+                          .difference(_sessionStartTime)
+                          .inSeconds;
                       await saveSession(duration: duration);
                       Navigator.pushReplacement(
                         context,

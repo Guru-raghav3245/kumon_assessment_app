@@ -118,11 +118,47 @@ class SessionHistoryScreen extends ConsumerWidget {
   List<pw.Widget> _buildSessionQuestions(Session session) {
     List<pw.Widget> questionWidgets = [];
 
+    // ✅ FIX: Define allQuestions here (this was the missing piece)
+    final allQuestions = levels
+        .expand((level) => (level['questions'] as List<Question>))
+        .toList();
+
     for (var i = 0; i < session.results.length; i++) {
       final result = session.results[i];
       final questionNumber = i + 1;
       final isCorrect = result['userAnswer'] == result['correctAnswer'];
       final formattedLevel = formatLevelName(result['level'] ?? 'Unknown');
+
+      // Find the original question to reconstruct full option text
+      final question = allQuestions.firstWhere(
+        (q) => q.text == result['question'],
+        orElse: () => Question(
+          text: result['question'] ?? 'Unknown question',
+          options: [],
+          correctAnswer: result['correctAnswer'] ?? 'Unknown',
+          explanation: 'No explanation available',
+          level: levels.first['level'] as QuestionLevel,
+        ),
+      );
+
+      // Reconstruct FULL option text (A. Full text)
+      String userAnswerDisplay;
+      String correctAnswerDisplay;
+
+      if ((result['userAnswer'] ?? '').toString().contains('.')) {
+        // Already saved as full text (new sessions)
+        userAnswerDisplay = result['userAnswer'] ?? 'Not answered';
+        correctAnswerDisplay = result['correctAnswer'] ?? 'Unknown';
+      } else {
+        // Saved as letter only (old sessions) → reconstruct
+        userAnswerDisplay = question.options.isNotEmpty
+            ? "${result['userAnswer'] ?? 'Unknown'}. ${question.getOptionText(result['userAnswer'] ?? 'Unknown')}"
+            : result['userAnswer'] ?? 'Not answered';
+
+        correctAnswerDisplay = question.options.isNotEmpty
+            ? "${result['correctAnswer'] ?? 'Unknown'}. ${question.getOptionText(result['correctAnswer'] ?? 'Unknown')}"
+            : result['correctAnswer'] ?? 'Unknown';
+      }
 
       questionWidgets.addAll([
         pw.Container(
@@ -149,14 +185,13 @@ class SessionHistoryScreen extends ConsumerWidget {
                   style: pw.TextStyle(fontSize: 12)),
               pw.Text('Level: $formattedLevel',
                   style: pw.TextStyle(fontSize: 10, color: PdfColors.grey)),
-              pw.Text('Your Answer: ${result['userAnswer'] ?? 'Not answered'}',
+              pw.Text('Your Answer: $userAnswerDisplay',
                   style: pw.TextStyle(
                     fontSize: 11,
                     color: isCorrect ? PdfColors.green : PdfColors.red,
                   )),
               if (!isCorrect)
-                pw.Text(
-                    'Correct Answer: ${result['correctAnswer'] ?? 'Unknown'}',
+                pw.Text('Correct Answer: $correctAnswerDisplay',
                     style: pw.TextStyle(fontSize: 11, color: PdfColors.green)),
               pw.SizedBox(height: 4),
               pw.Divider(thickness: 0.5, color: PdfColors.grey300),

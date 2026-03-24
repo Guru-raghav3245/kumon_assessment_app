@@ -217,12 +217,24 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     try {
       final currentQuestion = state.dailyQuestions[state.currentQuestionIndex];
       final isCorrect = state.selectedAnswer == currentQuestion.correctAnswer;
+
+      // Get the full text for the user's selected answer
+      final userAnswerFull =
+          "${state.selectedAnswer}. ${currentQuestion.getOptionText(state.selectedAnswer!)}";
+
+      // Get the full text for the correct answer
+      final correctAnswerFull =
+          "${currentQuestion.correctAnswer}. ${currentQuestion.getOptionText(currentQuestion.correctAnswer)}";
+
       final result = {
         'question': currentQuestion.text,
-        'userAnswer': state.selectedAnswer!,
-        'correctAnswer': currentQuestion.correctAnswer,
+        'userAnswer':
+            userAnswerFull, // Now stores "A. Full Option Text" [cite: 12, 14]
+        'correctAnswer':
+            correctAnswerFull, // Now stores "B. Full Option Text" [cite: 12, 14]
         'level': currentQuestion.level.toString().split('.').last,
       };
+
       final updatedResults = [...state.sessionResults, result];
 
       state = QuestionState(
