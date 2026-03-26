@@ -348,20 +348,30 @@ class Question {
   });
 
   String getOptionText(String optionLetter) {
+    // Normalise: extract just the leading letter in case caller passes "D. D" etc.
+    final letter = optionLetter.length == 1
+        ? optionLetter
+        : optionLetter.split(RegExp(r'[.) ]')).first.trim();
+
+    // Match both "A. text" and "A) text" formats
     final option = options.firstWhere(
-      (opt) => opt.startsWith('$optionLetter.'),
-      orElse: () => optionLetter,
+      (opt) => opt.startsWith('$letter.') || opt.startsWith('$letter)'),
+      orElse: () => '',
     );
-    return option.startsWith('$optionLetter.')
-        ? option.substring(3).trim()
-        : option;
+
+    if (option.isEmpty) return optionLetter; // fallback: return original input
+
+    // Strip the leading "A. " or "A) " prefix (2 chars + optional space)
+    final afterPrefix = option.substring(2).trim();
+    return afterPrefix;
   }
 }
 
 // Update the Session model to include question durations
 class Session {
   final String name;
-  final List<Map<String, dynamic>> results; // Changed to dynamic to include duration
+  final List<Map<String, dynamic>>
+      results; // Changed to dynamic to include duration
   final int duration;
 
   Session({
@@ -391,7 +401,7 @@ class Session {
 String formatLevelName(String levelStr) {
   // Remove potentially redundant class prefix if passed
   String cleaned = levelStr.replaceAll('QuestionLevel.', '');
-  
+
   if (cleaned.startsWith('level')) {
     // e.g. levelD -> Math Level D
     return 'Math Level ${cleaned.substring(5).toUpperCase()}';
@@ -399,7 +409,7 @@ String formatLevelName(String levelStr) {
     // e.g. EngLevelG1 -> English Level G1
     return 'English Level ${cleaned.substring(8).toUpperCase()}';
   }
-  
+
   // Return original for Comp levels or unmatched patterns
   return cleaned;
 }

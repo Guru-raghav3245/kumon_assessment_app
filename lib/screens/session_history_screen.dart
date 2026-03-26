@@ -19,7 +19,6 @@ class SessionHistoryScreen extends ConsumerWidget {
     return '${minutes}m ${remainingSeconds}s';
   }
 
-  // ====================== CLEAN TEXT (removes □ rectangles) ======================
   String _cleanText(String text) {
     return text
         .replaceAll('“', '"')
@@ -33,7 +32,6 @@ class SessionHistoryScreen extends ConsumerWidget {
         .trim();
   }
 
-  // ====================== PDF GENERATION ======================
   Future<pw.Document> _generatePdf(List<Session> sessions,
       {String? customTitle}) async {
     final pdf = pw.Document();
@@ -45,11 +43,10 @@ class SessionHistoryScreen extends ConsumerWidget {
         build: (pw.Context context) {
           return [
             pw.Header(
-              level: 0,
-              child: pw.Text(title,
-                  style: pw.TextStyle(
-                      fontSize: 24, fontWeight: pw.FontWeight.bold)),
-            ),
+                level: 0,
+                child: pw.Text(title,
+                    style: pw.TextStyle(
+                        fontSize: 24, fontWeight: pw.FontWeight.bold))),
             pw.SizedBox(height: 20),
             pw.Text('Summary Statistics',
                 style:
@@ -129,10 +126,8 @@ class SessionHistoryScreen extends ConsumerWidget {
     return widgets;
   }
 
-  // ====================== FULL OPTION TEXT + CLEAN QUESTION ======================
   List<pw.Widget> _buildSessionQuestions(Session session) {
     List<pw.Widget> questionWidgets = [];
-
     final allQuestions = levels
         .expand((level) => (level['questions'] as List<Question>))
         .toList();
@@ -144,7 +139,7 @@ class SessionHistoryScreen extends ConsumerWidget {
       final formattedLevel = formatLevelName(result['level'] ?? 'Unknown');
 
       final question = allQuestions.firstWhere(
-        (q) => q.text == result['question'],
+        (q) => q.text.trim() == (result['question']?.toString().trim() ?? ''),
         orElse: () => Question(
           text: result['question'] ?? 'Unknown question',
           options: [],
@@ -154,21 +149,30 @@ class SessionHistoryScreen extends ConsumerWidget {
         ),
       );
 
-      String userAnswerDisplay;
-      String correctAnswerDisplay;
+      String userAnswerDisplay = result['userAnswer']?.toString() ?? 'Unknown';
+      String correctAnswerDisplay =
+          result['correctAnswer']?.toString() ?? 'Unknown';
 
-      if ((result['userAnswer'] ?? '').toString().contains('.')) {
-        userAnswerDisplay = result['userAnswer'] ?? 'Not answered';
-        correctAnswerDisplay = result['correctAnswer'] ?? 'Unknown';
-      } else {
-        userAnswerDisplay = question.options.isNotEmpty
-            ? "${result['userAnswer'] ?? 'Unknown'}. ${question.getOptionText(result['userAnswer'] ?? 'Unknown')}"
-            : result['userAnswer'] ?? 'Not answered';
-
-        correctAnswerDisplay = question.options.isNotEmpty
-            ? "${result['correctAnswer'] ?? 'Unknown'}. ${question.getOptionText(result['correctAnswer'] ?? 'Unknown')}"
-            : result['correctAnswer'] ?? 'Unknown';
+      // Resolve full option text for an answer string.
+      // Handles three cases:
+      //   1. Bare letter "D"            → look up full text
+      //   2. Degenerate "D. D"          → look up full text (getOptionText failed at save time)
+      //   3. Proper "D. Some text here" → use as-is
+      String resolveAnswer(String raw, Question q) {
+        if (q.options.isEmpty) return raw;
+        final trimmed = raw.trim();
+        // Extract the leading letter (before the first '.')
+        final letter =
+            trimmed.contains('.') ? trimmed.split('.').first.trim() : trimmed;
+        if (letter.length != 1) return raw; // unexpected format, keep as-is
+        final optionText = q.getOptionText(letter);
+        // If getOptionText just echoed the letter back, we have no real text
+        if (optionText == letter) return raw;
+        return '$letter. $optionText';
       }
+
+      userAnswerDisplay = resolveAnswer(userAnswerDisplay, question);
+      correctAnswerDisplay = resolveAnswer(correctAnswerDisplay, question);
 
       questionWidgets.addAll([
         pw.Container(
@@ -198,9 +202,8 @@ class SessionHistoryScreen extends ConsumerWidget {
                   style: pw.TextStyle(fontSize: 10, color: PdfColors.grey)),
               pw.Text('Your Answer: $userAnswerDisplay',
                   style: pw.TextStyle(
-                    fontSize: 11,
-                    color: isCorrect ? PdfColors.green : PdfColors.red,
-                  )),
+                      fontSize: 11,
+                      color: isCorrect ? PdfColors.green : PdfColors.red)),
               if (!isCorrect)
                 pw.Text('Correct Answer: $correctAnswerDisplay',
                     style: pw.TextStyle(fontSize: 11, color: PdfColors.green)),
@@ -214,7 +217,6 @@ class SessionHistoryScreen extends ConsumerWidget {
     return questionWidgets;
   }
 
-  // ====================== SHARE ALL SESSIONS ======================
   Future<void> _sharePdf(List<Session> sessions) async {
     try {
       final pdf = await _generatePdf(sessions);
@@ -222,41 +224,31 @@ class SessionHistoryScreen extends ConsumerWidget {
       final file = File('${directory.path}/session_history.pdf');
       await file.writeAsBytes(await pdf.save());
 
-      await Share.shareXFiles(
-        [XFile(file.path)],
-        text: 'My Kumon Assessment Session History',
-        subject: 'Kumon Assessment Results',
-      );
+      await Share.shareXFiles([XFile(file.path)],
+          text: 'My Kumon Assessment Session History',
+          subject: 'Kumon Assessment Results');
     } catch (e) {
       print('Error sharing PDF: $e');
     }
   }
 
-  // ====================== SHARE SINGLE SESSION ======================
   Future<void> _shareSingleSessionPdf(
       BuildContext context, Session session) async {
     try {
-      final pdf = await _generatePdf(
-        [session],
-        customTitle: 'Kumon Session - ${session.name}',
-      );
-
+      final pdf = await _generatePdf([session],
+          customTitle: 'Kumon Session - ${session.name}');
       final directory = await getTemporaryDirectory();
       final fileName = 'session_${session.name.replaceAll(' ', '_')}.pdf';
       final file = File('${directory.path}/$fileName');
-
       await file.writeAsBytes(await pdf.save());
 
-      await Share.shareXFiles(
-        [XFile(file.path)],
-        text: 'Kumon Assessment - ${session.name}',
-        subject: 'Session Results',
-      );
+      await Share.shareXFiles([XFile(file.path)],
+          text: 'Kumon Assessment - ${session.name}',
+          subject: 'Session Results');
     } catch (e) {
       print('Error sharing single session PDF: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to share session')),
-      );
+          const SnackBar(content: Text('Failed to share session')));
     }
   }
 
@@ -315,9 +307,8 @@ class SessionHistoryScreen extends ConsumerWidget {
               'Are you sure you want to delete all sessions? This action cannot be undone.'),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel')),
             TextButton(
               onPressed: () {
                 ref.read(questionProvider.notifier).deleteAllSessions();
@@ -340,15 +331,13 @@ class SessionHistoryScreen extends ConsumerWidget {
         actions: sessions.isNotEmpty
             ? [
                 IconButton(
-                  icon: const Icon(Icons.share),
-                  onPressed: () => _sharePdf(sessions),
-                  tooltip: 'Share All Sessions',
-                ),
+                    icon: const Icon(Icons.share),
+                    onPressed: () => _sharePdf(sessions),
+                    tooltip: 'Share All Sessions'),
                 IconButton(
-                  icon: const Icon(Icons.delete_forever),
-                  onPressed: deleteAllSessions,
-                  tooltip: 'Clear All Sessions',
-                ),
+                    icon: const Icon(Icons.delete_forever),
+                    onPressed: deleteAllSessions,
+                    tooltip: 'Clear All Sessions'),
               ]
             : null,
       ),
@@ -357,21 +346,17 @@ class SessionHistoryScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Performance Trends',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            Text('Performance Trends',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
-
-            // Accuracy Graph
-            Text(
-              'Accuracy Trend',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            Text('Accuracy Trend',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Card(
               elevation: 4,
@@ -394,32 +379,28 @@ class SessionHistoryScreen extends ConsumerWidget {
                                     show: true, drawVerticalLine: false),
                                 titlesData: FlTitlesData(
                                   leftTitles: AxisTitles(
-                                    sideTitles: SideTitles(
-                                      showTitles: true,
-                                      reservedSize: 48,
-                                      interval: 20,
-                                      getTitlesWidget: (value, meta) =>
-                                          Text('${value.toInt()}%'),
-                                    ),
-                                  ),
+                                      sideTitles: SideTitles(
+                                          showTitles: true,
+                                          reservedSize: 48,
+                                          interval: 20,
+                                          getTitlesWidget: (value, meta) =>
+                                              Text('${value.toInt()}%'))),
                                   bottomTitles: AxisTitles(
-                                    sideTitles: SideTitles(
-                                      showTitles: true,
-                                      reservedSize: 30,
-                                      interval: 1,
-                                      getTitlesWidget: (value, meta) {
-                                        final index = value.toInt();
-                                        if (index >= graphSessions.length)
-                                          return const SizedBox();
-                                        final sessionNumber =
-                                            graphSessions[index]
-                                                .name
-                                                .split(' ')[0]
-                                                .substring(1);
-                                        return Text('S$sessionNumber');
-                                      },
-                                    ),
-                                  ),
+                                      sideTitles: SideTitles(
+                                          showTitles: true,
+                                          reservedSize: 30,
+                                          interval: 1,
+                                          getTitlesWidget: (value, meta) {
+                                            final index = value.toInt();
+                                            if (index >= graphSessions.length)
+                                              return const SizedBox();
+                                            final sessionNumber =
+                                                graphSessions[index]
+                                                    .name
+                                                    .split(' ')[0]
+                                                    .substring(1);
+                                            return Text('S$sessionNumber');
+                                          })),
                                 ),
                                 borderData: FlBorderData(show: true),
                                 minX: 0,
@@ -431,15 +412,14 @@ class SessionHistoryScreen extends ConsumerWidget {
                                 maxY: 100,
                                 lineBarsData: [
                                   LineChartBarData(
-                                    spots: getAccuracySpots(),
-                                    isCurved: false,
-                                    color: Colors.blue,
-                                    barWidth: 4,
-                                    dotData: FlDotData(show: true),
-                                    belowBarData: BarAreaData(
-                                        show: true,
-                                        color: Colors.blue.withOpacity(0.1)),
-                                  ),
+                                      spots: getAccuracySpots(),
+                                      isCurved: false,
+                                      color: Colors.blue,
+                                      barWidth: 4,
+                                      dotData: FlDotData(show: true),
+                                      belowBarData: BarAreaData(
+                                          show: true,
+                                          color: Colors.blue.withOpacity(0.1))),
                                 ],
                               ),
                             ),
@@ -447,14 +427,11 @@ class SessionHistoryScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-
-            // Time Graph
-            Text(
-              'Time Trend',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            Text('Time Trend',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Card(
               elevation: 4,
@@ -477,32 +454,28 @@ class SessionHistoryScreen extends ConsumerWidget {
                                     show: true, drawVerticalLine: false),
                                 titlesData: FlTitlesData(
                                   leftTitles: AxisTitles(
-                                    sideTitles: SideTitles(
-                                      showTitles: true,
-                                      reservedSize: 48,
-                                      interval: 60,
-                                      getTitlesWidget: (value, meta) =>
-                                          Text('${value.toInt()}s'),
-                                    ),
-                                  ),
+                                      sideTitles: SideTitles(
+                                          showTitles: true,
+                                          reservedSize: 48,
+                                          interval: 60,
+                                          getTitlesWidget: (value, meta) =>
+                                              Text('${value.toInt()}s'))),
                                   bottomTitles: AxisTitles(
-                                    sideTitles: SideTitles(
-                                      showTitles: true,
-                                      reservedSize: 30,
-                                      interval: 1,
-                                      getTitlesWidget: (value, meta) {
-                                        final index = value.toInt();
-                                        if (index >= graphSessions.length)
-                                          return const SizedBox();
-                                        final sessionNumber =
-                                            graphSessions[index]
-                                                .name
-                                                .split(' ')[0]
-                                                .substring(1);
-                                        return Text('S$sessionNumber');
-                                      },
-                                    ),
-                                  ),
+                                      sideTitles: SideTitles(
+                                          showTitles: true,
+                                          reservedSize: 30,
+                                          interval: 1,
+                                          getTitlesWidget: (value, meta) {
+                                            final index = value.toInt();
+                                            if (index >= graphSessions.length)
+                                              return const SizedBox();
+                                            final sessionNumber =
+                                                graphSessions[index]
+                                                    .name
+                                                    .split(' ')[0]
+                                                    .substring(1);
+                                            return Text('S$sessionNumber');
+                                          })),
                                 ),
                                 borderData: FlBorderData(show: true),
                                 minX: 0,
@@ -514,15 +487,15 @@ class SessionHistoryScreen extends ConsumerWidget {
                                 maxY: _calculateMaxYForTime(graphSessions),
                                 lineBarsData: [
                                   LineChartBarData(
-                                    spots: getDurationSpots(),
-                                    isCurved: false,
-                                    color: Colors.orange,
-                                    barWidth: 4,
-                                    dotData: FlDotData(show: true),
-                                    belowBarData: BarAreaData(
-                                        show: true,
-                                        color: Colors.orange.withOpacity(0.1)),
-                                  ),
+                                      spots: getDurationSpots(),
+                                      isCurved: false,
+                                      color: Colors.orange,
+                                      barWidth: 4,
+                                      dotData: FlDotData(show: true),
+                                      belowBarData: BarAreaData(
+                                          show: true,
+                                          color:
+                                              Colors.orange.withOpacity(0.1))),
                                 ],
                               ),
                             ),
@@ -530,21 +503,16 @@ class SessionHistoryScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-
-            Text(
-              'Past Sessions',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
+            Text('Past Sessions',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-
             Container(
               constraints: BoxConstraints(
-                minHeight: 200,
-                maxHeight: MediaQuery.of(context).size.height * 0.5,
-              ),
+                  minHeight: 200,
+                  maxHeight: MediaQuery.of(context).size.height * 0.5),
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
@@ -567,50 +535,45 @@ class SessionHistoryScreen extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.share, color: Colors.blue),
-                            onPressed: () =>
-                                _shareSingleSessionPdf(context, session),
-                            tooltip: 'Share this session',
-                          ),
+                              icon: const Icon(Icons.share, color: Colors.blue),
+                              onPressed: () =>
+                                  _shareSingleSessionPdf(context, session),
+                              tooltip: 'Share this session'),
                           IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Delete Session'),
-                                  content: Text(
-                                      'Are you sure you want to delete ${session.name}?'),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('Cancel')),
-                                    TextButton(
-                                      onPressed: () {
-                                        deleteSession(session);
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('Delete',
-                                          style: TextStyle(color: Colors.red)),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            tooltip: 'Delete Session',
-                          ),
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Delete Session'),
+                                    content: Text(
+                                        'Are you sure you want to delete ${session.name}?'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('Cancel')),
+                                      TextButton(
+                                          onPressed: () {
+                                            deleteSession(session);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Delete',
+                                              style: TextStyle(
+                                                  color: Colors.red))),
+                                    ],
+                                  ),
+                                );
+                              },
+                              tooltip: 'Delete Session'),
                           const Icon(Icons.arrow_forward_ios, size: 16),
                         ],
                       ),
                       onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => SessionReviewScreen(
-                            session: session,
-                            isNewSession: false,
-                          ),
-                        ),
-                      ),
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => SessionReviewScreen(
+                                  session: session, isNewSession: false))),
                     ),
                   );
                 },

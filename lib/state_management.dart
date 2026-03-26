@@ -14,7 +14,7 @@ class QuestionState {
   final List<Session> pastSessions;
   final bool isCooldownActive;
   final int? cooldownEnd;
-  final QuestionLevel? selectedFilterLevel; // Added filter state
+  final QuestionLevel? selectedFilterLevel;
 
   QuestionState({
     required this.dailyQuestions,
@@ -58,14 +58,12 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
         }
       } catch (e) {
         print('Error decoding pastSessions: $e');
-        _showError('Failed to load past sessions');
       }
 
       bool isCooldownActive =
           savedCooldownEnd != null && now < savedCooldownEnd;
       int? cooldownEnd = isCooldownActive ? savedCooldownEnd : null;
 
-      // Load saved filter if it exists
       QuestionLevel? savedFilter;
       if (savedFilterStr != null) {
         savedFilter = QuestionLevel.values.firstWhere(
@@ -73,6 +71,9 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
           orElse: () => QuestionLevel.levelA,
         );
       }
+
+      // ONE-TIME MIGRATION FOR LEGACY SESSIONS
+      await _migrateLegacySessionData();
 
       final newQuestions = _getRandomQuestions(savedFilter);
       await prefs.setStringList(
@@ -88,9 +89,65 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error loading state: $e');
-      _showError('Failed to initialize app state');
       state = QuestionState(
           dailyQuestions: _getRandomQuestions(null), pastSessions: []);
+    }
+  }
+
+  /// ONE-TIME MIGRATION: Fixes all legacy sessions (only letter like "C")
+  Future<void> _migrateLegacySessionData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedSessions = prefs.getString('pastSessions') ?? '[]';
+    List<Session> sessions = [];
+
+    try {
+      final decoded = jsonDecode(savedSessions);
+      if (decoded is List) {
+        sessions = decoded
+            .map((s) => Session.fromJson(Map<String, dynamic>.from(s)))
+            .toList();
+      }
+    } catch (e) {
+      print('Migration decode error: $e');
+      return;
+    }
+
+    bool changed = false;
+    final allQuestions =
+        levels.expand((level) => level['questions'] as List<Question>).toList();
+
+    for (var session in sessions) {
+      for (var result in session.results) {
+        String userAns = result['userAnswer']?.toString() ?? '';
+        String correctAns = result['correctAnswer']?.toString() ?? '';
+
+        if (!userAns.contains('.') && userAns.length == 1) {
+          final matching = allQuestions.where((q) =>
+              q.text.trim() == (result['question']?.toString().trim() ?? ''));
+          if (matching.isNotEmpty) {
+            final q = matching.first;
+            result['userAnswer'] = "$userAns. ${q.getOptionText(userAns)}";
+            changed = true;
+          }
+        }
+
+        if (!correctAns.contains('.') && correctAns.length == 1) {
+          final matching = allQuestions.where((q) =>
+              q.text.trim() == (result['question']?.toString().trim() ?? ''));
+          if (matching.isNotEmpty) {
+            final q = matching.first;
+            result['correctAnswer'] =
+                "$correctAns. ${q.getOptionText(correctAns)}";
+            changed = true;
+          }
+        }
+      }
+    }
+
+    if (changed) {
+      await prefs.setString(
+          'pastSessions', jsonEncode(sessions.map((s) => s.toJson()).toList()));
+      print('✅ Legacy session data successfully migrated to full option text');
     }
   }
 
@@ -99,7 +156,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     final selectedQuestions = <Question>[];
 
     if (filter == null) {
-      // DEFAULT LOGIC: 1 Math, 1 Eng, 1 Comp
       final mathQuestions = mathLevels
           .expand((level) => (level['questions'] as List<Question>))
           .where((q) => !q.correctAnswer.contains(','))
@@ -128,17 +184,15 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
 
       selectedQuestions.sort((a, b) => a.level.index.compareTo(b.level.index));
     } else {
-      // FILTERED LOGIC: 3 random questions from the chosen level
       final levelMap = levels.firstWhere(
         (l) => l['level'] == filter,
-        orElse: () => levels.first, // fallback
+        orElse: () => levels.first,
       );
 
       final levelQuestions = (levelMap['questions'] as List<Question>)
           .where((q) => !q.correctAnswer.contains(','))
           .toList();
 
-      // Shuffle and pick up to 3
       final shuffled = List<Question>.from(levelQuestions)..shuffle(random);
       selectedQuestions.addAll(shuffled.take(3));
     }
@@ -154,7 +208,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       await prefs.setString('selectedFilterLevel', filter.toString());
     }
 
-    // Update state and regenerate questions immediately
     state = QuestionState(
       dailyQuestions: state.dailyQuestions,
       currentQuestionIndex: state.currentQuestionIndex,
@@ -189,12 +242,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error resetting questions: $e');
-      _showError('Failed to reset questions');
-      state = QuestionState(
-        dailyQuestions: _getRandomQuestions(state.selectedFilterLevel),
-        pastSessions: state.pastSessions,
-        selectedFilterLevel: state.selectedFilterLevel,
-      );
     }
   }
 
@@ -218,20 +265,15 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       final currentQuestion = state.dailyQuestions[state.currentQuestionIndex];
       final isCorrect = state.selectedAnswer == currentQuestion.correctAnswer;
 
-      // Get the full text for the user's selected answer
       final userAnswerFull =
           "${state.selectedAnswer}. ${currentQuestion.getOptionText(state.selectedAnswer!)}";
-
-      // Get the full text for the correct answer
       final correctAnswerFull =
           "${currentQuestion.correctAnswer}. ${currentQuestion.getOptionText(currentQuestion.correctAnswer)}";
 
       final result = {
         'question': currentQuestion.text,
-        'userAnswer':
-            userAnswerFull, // Now stores "A. Full Option Text" [cite: 12, 14]
-        'correctAnswer':
-            correctAnswerFull, // Now stores "B. Full Option Text" [cite: 12, 14]
+        'userAnswer': userAnswerFull,
+        'correctAnswer': correctAnswerFull,
         'level': currentQuestion.level.toString().split('.').last,
       };
 
@@ -254,7 +296,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       await prefs.setString('sessionResults', jsonEncode(updatedResults));
     } catch (e) {
       print('Error submitting answer: $e');
-      _showError('Failed to submit answer');
     }
   }
 
@@ -279,7 +320,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       }
     } catch (e) {
       print('Error navigating to next question: $e');
-      _showError('Failed to navigate to next question');
     }
   }
 
@@ -319,7 +359,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error saving session: $e');
-      _showError('Failed to save session');
     }
   }
 
@@ -341,7 +380,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error clearing cooldown: $e');
-      _showError('Failed to clear cooldown');
     }
   }
 
@@ -381,7 +419,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
           jsonEncode(reindexedSessions.map((s) => s.toJson()).toList()));
     } catch (e) {
       print('Error deleting session: $e');
-      _showError('Failed to delete session');
     }
   }
 
@@ -404,11 +441,6 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       );
     } catch (e) {
       print('Error deleting all sessions: $e');
-      _showError('Failed to delete all sessions');
     }
-  }
-
-  void _showError(String message) {
-    print('UI Error: $message');
   }
 }
