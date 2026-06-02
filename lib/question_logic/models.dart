@@ -1,6 +1,7 @@
 import 'package:kumon_assessment_app/question_logic/eng_questions.dart';
 import 'package:kumon_assessment_app/question_logic/comp_questions.dart';
 import 'package:kumon_assessment_app/question_logic/math_questions.dart';
+import 'dart:math';
 
 enum QuestionLevel {
   level6a,
@@ -347,31 +348,77 @@ class Question {
     required this.level,
   });
 
+  /// Properly shuffles options and re-letters them A, B, C, D
+  /// This ensures correct answers appear in random positions each time
+  Question getShuffled() {
+    final random = Random.secure();
+    
+    // Extract just the option text (without the letter)
+    final optionTexts = <String>[];
+    String? correctOptionText;
+    
+    for (final option in options) {
+      // Extract text after the letter and separator (A. or A))
+      final text = option.replaceFirst(RegExp(r'^[A-Z][.)]\s*'), '');
+      optionTexts.add(text);
+      
+      // Check if this is the correct answer
+      if (option[0].toUpperCase() == correctAnswer) {
+        correctOptionText = text;
+      }
+    }
+    
+    // Shuffle the option texts
+    optionTexts.shuffle(random);
+    
+    // Find the new position of the correct answer
+    int correctIndex = optionTexts.indexOf(correctOptionText ?? '');
+    if (correctIndex == -1) correctIndex = 0; // Fallback
+    
+    // Create new option strings with fresh A, B, C, D lettering
+    final newOptions = <String>[];
+    for (int i = 0; i < optionTexts.length; i++) {
+      final letter = String.fromCharCode(65 + i); // A, B, C, D...
+      newOptions.add('$letter. ${optionTexts[i]}');
+    }
+    
+    // The correct answer is now at correctIndex, so use that letter
+    final newCorrectAnswer = String.fromCharCode(65 + correctIndex);
+    
+    return Question(
+      text: text,
+      options: newOptions,
+      correctAnswer: newCorrectAnswer,
+      explanation: explanation,
+      level: level,
+    );
+  }
+
+  /// Always display in clean A, B, C, D order
+  List<String> get displayOptions {
+    final list = List<String>.from(options);
+    list.sort((a, b) => a[0].compareTo(b[0]));
+    return list;
+  }
+
   String getOptionText(String optionLetter) {
-    // Normalise: extract just the leading letter in case caller passes "D. D" etc.
     final letter = optionLetter.length == 1
         ? optionLetter
         : optionLetter.split(RegExp(r'[.) ]')).first.trim();
 
-    // Match both "A. text" and "A) text" formats
     final option = options.firstWhere(
       (opt) => opt.startsWith('$letter.') || opt.startsWith('$letter)'),
       orElse: () => '',
     );
 
-    if (option.isEmpty) return optionLetter; // fallback: return original input
-
-    // Strip the leading "A. " or "A) " prefix (2 chars + optional space)
-    final afterPrefix = option.substring(2).trim();
-    return afterPrefix;
+    if (option.isEmpty) return optionLetter;
+    return option.substring(2).trim();
   }
 }
 
-// Update the Session model to include question durations
 class Session {
   final String name;
-  final List<Map<String, dynamic>>
-      results; // Changed to dynamic to include duration
+  final List<Map<String, dynamic>> results;
   final int duration;
 
   Session({
@@ -397,19 +444,12 @@ class Session {
   }
 }
 
-/// Helper function to format level strings
 String formatLevelName(String levelStr) {
-  // Remove potentially redundant class prefix if passed
   String cleaned = levelStr.replaceAll('QuestionLevel.', '');
-
   if (cleaned.startsWith('level')) {
-    // e.g. levelD -> Math Level D
     return 'Math Level ${cleaned.substring(5).toUpperCase()}';
   } else if (cleaned.startsWith('EngLevel')) {
-    // e.g. EngLevelG1 -> English Level G1
     return 'English Level ${cleaned.substring(8).toUpperCase()}';
   }
-
-  // Return original for Comp levels or unmatched patterns
   return cleaned;
 }

@@ -262,7 +262,7 @@ class _SessionScreenState extends ConsumerState<SessionScreen>
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 16),
-                        ...currentQuestion.options
+                        ...currentQuestion.displayOptions
                             .map((option) => RadioListTile<String>(
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),

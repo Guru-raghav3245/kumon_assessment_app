@@ -151,8 +151,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
     }
   }
 
-  List<Question> _getRandomQuestions(QuestionLevel? filter) {
-    final random = Random();
+    List<Question> _getRandomQuestions(QuestionLevel? filter) {
+    final random = Random.secure();
     final selectedQuestions = <Question>[];
 
     if (filter == null) {
@@ -197,7 +197,8 @@ class QuestionNotifier extends StateNotifier<QuestionState> {
       selectedQuestions.addAll(shuffled.take(3));
     }
 
-    return selectedQuestions;
+    // SHUFFLE OPTIONS + UPDATE CORRECT ANSWER LETTER
+    return selectedQuestions.map((q) => q.getShuffled()).toList();
   }
 
   Future<void> setFilter(QuestionLevel? filter) async {
